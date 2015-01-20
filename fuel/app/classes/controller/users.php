@@ -6,7 +6,7 @@ class Controller_Users extends Controller_Account
 	{
 		$data['users'] = Model_User::find('all');
 		$this->template->title = "Users";
-		$this->template->content = View::forge(get_prefix() . 'users/index', $data);
+		$this->template->content = View::forge(parent::get_prefix() . 'users/index', $data);
 
 	}
 
@@ -15,7 +15,7 @@ class Controller_Users extends Controller_Account
 		$data['user'] = Model_User::find($id);
 
 		$this->template->title = "User";
-		$this->template->content = View::forge('admin/users/view', $data);
+		$this->template->content = View::forge(parent::get_prefix() . 'users/view', $data);
 
 	}
 
@@ -64,7 +64,7 @@ class Controller_Users extends Controller_Account
 		}
 
 		$this->template->title = "Users";
-		$this->template->content = View::forge('admin/users/create');
+		$this->template->content = View::forge(parent::get_prefix() . 'users/create');
 
 	}
 
@@ -95,7 +95,7 @@ class Controller_Users extends Controller_Account
 			{
 				Session::set_flash('success', e('Updated user #' . $id));
 
-				Response::redirect('admin/users');
+				Response::redirect(parent::get_prefix() . 'users');
 			}
 
 			else
@@ -131,7 +131,7 @@ class Controller_Users extends Controller_Account
 		}
 
 		$this->template->title = "Users";
-		$this->template->content = View::forge('admin/users/edit');
+		$this->template->content = View::forge(parent::get_prefix() . 'users/edit');
 
 	}
 
@@ -149,7 +149,7 @@ class Controller_Users extends Controller_Account
 			Session::set_flash('error', e('Could not delete user #'.$id));
 		}
 
-		Response::redirect('admin/users');
+		Response::redirect(parent::get_prefix() . 'users');
 
 	}
 

@@ -31,18 +31,18 @@
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<li class="<?php echo Uri::segment(2) == '' ? 'active' : '' ?>">
-						<?php echo Html::anchor('account', 'Dashboard');?>	
+						<?php echo Html::anchor('admin', 'Dashboard') ?>
 					</li>
 
 					<?php
-						$files = new GlobIterator(APPPATH.'classes/controller/' . Controller_Base::get_prefix() . '/*.php');
+						$files = new GlobIterator(APPPATH.'classes/controller/admin/*.php');
 						foreach($files as $file)
 						{
 							$section_segment = $file->getBasename('.php');
 							$section_title = Inflector::humanize($section_segment);
 							?>
 							<li class="<?php echo Uri::segment(2) == $section_segment ? 'active' : '' ?>">
-								<?php echo Html::anchor(Controller_Base::get_prefix() . $section_segment, $section_title) ?>
+								<?php echo Html::anchor('admin/'.$section_segment, $section_title) ?>
 							</li>
 							<?php
 						}
@@ -52,7 +52,7 @@
 					<li class="dropdown">
 						<a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo $current_user->username ?> <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><?php echo Html::anchor('account/logout', 'Logout') ?></li>
+							<li><?php echo Html::anchor('admin/logout', 'Logout') ?></li>
 						</ul>
 					</li>
 				</ul>
