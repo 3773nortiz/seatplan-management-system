@@ -96,8 +96,8 @@ return array(
 	     -1 	=> array('name' => 'Banned', 'roles' => array('banned')),
 	      0 	=> array('name' => 'Guests', 'roles' => array()),
 	      1 	=> array('name' => 'Student', 'roles' => array('student')),
-	      50 	=> array('name' => 'Teachers', 'roles' => array('student', 'admin')),
-	      100  	=> array('name' => 'Administrators', 'roles' => array('student', 'teacher', 'admin')),	 
+	      50 	=> array('name' => 'Teacher', 'roles' => array('student', 'admin')),
+	      100  	=> array('name' => 'Administrator', 'roles' => array('student', 'teacher', 'admin')),	 
 	),
 	/**
 	 * Roles as name => array(location => rights)

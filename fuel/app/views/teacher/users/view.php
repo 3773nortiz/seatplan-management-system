@@ -46,5 +46,5 @@
 	<strong>Profile fields:</strong>
 	<?php echo $user->profile_fields; ?></p>
 
-<?php echo Html::anchor('admin/users/edit/'.$user->id, 'Edit'); ?> |
-<?php echo Html::anchor('admin/users', 'Back'); ?>
+<?php echo Html::anchor(Controller_Base::get_prefix() . 'users/edit/'.$user->id, 'Edit'); ?> |
+<?php echo Html::anchor(Controller_Base::get_prefix() . 'users', 'Back'); ?>

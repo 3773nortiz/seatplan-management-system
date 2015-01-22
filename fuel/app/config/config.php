@@ -311,5 +311,25 @@ return array(
 		 */
 		// 'language'  => array(),
 	),
+	
+
+	'number_of_seat' => 40,
+
+	'upload_prof_pic' => array(
+			            'path' => DOCROOT.'uploads',
+			            'normalize'   => true,
+			            'ext_whitelist' => array('png','jpg','bmp','jpeg')
+			        	),
+
+	'gender' => array(
+					 1 => 'Female',
+					 2 => 'Male',
+				),	
+
+	'attendace_stat' => array(
+					  1 => 'Present',
+					  2 => 'Late',	
+					  3 => 'Absent'
+				),
 
 );

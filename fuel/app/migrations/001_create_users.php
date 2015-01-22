@@ -21,8 +21,8 @@ class Create_users
 			'prof_pic' => array('constraint' => 255, 'type' => 'varchar'),
 			'group' => array('constraint' => 11, 'type' => 'int', 'unsigned' => true),
 			'last_login' => array('constraint' => 11, 'type' => 'int', 'unsigned' => true),
-			'login_hash' => array('constraint' => 255, 'type' => 'varchar'),
-			'profile_fields' => array('type' => 'text'),
+			'login_hash' => array('constraint' => 255, 'type' => 'varchar', 'null' => true),
+			'profile_fields' => array('type' => 'text', 'null' => true, 'null' => true),
 			'created_at' => array('constraint' => 11, 'type' => 'int', 'null' => true),
 			'updated_at' => array('constraint' => 11, 'type' => 'int', 'null' => true),
 

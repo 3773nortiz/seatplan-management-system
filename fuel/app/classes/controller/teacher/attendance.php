@@ -1,12 +1,12 @@
 <?php
-class Controller_Admin_Attendance extends Controller_Users
+class Controller_Teacher_Attendance extends Controller_Account
 {
 
 	public function action_index()
 	{
 		$data['attendances'] = Model_Attendance::find('all');
 		$this->template->title = "Attendances";
-		$this->template->content = View::forge('admin/attendance/index', $data);
+		$this->template->content = View::forge(parent::get_prefix() . 'attendance/index', $data);
 
 	}
 
@@ -15,7 +15,7 @@ class Controller_Admin_Attendance extends Controller_Users
 		$data['attendance'] = Model_Attendance::find($id);
 
 		$this->template->title = "Attendance";
-		$this->template->content = View::forge('admin/attendance/view', $data);
+		$this->template->content = View::forge(parent::get_prefix() . 'attendance/view', $data);
 
 	}
 
@@ -36,7 +36,7 @@ class Controller_Admin_Attendance extends Controller_Users
 				{
 					Session::set_flash('success', e('Added attendance #'.$attendance->id.'.'));
 
-					Response::redirect('admin/attendance');
+					Response::redirect(parent::get_prefix() . 'attendance');
 				}
 
 				else
@@ -51,7 +51,7 @@ class Controller_Admin_Attendance extends Controller_Users
 		}
 
 		$this->template->title = "Attendances";
-		$this->template->content = View::forge('admin/attendance/create');
+		$this->template->content = View::forge(parent::get_prefix() . 'attendance/create');
 
 	}
 
@@ -69,7 +69,7 @@ class Controller_Admin_Attendance extends Controller_Users
 			{
 				Session::set_flash('success', e('Updated attendance #' . $id));
 
-				Response::redirect('admin/attendance');
+				Response::redirect(parent::get_prefix() . 'attendance');
 			}
 
 			else
@@ -92,7 +92,7 @@ class Controller_Admin_Attendance extends Controller_Users
 		}
 
 		$this->template->title = "Attendances";
-		$this->template->content = View::forge('admin/attendance/edit');
+		$this->template->content = View::forge(parent::get_prefix() . 'attendance/edit');
 
 	}
 
@@ -110,7 +110,7 @@ class Controller_Admin_Attendance extends Controller_Users
 			Session::set_flash('error', e('Could not delete attendance #'.$id));
 		}
 
-		Response::redirect('admin/attendance');
+		Response::redirect(parent::get_prefix() . 'attendance');
 
 	}
 

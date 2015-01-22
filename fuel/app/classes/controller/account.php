@@ -8,7 +8,8 @@ class Controller_Account extends Controller_Base
 	{
 		parent::before();
 
-		if (Request::active()->controller !== 'Controller_Account' or ! in_array(Request::active()->action, array('login', 'logout')))
+		if (Request::active()->controller !== 'Controller_Account' or ! in_array(Request::active()->action, array('login', 'logout',
+			'register',)))
 		{
 			if (Auth::check())
 			{
@@ -60,7 +61,7 @@ class Controller_Account extends Controller_Base
 					{
 						$current_user = Model_User::find_by_username(Auth::get_screen_name());
 					}
-					Session::set_flash('success', e('Welcome, '.$current_user->username));
+					Session::set_flash('success', e('Welcome, '.$current_user->username.'  to Seat Plan Management System'));
 					Response::redirect('/');
 				}
 				else
@@ -97,6 +98,60 @@ class Controller_Account extends Controller_Base
 		$this->template->title = 'Dashboard';
 		$this->template->content = View::forge(parent::get_prefix() . 'dashboard');
 	}
+
+
+	public function action_register() {
+		if (Input::method() == 'POST')
+		{
+			$val = Model_User::validate('create');
+
+			if ($val->run())
+			{
+				$user = Model_User::forge(array(
+					'fname' => Input::post('fname'),
+					'mname' => Input::post('mname'),
+					'lname' => Input::post('lname'),
+					'email' => Input::post('email'),
+					'username' => Input::post('username'),
+					'password' => Auth::instance()->hash_password(Input::post('password')),
+					'address' => Input::post('address'),
+					'bdate' => Input::post('bdate'),
+					'gender' => Input::post('gender'),
+					'contact' => Input::post('contact'),
+					'prof_pic' => Input::post('prof_pic'),
+					'group' => Input::post('group'),
+					'last_login' => Input::post('last_login'),
+					'login_hash' => Input::post('login_hash'),
+					'profile_fields' => Input::post('profile_fields'),
+				));
+
+				
+			    Upload::process(Config::get('upload_prof_pic'));
+
+			    if (Upload::is_valid()) {
+                                                                        
+                   	Upload::save();
+                   	$value = Upload::get_files();
+
+                   	foreach($value as $files) {
+                        $user->prof_pic = $value[0]['saved_as'];
+                    }
+
+					if ($user and $user->save()) {
+						Response::redirect('account/login');
+					} else {
+						Session::set_flash('error', e('Could not save user.'));
+					}
+				}
+			}
+			else {
+				Session::set_flash('error', $val->error());
+			}
+		}
+
+		$this->template->title = "Register";
+		$this->template->content =  View::forge('register');
+	}
+
 }
 
-/* End of file admin.php */

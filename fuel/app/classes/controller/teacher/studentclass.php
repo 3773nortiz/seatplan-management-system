@@ -1,12 +1,12 @@
 <?php
-class Controller_Admin_Studentclass extends Controller_Users
+class Controller_Teacher_Studentclass extends Controller_Base
 {
 
 	public function action_index()
 	{
 		$data['studentclasses'] = Model_Studentclass::find('all');
 		$this->template->title = "Studentclasses";
-		$this->template->content = View::forge('admin/studentclass/index', $data);
+		$this->template->content = View::forge(parent::get_prefix() . 'studentclass/index', $data);
 
 	}
 
@@ -15,7 +15,7 @@ class Controller_Admin_Studentclass extends Controller_Users
 		$data['studentclass'] = Model_Studentclass::find($id);
 
 		$this->template->title = "Studentclass";
-		$this->template->content = View::forge('admin/studentclass/view', $data);
+		$this->template->content = View::forge(parent::get_prefix() . 'studentclass/view', $data);
 
 	}
 
@@ -37,7 +37,7 @@ class Controller_Admin_Studentclass extends Controller_Users
 				{
 					Session::set_flash('success', e('Added studentclass #'.$studentclass->id.'.'));
 
-					Response::redirect('admin/studentclass');
+					Response::redirect(parent::get_prefix() . 'studentclass');
 				}
 
 				else
@@ -52,7 +52,7 @@ class Controller_Admin_Studentclass extends Controller_Users
 		}
 
 		$this->template->title = "Studentclasses";
-		$this->template->content = View::forge('admin/studentclass/create');
+		$this->template->content = View::forge(parent::get_prefix() . 'studentclass/create');
 
 	}
 
@@ -71,7 +71,7 @@ class Controller_Admin_Studentclass extends Controller_Users
 			{
 				Session::set_flash('success', e('Updated studentclass #' . $id));
 
-				Response::redirect('admin/studentclass');
+				Response::redirect(parent::get_prefix() . 'studentclass');
 			}
 
 			else
@@ -95,7 +95,7 @@ class Controller_Admin_Studentclass extends Controller_Users
 		}
 
 		$this->template->title = "Studentclasses";
-		$this->template->content = View::forge('admin/studentclass/edit');
+		$this->template->content = View::forge(parent::get_prefix() . 'studentclass/edit');
 
 	}
 
@@ -113,7 +113,7 @@ class Controller_Admin_Studentclass extends Controller_Users
 			Session::set_flash('error', e('Could not delete studentclass #'.$id));
 		}
 
-		Response::redirect('admin/studentclass');
+		Response::redirect(parent::get_prefix() . 'studentclass');
 
 	}
 

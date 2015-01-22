@@ -45,16 +45,30 @@ class Controller_Users extends Controller_Account
 					'profile_fields' => Input::post('profile_fields'),
 				));
 
-				if ($user and $user->save())
-				{
-					Session::set_flash('success', e('Added user #'.$user->id.'.'));
+				
+			    Upload::process(Config::get('upload_prof_pic'));
 
-					Response::redirect('admin/users');
-				}
+			    if (Upload::is_valid()) {
+                                                                        
+                   	Upload::save();
 
-				else
-				{
-					Session::set_flash('error', e('Could not save user.'));
+                   	$value = Upload::get_files();
+
+                   	foreach($value as $files) {
+                        $user->prof_pic = $value[0]['saved_as'];
+                    }
+
+
+					if ($user and $user->save())
+					{
+						// Session::set_flash('success', e('Added user #'.$user->id.'.'));
+						// Response::redirect(parent::get_prefix() . 'users');
+					}
+
+					else
+					{
+						Session::set_flash('error', e('Could not save user.'));
+					}
 				}
 			}
 			else
@@ -62,6 +76,7 @@ class Controller_Users extends Controller_Account
 				Session::set_flash('error', $val->error());
 			}
 		}
+
 
 		$this->template->title = "Users";
 		$this->template->content = View::forge(parent::get_prefix() . 'users/create');
@@ -85,7 +100,7 @@ class Controller_Users extends Controller_Account
 			$user->bdate = Input::post('bdate');
 			$user->gender = Input::post('gender');
 			$user->contact = Input::post('contact');
-			$user->prof_pic = Input::post('prof_pic');
+			// $user->prof_pic = Input::post('prof_pic');
 			$user->group = Input::post('group');
 			$user->last_login = Input::post('last_login');
 			$user->login_hash = Input::post('login_hash');
@@ -93,9 +108,9 @@ class Controller_Users extends Controller_Account
 
 			if ($user->save())
 			{
-				Session::set_flash('success', e('Updated user #' . $id));
+				Session::set_flash('success', e('Succesfully Updated' . $id));
 
-				Response::redirect(parent::get_prefix() . 'users');
+				Response::redirect(parent::get_prefix() . 'users/edit');
 			}
 
 			else
@@ -130,8 +145,8 @@ class Controller_Users extends Controller_Account
 			$this->template->set_global('user', $user, false);
 		}
 
-		$this->template->title = "Users";
-		$this->template->content = View::forge(parent::get_prefix() . 'users/edit');
+		$this->template->title = "Edit Profile";
+		$this->template->content = View::forge('edit_profile');
 
 	}
 
@@ -152,5 +167,6 @@ class Controller_Users extends Controller_Account
 		Response::redirect(parent::get_prefix() . 'users');
 
 	}
+
 
 }

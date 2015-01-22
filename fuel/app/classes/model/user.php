@@ -46,11 +46,9 @@ class Model_User extends \Orm\Model
 		$val->add_field('bdate', 'Bdate', 'required|valid_string[numeric]');
 		$val->add_field('gender', 'Gender', 'required|valid_string[numeric]');
 		$val->add_field('contact', 'Contact', 'required|max_length[50]');
-		$val->add_field('prof_pic', 'Prof Pic', 'required|max_length[255]');
+		$val->add_field('prof_pic', 'Prof Pic', 'max_length[255]');
 		$val->add_field('group', 'Group', 'required|valid_string[numeric]');
-		$val->add_field('last_login', 'Last Login', 'required|valid_string[numeric]');
-		$val->add_field('login_hash', 'Login Hash', 'required|max_length[255]');
-		$val->add_field('profile_fields', 'Profile Fields', 'required');
+		$val->add_field('last_login', 'Last Login', 'valid_string[numeric]');
 
 		return $val;
 	}

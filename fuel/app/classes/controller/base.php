@@ -16,4 +16,15 @@ class Controller_Base extends Controller_Template
 		View::set_global('current_user', $this->current_user);
 	}
 
+	public static function get_prefix()
+	{
+		if (Auth::member(100)) {
+			return 'admin/';
+		} else if (Auth::member(50)) {
+			return 'teacher/';
+		} else if (Auth::member(1)) {
+			return 'student/';
+		}
+		
+	}
 }

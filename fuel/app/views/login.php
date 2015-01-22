@@ -33,10 +33,12 @@
 					<?php echo Form::submit(array('value'=>'Login', 'name'=>'submit', 'class' => 'btn btn-lg btn-primary btn-block')); ?>
 				</div>
 				<div class="col-md-6">
-					<?php echo Form::submit(array('value'=>'Register', 'name'=>'submit', 'class' => 'btn btn-lg btn-primary btn-block')); ?>
+					<?php echo Html::anchor('account/register', 'Register', array('class' => 'btn btn-lg btn-primary btn-block',)); ?>
 				</div>
 			</div>
 
 		<?php echo Form::close(); ?>
 	</div>
+
+
 </div>
