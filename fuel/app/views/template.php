@@ -16,7 +16,7 @@
 		'jquery.min.js',
 		'bootstrap.js',
 		'http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js',
-		'fm.selectator.jquery.css'
+		'fm.selectator.jquery.js'
 	)); ?>
 	<script>
 		$(function(){
