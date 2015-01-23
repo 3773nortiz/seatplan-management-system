@@ -48,3 +48,13 @@
 [draggable="true"] {
     cursor: move;
 }
+
+div#selectator_select1 {
+    width: 100% !important;
+    height: 40px;
+}
+
+.add-student-close,
+.add-student-action {
+    width: 100%;
+}
