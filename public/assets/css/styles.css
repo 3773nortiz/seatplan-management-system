@@ -1,0 +1,30 @@
+#seatplan td{
+    height: 100px;
+    width: 100px;
+    -webkit-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
+            -o-transition: all 200ms ease-out;
+                transition: all 200ms ease-out;
+}
+
+#seatplan td img {
+    width: inherit;
+    height: inherit;
+}
+
+#seatplan td:not(.has-student):hover {
+    background-color: rgba(0, 128, 0, 0.2);
+    cursor: pointer;
+}
+
+#seatplan td.drag-over {
+    background-color: rgba(0, 0, 255, 0.2);
+}
+
+#seatplan td.drag-over.no-drag {
+    background-color: rgba(255, 0, 0, 0.2);
+}
+
+[draggable="true"] {
+    cursor: move;
+}

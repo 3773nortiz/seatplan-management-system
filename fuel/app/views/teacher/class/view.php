@@ -14,22 +14,12 @@
         <p>
         	<strong>User id:</strong>
         	<?php //echo $class->user_id; ?></p> -->
+    </div>
 
+    <?= render(Controller_Base::get_prefix() . 'class/_seatplan', ['class_id' => $class->id, 'student_seats' => $student_seats]); ?>
+
+    <div class="col-md-4">
         <?php echo Html::anchor(Controller_Base::get_prefix() . 'class/edit/'.$class->id, 'Edit'); ?> |
         <?php echo Html::anchor(Controller_Base::get_prefix() . 'class', 'Back'); ?>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-12">
-        <table>
-            <?php for($x = 0; $x <= (Config::get('number_of_seat') + (Config::get('number_of_seat')  / 10)) / 11; $x++) {?>
-                    <tr>
-                     <?php for($y = 0; $y <= (Config::get('number_of_seat')  + (Config::get('number_of_seat')  / 10)) / 4; $y++) {?>
-                        <td></td>
-                    <?php }?>
-                    </tr>
-            <?php }?>
-        </table>
     </div>
 </div>

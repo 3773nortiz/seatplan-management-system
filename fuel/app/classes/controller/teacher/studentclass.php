@@ -13,6 +13,7 @@ class Controller_Teacher_Studentclass extends Controller_Base
 	public function action_view($id = null)
 	{
 		$data['studentclass'] = Model_Studentclass::find($id);
+		$data['student_seats'] =
 
 		$this->template->title = "Studentclass";
 		$this->template->content = View::forge(parent::get_prefix() . 'studentclass/view', $data);
@@ -115,6 +116,25 @@ class Controller_Teacher_Studentclass extends Controller_Base
 
 		Response::redirect(parent::get_prefix() . 'studentclass');
 
+	}
+
+	public function action_add_student($user_id, $class_id, $seat) {
+		$studentclass = Model_Studentclass::forge();
+		$studentclass->user_id = $user_id;
+		$studentclass->class_id = $class_id;
+		$studentclass->seat = $seat;
+
+		if ($studentclass->save()) {
+			return json_encode(1);
+		}
+
+		return new Response("Could not save to DB", 500);
+
+	}
+
+	public static function get_student_seats($class_id) {
+		return Model_Studentclass::query()
+			->get();
 	}
 
 }

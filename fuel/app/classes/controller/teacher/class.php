@@ -13,6 +13,7 @@ class Controller_Teacher_Class extends Controller_Account
 	public function action_view($id = null)
 	{
 		$data['class'] = Model_Class::find($id);
+		$data['student_seats'] = Controller_Teacher_Studentclass::get_student_seats($id);
 
 		$this->template->title = "Class";
 		$this->template->content = View::forge(parent::get_prefix() . 'class/view', $data);
@@ -97,8 +98,10 @@ class Controller_Teacher_Class extends Controller_Account
 			$this->template->set_global('class', $class, false);
 		}
 
+		$data['student_seats'] = Controller_Teacher_Studentclass::get_student_seats($id);
+
 		$this->template->title = "Classes";
-		$this->template->content = View::forge(parent::get_prefix() . 'class/edit');
+		$this->template->content = View::forge(parent::get_prefix() . 'class/edit', $data);
 
 	}
 

@@ -45,11 +45,11 @@ class Controller_Users extends Controller_Account
 					'profile_fields' => Input::post('profile_fields'),
 				));
 
-				
+
 			    Upload::process(Config::get('upload_prof_pic'));
 
 			    if (Upload::is_valid()) {
-                                                                        
+
                    	Upload::save();
 
                    	$value = Upload::get_files();

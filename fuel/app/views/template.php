@@ -3,23 +3,27 @@
 <head>
 	<meta charset="utf-8">
 	<title><?php echo $title; ?></title>
-	<?php echo Asset::css(
+	<?php echo Asset::css([
 		'bootstrap.css',
-		'http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css'
-	); ?>
+		'http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css',
+		'styles.css'
+	]); ?>
 	<style>
 		body { margin: 50px; }
 	</style>
 	<?php echo Asset::js(array(
-		'http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js',	
+		'jquery.min.js',
 		'bootstrap.js',
 		'http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js'
 	)); ?>
 	<script>
-		$(function(){ 
-			$('.topbar').dropdown(); 
+		$(function(){
+			$('.topbar').dropdown();
 			$(".fileinput").fileinput();
 		});
+
+		var BASE_URL = '<?= Config::get("base_url") ?>';
+		var USER_PREFIX = '<?= Controller_Base::get_prefix(); ?>';
 	</script>
 </head>
 <body>
@@ -38,13 +42,13 @@
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<li class="<?php echo Uri::segment(2) == '' ? 'active' : '' ?>">
-						<?php echo Html::anchor('account', 'Dashboard');?>	
+						<?php echo Html::anchor('account', 'Dashboard');?>
 					</li>
 
 					<?php
 						$files = new GlobIterator(APPPATH.'classes/controller/' . Controller_Base::get_prefix() . '/*.php');
 						foreach($files as $file)
-						{	
+						{
 							$section_segment = $file->getBasename('.php');
 							$section_title = Inflector::humanize($section_segment);
 								?>
@@ -57,10 +61,10 @@
 				</ul>
 				<ul class="nav navbar-nav pull-right">
 					<li class="dropdown">
-						<?php 
+						<?php
 							$userTypes = array();
 							foreach (Config::get('simpleauth.groups') as $key => $value) {
-		                        if($key < Auth::get($current_user->group)) 
+		                        if($key < Auth::get($current_user->group))
 		                        	$userTypes[$key] = $value['name'];
 		                    }
 						?>
@@ -109,7 +113,7 @@
 				            'class' => 'img-responsive',
 				            'width' => '200px',
 				        	)); ?>
-						<h4> 
+						<h4>
 					            <?= $current_user->fname.'&nbsp;&nbsp'.
 					            $current_user->mname[0].'.&nbsp;&nbsp'.
 					            $current_user->lname .'<br/>'.
