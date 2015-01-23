@@ -99,11 +99,13 @@
         ev.target.appendChild(document.getElementById(data));
         $target.addClass('has-student');
         $('#' + dragFromId).removeClass('has-student');
+
+        $.get(BASE_URL + USER_PREFIX + 'studentclass/reseat_student/' + data + '/<?= $class_id ?>/' + $target.attr('id'));
     }
 
     function hover(ele, show) {
-        if (!$(ele).hasClass('has-student')) {
-             var className = 'hovered';
+        if (!$(ele).hasClass('has-student') && !$(ele).hasClass('no-drag')) {
+            var className = 'hovered';
             $('#seatplan td.hovered').removeClass(className);
             if (show) {
                 $(ele).addClass(className);
@@ -124,7 +126,14 @@
 
     function addStudent(studentId) {
         if (currentSelectedChair) {
-            $.get(BASE_URL + USER_PREFIX + 'studentclass/add_student/' + studentId + '/<?= $class_id ?>/' + currentSelectedChair);
+            $.get(BASE_URL + USER_PREFIX + 'studentclass/add_student/' + studentId + '/<?= $class_id ?>/' + currentSelectedChair, function (data) {
+                data = JSON.parse(data);
+                $selectedChair = $('#' + currentSelectedChair);
+                $selectedChair.closest('td').addClass('has-student');
+                $selectedChair.append('<div draggable="true" ondragstart="drag(event)" id="' + data.id + '" ' +
+                    'class="' + data.gender + ' student"></div>');
+            });
+
         }
     }
 
