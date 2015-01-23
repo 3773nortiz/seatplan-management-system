@@ -1,4 +1,3 @@
-
 	<div class="col-md-8">
 		<div class="col-md-4">
 			<h2>Learn</h2>
