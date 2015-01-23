@@ -27,4 +27,23 @@ class Controller_Base extends Controller_Template
 		}
 		
 	}
+
+	public static function is_black_listed($file) {
+		if(Auth::member(100)){
+
+		} else if (Auth::member(50)) {
+			if ($file == "studentclass"){
+				return true;
+			}
+
+		} elseif (Auth::member(1)) {
+			if($file == "users") {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	
 }

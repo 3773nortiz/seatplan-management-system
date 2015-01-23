@@ -49,11 +49,11 @@
 
 					<?php
 						$files = new GlobIterator(APPPATH.'classes/controller/' . Controller_Base::get_prefix() . '/*.php');
-						foreach($files as $file)
+						foreach($files as $file) if (!Controller_Base::is_black_listed($file->getBasename('.php')))
 						{
 							$section_segment = $file->getBasename('.php');
 							$section_title = Inflector::humanize($section_segment);
-								?>
+							?>
 							<li class="<?php echo Uri::segment(2) == $section_segment ? 'active' : '' ?>">
 								<?php echo Html::anchor(Controller_Base::get_prefix() . $section_segment, $section_title); ?>
 							</li>
