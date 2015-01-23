@@ -133,8 +133,13 @@ class Controller_Teacher_Studentclass extends Controller_Base
 	}
 
 	public static function get_student_seats($class_id) {
-		return Model_Studentclass::query()
-			->get();
+		return DB::select('user_id', 'fname', 'mname', 'lname', 'seat', 'gender')
+			->from(Model_Studentclass::table())
+			->where('class_id', $class_id)
+			->join(Model_User::table(), 'INNER')->on('user_id', '=', Model_User::table() . '.id')
+			->group_by('user_id')
+			->execute()
+			->as_array('seat');
 	}
 
 }

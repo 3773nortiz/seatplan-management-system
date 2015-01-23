@@ -1,18 +1,38 @@
 #seatplan td{
     height: 100px;
     width: 100px;
+    padding: 0px;
+    border-color: transparent;
     -webkit-transition: all 200ms ease-out;
         -moz-transition: all 200ms ease-out;
             -o-transition: all 200ms ease-out;
                 transition: all 200ms ease-out;
 }
 
-#seatplan td img {
-    width: inherit;
-    height: inherit;
+#seatplan td:not(.no-drag) {
+    background: url('../img/chair.png') no-repeat;
+    background-size: contain;
+    background-position: center;
 }
 
-#seatplan td:not(.has-student):hover {
+#seatplan td .student {
+    width: inherit;
+    height: inherit;
+    background-size: contain !important;
+    background-position: center;
+    float: right;
+    margin-right: -23px;
+}
+
+#seatplan td .student.Male {
+    background: url('../img/boy.png') no-repeat;
+}
+
+#seatplan td .student.Female {
+    background: url('../img/girl.png') no-repeat;
+}
+
+#seatplan td.hovered {
     background-color: rgba(0, 128, 0, 0.2);
     cursor: pointer;
 }
@@ -27,14 +47,4 @@
 
 [draggable="true"] {
     cursor: move;
-}
-
-div#selectator_select1 {
-    width: 100% !important;
-    height: 40px;
-}
-
-.add-student-close,
-.add-student-action {
-    width: 100%;
 }
