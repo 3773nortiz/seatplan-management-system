@@ -14,7 +14,8 @@
                             $xCoord--;
                         }
                     ?>
-                    <td ondrop="drop(event)" ondragover="allowDrop(event)" onclick="showAddStudent('<?= $coord ?>')" id="<?= $coord ?>" class="<?= $y == 5 ? 'no-drag' : '' ?>"></td>
+                    <td ondrop="drop(event)" ondragover="allowDrop(event)" 
+                    onclick="showAddStudent('<?= $coord ?>')" id="<?= $coord ?>" class="<?= $y == 5 ? 'no-drag' : '' ?>"></td>
                 <?php endfor; ?>
                 </tr>
         <?php endfor; ?>
@@ -24,6 +25,49 @@
         'ondragstart'   => 'drag(event)',
         'id'            => 'chair-1'
     ]); ?>
+</div>
+
+<div class="modal fade bs-example-modal-sm" id="add-student" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="exampleModalLabel">Add Student</h4>
+        </div>
+        <div class="modal-body">
+            <?= Form::open(array('action' => '',  
+                    'method' => 'post',
+                    'role'   => 'form',
+                    'id'     => 'form-add-student-in-seat',
+                    'onsubmit' => 'addStudentPerSeat(event)'));
+                ?>
+
+                <?= Form::select('select1', 0, $students, array(
+                    'class' => 'form-control',
+                    'id' => 'select1')); ?>
+
+                <br/><br/><br/><br/>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-6">  
+                            <?php echo Form::submit('submit', 'Add', array(
+                                'class'   => 'btn btn-primary add-student-action'));
+                            ?>   
+                        </div>  
+                        <div class="col-md-6">
+                            <?php echo Form::submit('button', 'Close', array(
+                                'class'        => 'btn btn-primary add-student-close',
+                                'data-dismiss' => 'modal')); ?>     
+                        </div> 
+                    </div>
+                </div>
+
+            <?= Form::close(); ?>
+        </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -54,10 +98,14 @@
 
     function showAddStudent(coord) {
         if (coord) {
-
+            $('#add-student').modal('show');
         }
         currentSelectedChair = coord;
-        addStudent(1);
+
+    }
+
+    function attendace(stat) {
+
     }
 
     function addStudent(studentId) {
@@ -65,4 +113,16 @@
             $.get(BASE_URL + USER_PREFIX + 'studentclass/add_student/' + studentId + '/<?= $class_id ?>/' + currentSelectedChair);
         }
     }
+
+    function addStudentPerSeat(e) {
+        e.preventDefault();
+        var studId = $('[name="select1"]').val();
+        console.log(studId);
+        addStudent(studId);
+         $('#add-student').modal('hide');
+    }
+
+    $(function () {
+        $('#select1').selectator();
+    });
 </script>

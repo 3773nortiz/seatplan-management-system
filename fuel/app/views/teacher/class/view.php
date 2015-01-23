@@ -16,7 +16,7 @@
         	<?php //echo $class->user_id; ?></p> -->
     </div>
 
-    <?= render(Controller_Base::get_prefix() . 'class/_seatplan', ['class_id' => $class->id, 'student_seats' => $student_seats]); ?>
+    <?= render(Controller_Base::get_prefix() . 'class/_seatplan', compact('students', 'student_seats') + ['class_id' => $class->id]); ?>
 
     <div class="col-md-4">
         <?php echo Html::anchor(Controller_Base::get_prefix() . 'class/edit/'.$class->id, 'Edit'); ?> |
