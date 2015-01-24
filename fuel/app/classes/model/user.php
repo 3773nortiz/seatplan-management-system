@@ -33,6 +33,16 @@ class Model_User extends \Orm\Model
 		),
 	);
 
+	protected static $_has_many = array(
+	  	'studentclass' => array(
+	        'key_from' => 'id',
+	        'model_to' => 'Model_Studentclass',
+	        'key_to' => 'user_id',
+	        'cascade_save' => true,
+	        'cascade_delete' => false,
+    	)
+	);
+
 	public static function validate($factory)
 	{
 		$val = Validation::forge($factory);
