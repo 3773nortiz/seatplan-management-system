@@ -125,11 +125,28 @@ class Controller_Teacher_Studentclass extends Controller_Base
 		$studentclass->seat = $seat;
 
 		if ($studentclass->save()) {
-			return json_encode(1);
+			$student = Model_User::find($user_id);
+			$data = [
+				'id'		=> $studentclass->id,
+				'gender'	=> Config::get('gender')[$student->gender]
+			];
+			return json_encode($data);
 		}
 
 		return new Response("Could not save to DB", 500);
 
+	}
+
+	public function action_reseat_student($student_id, $class_id, $seat) {
+		$student = Model_Studentclass::find('first', [
+			'where'	=> [
+				['user_id', $student_id],
+				['class_id', $class_id]
+			]
+		]);
+
+		$student->seat = $seat;
+		return $student->save();
 	}
 
 	public static function get_student_seats($class_id) {
