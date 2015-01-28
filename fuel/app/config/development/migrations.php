@@ -11,6 +11,7 @@ return array(
 				2 => '004_create_classes',
 				3 => '005_create_studentclasses',
 				4 => '006_create_attendances',
+				5 => '007_add_chair_plan_to_classes',
 			),
 		),
 		'module' => 

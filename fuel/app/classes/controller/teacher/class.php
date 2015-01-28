@@ -100,7 +100,8 @@ class Controller_Teacher_Class extends Controller_Account
 		}
 
 		$data['student_seats'] = Controller_Teacher_Studentclass::get_student_seats($id);
-		$data['students'] = Controller_Teacher_Users::get_all_students_not_in($id);
+		$data['students'] = Controller_Teacher_Users::get_all_students();
+		$data['class'] = $class;
 
 		$this->template->title = "Classes";
 		$this->template->content = View::forge(parent::get_prefix() . 'class/edit', $data);

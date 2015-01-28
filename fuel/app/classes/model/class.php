@@ -7,6 +7,7 @@ class Model_Class extends \Orm\Model
 		'chairs',
 		'subject_id',
 		'user_id',
+		'chair_plan',
 		'created_at',
 		'updated_at',
 	);
