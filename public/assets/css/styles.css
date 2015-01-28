@@ -1,8 +1,14 @@
+#seatplan {
+    background: rgba(236, 236, 236, 0.35);
+    box-shadow:0 1px 2px #aaa;
+    border-radius: 3px;
+}
+
 #seatplan td{
     height: 100px;
     width: 100px;
     padding: 0px;
-    border-color: transparent;
+    /*border-color: transparent;*/
     -webkit-transition: all 200ms ease-out;
         -moz-transition: all 200ms ease-out;
             -o-transition: all 200ms ease-out;
@@ -10,9 +16,19 @@
 }
 
 #seatplan td:not(.no-drag) {
-    background: url('../img/chair.png') no-repeat;
+    /*background: url('../img/chair.png') no-repeat;
     background-size: contain;
+    background-position: center;*/
+}
+
+#seatplan td .chair {
+    width: inherit;
+    height: inherit;
+    background-size: contain !important;
     background-position: center;
+    float: right;
+    background: url('../img/chair.png') no-repeat center;
+    position: absolute;
 }
 
 #seatplan td .student {
@@ -21,15 +37,19 @@
     background-size: contain !important;
     background-position: center;
     float: right;
-    margin-right: -23px;
+    position: absolute;
 }
 
 #seatplan td .student.Male {
-    background: url('../img/boy.png') no-repeat;
+    background: url('../img/boy.png') no-repeat center;
 }
 
 #seatplan td .student.Female {
-    background: url('../img/girl.png') no-repeat;
+    background: url('../img/girl.png') no-repeat center;
+}
+
+#seatplan td .student.drag-over {
+    background: none;
 }
 
 #seatplan td.hovered {
