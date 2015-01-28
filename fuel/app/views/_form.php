@@ -142,6 +142,27 @@
             array('class' => 'col-md-4 form-control', 'placeholder'=>'Contact Number', 'required'   => '')); ?>
 
         </div>
+   
+        <?php
+            $courses = array();
+            $course = Model_Course::find('all', array(
+                        'select'    => array('id', 'coursename')
+                        ));
+
+            foreach ($course  as $key => $value) {
+                    $courses[$key]  = $value['coursename'];
+                }
+        ?>
+
+        <div class="form-group" id="course">
+            <label for="course_id" class="col-sm-2 control-label">Course</label>
+            <div class="col-sm-10">
+                <?php
+                    echo Form::select('course_id', 0, $courses,
+                        array('class' => 'form-control'));
+                ?>
+            </div>
+        </div>
 
         <!-- HIDDEN -->
 

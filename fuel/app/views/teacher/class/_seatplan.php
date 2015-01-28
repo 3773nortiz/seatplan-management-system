@@ -44,6 +44,8 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
             <h4 class="modal-title" id="exampleModalLabel">Add Student</h4>
         </div>
         <div class="modal-body">
+            <br/>
+
             <?= Form::open(array('action' => '',
                     'method' => 'post',
                     'role'   => 'form',
@@ -60,7 +62,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
 
                  <span ng-if="students.length <= 0">No Student</span>
 
-                <br/><br/><br/><br/>
+                <br/><br/><br/>
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-6">
@@ -93,30 +95,28 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
             <h4 class="modal-title" id="exampleModalLabel">Add Chair</h4>
         </div>
         <div class="modal-body">
-            <?= Form::open(array('action' => '',
-                    'method' => 'post',
-                    'role'   => 'form',
-                    'id'     => 'form-add-student-in-seat',
-                    'onsubmit' => 'addStudentPerSeat(event)'));
-                ?>
-
-                <br/><br/><br/><br/>
+                <div class="form-group">
+                    <label for="chair">No of Chair:</label>
+                    <?php echo Form::input('chair', Input::post('email'), 
+                        array('class' => 'form-control','autofocus')); ?>                
+                </div>
+                
                 <div class="row">
-                    <div class="form-group">
-                        <div class="col-md-6">
-                            <?php echo Form::submit('submit', 'Add', array(
-                                'class'   => 'btn btn-primary add-student-action'));
-                            ?>
-                        </div>
-                        <div class="col-md-6">
-                            <?php echo Form::submit('button', 'Close', array(
-                                'class'        => 'btn btn-primary add-student-close',
-                                'data-dismiss' => 'modal')); ?>
+                    <div class="col-md-12"> 
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <?php echo Form::submit('submit', 'Add', array(
+                                    'class'   => 'btn btn-primary add-chair-action'));
+                                ?>
+                            </div>
+                            <div class="col-md-6">
+                                <?php echo Form::submit('button', 'Close', array(
+                                    'class'        => 'btn btn-primary add-student-close',
+                                    'data-dismiss' => 'modal')); ?>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-            <?= Form::close(); ?>
         </div>
     </div>
   </div>

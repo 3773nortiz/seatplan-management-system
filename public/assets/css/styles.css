@@ -75,6 +75,7 @@ div#selectator_select1 {
 }
 
 .add-student-close,
-.add-student-action {
+.add-student-action,
+.add-chair-action {
     width: 100%;
 }

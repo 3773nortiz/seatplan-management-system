@@ -23,7 +23,6 @@
                  if($scope.students.length <= 0) {
                     $('.add-student-action').attr('disabled');
                   }
-                // $scope.$digest($scope.students);
               }
             });
        };
