@@ -29,7 +29,8 @@
     </table>
 </div>
 
-<div class="modal fade bs-example-modal-sm" id="add-student" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div class="modal fade bs-example-modal-sm" id="add-student" tabindex="-1" role="dialog" 
+aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudentCtrl">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
         <div class="modal-header">
@@ -46,16 +47,22 @@
                     'onsubmit' => 'addStudentPerSeat(event)'));
                 ?>
 
-                <?= Form::select('select1', 0, $students, array(
-                    'class' => 'form-control',
-                    'id' => 'select1')); ?>
+                <select class="form-control" name="select1" 
+                id="select1" ng-show="student.length > 0">
+                    <option ng-repeat="student in students" value="{{student.id}}">
+                        <span>{{student.fname}} {{student.mname}} {{student.lname}}</span>
+                    </option>
+                </select>
+
+                 <span ng-if="students.length <= 0">No Student</span>
 
                 <br/><br/><br/><br/>
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-6">
                             <?php echo Form::submit('submit', 'Add', array(
-                                'class'   => 'btn btn-primary add-student-action'));
+                                'class'    => 'btn btn-primary add-student-action',
+                                'ng-click' => 'removeStudent()'));
                             ?>
                         </div>
                         <div class="col-md-6">
@@ -73,6 +80,7 @@
 </div>
 
 <script>
+    var classId  = '<?= $class_id ?>';
     var currentSelectedChair;
     var dragFromId;
 

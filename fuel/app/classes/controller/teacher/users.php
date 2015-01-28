@@ -2,18 +2,26 @@
 class Controller_Teacher_Users extends Controller_Users
 {
 
-    public static function get_all_students() {
+    public function action_get_all_students_not_in($class_id) {
 
-        $students = array();
+        // $students = array();
         $student_list = Model_User::find('all', array(
                 'select'    => array('id', 'fname', 'mname', 'lname'),
-                'where'     => array(array('group', '1'))));
+                'where'     => array(
+                    array('group', '1'),
+                    array('id', 'NOT IN', DB::select('user_id')
+                                            ->distinct()
+                                            ->from(Model_Studentclass::table())
+                                            ->where('class_id', '=', $class_id))
+                )
+            )
+        );
 
-        foreach ($student_list  as $key => $value) {
-            $students[$value['id']]  = $value['fname'].'  '. $value['mname'][0].'.  '. $value['lname'];
-        }
+        // foreach ($student_list  as $key => $value) if($value['id']){
+        //     $students[$value['id']]  = $value['fname'].'  '. $value['mname'][0].'.  '. $value['lname'];
+        // }
 
-        return $students;
+        return Format::forge($student_list)->to_json();
     }
 
 }

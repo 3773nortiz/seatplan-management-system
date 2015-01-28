@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="spmsapp">
 <head>
 	<meta charset="utf-8">
 	<title><?php echo $title; ?></title>
@@ -12,20 +12,28 @@
 	<style>
 		body { margin: 50px; }
 	</style>
+
+	<script>
+		var BASE_URL = '<?= Config::get("base_url") ?>';
+		var USER_PREFIX = '<?= Controller_Base::get_prefix(); ?>';
+		var USER_GROUP = '<?= json_encode(Auth::get("group"));?>';
+	</script>
+
+
 	<?php echo Asset::js(array(
 		'jquery.min.js',
 		'bootstrap.js',
 		'http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js',
-		'fm.selectator.jquery.js'
+		'fm.selectator.jquery.js',
+		'angular.min.js',
+		'angular/addstudentctrl.js'
 	)); ?>
+
 	<script>
 		$(function(){
 			$('.topbar').dropdown();
 			$(".fileinput").fileinput();
 		});
-
-		var BASE_URL = '<?= Config::get("base_url") ?>';
-		var USER_PREFIX = '<?= Controller_Base::get_prefix(); ?>';
 	</script>
 </head>
 <body>
