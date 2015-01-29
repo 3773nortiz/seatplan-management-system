@@ -50,7 +50,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
                     'method' => 'post',
                     'role'   => 'form',
                     'id'     => 'form-add-student-in-seat',
-                    'onsubmit' => 'addChair(event)'));
+                    'onsubmit' => 'addStudentPerSeat(event)'));
                 ?>
 
                 <select class="form-control" name="select1" 
@@ -99,7 +99,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
                     'method' => 'post',
                     'role'   => 'form',
                     'id'     => 'form-add-student-in-seat',
-                    'onsubmit' => 'addStudentPerSeat(event)'));
+                    'onsubmit' => 'addChair(event)'));
                 ?>
 
                 <div class="row">
@@ -231,6 +231,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
                 $selectedChair.closest('td').addClass('has-student');
                 $selectedChair.append('<div draggable="true" ondragstart="drag(event)" id="' + data.id + '" ' +
                     'class="' + data.gender + ' student"></div>');
+                $('#add-student').modal('hide');
             });
 
         }
@@ -258,7 +259,6 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
         var studId = $('[name="select1"]').val();
         console.log(studId);
         addStudent(studId);
-         $('#add-student').modal('hide');
     }
 
     $(function () {
