@@ -1,8 +1,8 @@
-<div class="col-md-12" style="-webkit-perspective: 5000;">
-    <table class="table table-bordered" id="seatplan" style="-webkit-transform-style: preserve-3d;">
+<div class="col-md-12" id="seatplan-parent">
+    <table class="table table-bordered" id="seatplan">
         <?php
             $yCoord = 'A';
-            $chairPlan = json_decode(html_entity_decode($class->chair_plan));
+            $chairPlan = json_decode(html_entity_decode($class->chair_plan ?: '{}'));
         ?>
         <?php for($x = 0; $x < Config::get('number_of_seat') / 10; $x++, $yCoord++): ?>
                 <tr>
@@ -11,21 +11,21 @@
                     <?php
                         $coord = '';
                         $coord = $yCoord . $xCoord;
+                        $hasChair = !empty($chairPlan->{$coord});
+                        $hasStudent = !empty($student_seats[$coord]);
                     ?>
                     <td ondrop="drop(event)" ondragover="allowDrop(event)" onclick="showAddStudent('<?= $coord ?>')" id="<?= $coord ?>"
-                        class="<?= (!empty($student_seats[$coord]) ? ' has-student' : '') . (!empty($chairPlan->{$coord}) ? ' has-chair' : '') ?>"
+                        class="<?= ($hasStudent && $hasChair ? ' has-student' : '') . ($hasChair ? ' has-chair' : '') ?>"
                         onmouseover="hover(this, true)" onmouseout="hover(this, false)">
-                        <?php if (!empty($chairPlan->{$coord})) : ?>
-                            <div draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" class="chair" id="chair_<?= $coord ?>"
-                            style="-webkit-transform: translateZ(20px);">
-                            <?php if (!empty($student_seats[$coord])) : ?>
-                                <div draggable="true" ondragstart="drag(event)" id="<?= $student_seats[$coord]['user_id'] ?>"
-                                class="<?= Config::get('gender')[$student_seats[$coord]['gender']] ?> student" style="-webkit-transform: translateZ(30px);">
-
-                                </div>
-                            <?php endif; ?>
+                        <?php if ($hasChair) : ?>
+                            <div draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" class="chair" id="chair_<?= $coord ?>">
                             </div>
                         <?php endif ?>
+                        <?php if ($hasChair && $hasStudent) : ?>
+                                <div draggable="true" ondragstart="drag(event)" id="<?= $student_seats[$coord]['user_id'] ?>"
+                            class="<?= Config::get('gender')[$student_seats[$coord]['gender']] ?> student">
+                                </div>
+                            <?php endif; ?>
                     </td>
                 <?php endfor; ?>
                 </tr>
@@ -50,7 +50,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
                     'method' => 'post',
                     'role'   => 'form',
                     'id'     => 'form-add-student-in-seat',
-                    'onsubmit' => 'addStudentPerSeat(event)'));
+                    'onsubmit' => 'addChair(event)'));
                 ?>
 
                 <select class="form-control" name="select1" 
@@ -95,27 +95,28 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
             <h4 class="modal-title" id="exampleModalLabel">Add Chair</h4>
         </div>
         <div class="modal-body">
-                <div class="form-group">
-                    <label for="chair">No of Chair:</label>
-                    <?php echo Form::input('chair', Input::post('email'), 
-                        array('class' => 'form-control','autofocus')); ?>                
-                </div>
-                
+            <?= Form::open(array('action' => '',
+                    'method' => 'post',
+                    'role'   => 'form',
+                    'id'     => 'form-add-student-in-seat',
+                    'onsubmit' => 'addStudentPerSeat(event)'));
+                ?>
+
                 <div class="row">
                     <div class="col-md-12"> 
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <?php echo Form::submit('submit', 'Add', array(
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <?php echo Form::submit('submit', 'Add', array(
                                     'class'   => 'btn btn-primary add-chair-action'));
-                                ?>
-                            </div>
-                            <div class="col-md-6">
-                                <?php echo Form::submit('button', 'Close', array(
-                                    'class'        => 'btn btn-primary add-student-close',
-                                    'data-dismiss' => 'modal')); ?>
-                            </div>
+                            ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?php echo Form::submit('button', 'Close', array(
+                                'class'        => 'btn btn-primary add-student-close',
+                                'data-dismiss' => 'modal')); ?>
                         </div>
                     </div>
+                </div>
                 </div>
         </div>
     </div>
@@ -124,22 +125,28 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
 
 <script>
     var classId  = '<?= $class->id ?>';
+    var chairPlan = JSON.parse('<?= html_entity_decode($class->chair_plan ?: "{}") ?>');
     var currentSelectedChair;
     var dragFromId;
     var draggedId;
 
     function allowDrop(ev) {
         ev.preventDefault();
-        $('#seatplan td.drag-over').removeClass('drag-over');
+        $('#seatplan td.drag-over').removeClass('drag-over').removeClass('no-drag');
         $target = $(ev.target);
 
+        var isChair = false;
         if ($target.is('.chair')) {
             $target = $target.closest('td');
+            isChair = true;
         }
-
 
         if ($target.is('td') || $target.attr('id') == draggedId) {
             $target.addClass('drag-over');
+        }
+
+        if (!isChair && $('#' + draggedId).is('.student')) {
+            $target.addClass('no-drag');
         }
 
     }
@@ -161,22 +168,31 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
         }
         $target.removeClass('drag-over');
         $('#' + data).removeClass('drag-over');
-        if ($target.hasClass('no-drag') || !$target.attr('ondrop') || $target.hasClass('has-student')) {
+        if ($target.hasClass('no-drag') || !$target.attr('ondrop') || $target.hasClass('has-student') || (!$target.hasClass('has-chair') && $('#' + data).is('.student'))) {
             return false;
         }
 
+        if (isChair) {
+            $target[0].appendChild(document.getElementById(data));
+        } else {
         ev.target.appendChild(document.getElementById(data));
+            $('#' + data).attr('id', 'chair_' + $target.attr('id'));
+        }
+
 
         if (isChair) {
+            $.get(BASE_URL + USER_PREFIX + 'studentclass/reseat_student/' + data + '/<?= $class->id ?>/' + $target.attr('id'), function () {
             $target.addClass('has-student');
             $('#' + dragFromId).removeClass('has-student');
-
-            $.get(BASE_URL + USER_PREFIX + 'studentclass/reseat_student/' + data + '/<?= $class->id ?>/' + $target.attr('id'));
+            });
         } else {
-            $target.addClass('has-chair');
-            $('#' + dragFromId).removeClass('has-chair');
+            chairPlan[$target.attr('id')] = 1;
+            delete chairPlan[dragFromId];
 
-            // $.get(BASE_URL + USER_PREFIX + 'studentclass/reseat_student/' + data + '/<?= $class->id ?>/' + $target.attr('id'));
+            $.get(BASE_URL + USER_PREFIX + 'class/update_seatplan/<?= $class->id ?>/' + JSON.stringify(chairPlan), function (data) {
+            $target.addClass('has-chair');
+                $('#' + dragFromId).removeClass('has-chair').html('');
+            });
         }
     }
 
@@ -192,10 +208,12 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
 
     function showAddStudent(coord) {
         if (coord) {
-            if ($('#' + coord).hasClass('has-chair')) {
+            if ($('#' + coord).hasClass('has-chair') && !$('#' + coord).hasClass('has-student')) {
                 $('#add-student').modal('show');
-            } else {
+            } else if (!$('#' + coord).hasClass('has-chair')) {
                 $('#add-chair').modal('show');
+            } else {
+                // show view student, attendance nuttons x3, and remove
             }
         }
         currentSelectedChair = coord;
@@ -218,8 +236,21 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
         }
     }
 
-    function addChair() {
+    function addChair(e) {
+        e.preventDefault();
+        if (currentSelectedChair) {
+            chairPlan[currentSelectedChair] = 1;
 
+            $.get(BASE_URL + USER_PREFIX + 'class/update_seatplan/<?= $class->id ?>/' + JSON.stringify(chairPlan), function (data) {
+                data = JSON.parse(data);
+                $selectedChair = $('#' + currentSelectedChair);
+                $selectedChair.addClass('has-chair');
+                $selectedChair.append('<div draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" class="chair"' +
+                    'id="chair_' + currentSelectedChair + '"></div>');
+                $('#add-chair').modal('hide');
+            });
+
+        }
     }
 
     function addStudentPerSeat(e) {
