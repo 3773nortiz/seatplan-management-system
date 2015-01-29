@@ -1,14 +1,24 @@
+#seatplan-parent {
+    -webkit-perspective: 5000;
+        -ms-perspective: 5000;
+            perspective: 5000;
+}
+
 #seatplan {
-    background: rgba(236, 236, 236, 0.35);
+    /*background: rgba(236, 236, 236, 0.35);
     box-shadow:0 1px 2px #aaa;
-    border-radius: 3px;
+    border-radius: 3px;*/
+
+    -webkit-transform-style: preserve-3d;
+        -ms-transform-style: preserve-3d;
+            transform-style: preserve-3d;
 }
 
 #seatplan td{
     height: 100px;
     width: 100px;
     padding: 0px;
-    /*border-color: transparent;*/
+    border-color: transparent;
     -webkit-transition: all 200ms ease-out;
         -moz-transition: all 200ms ease-out;
             -o-transition: all 200ms ease-out;
@@ -29,6 +39,10 @@
     float: right;
     background: url('../img/chair.png') no-repeat center;
     position: absolute;
+
+    -webkit-transform: translateZ(20px);
+        -ms-transform: translateZ(20px);
+            transform: translateZ(20px);
 }
 
 #seatplan td .student {
@@ -38,6 +52,10 @@
     background-position: center;
     float: right;
     position: absolute;
+
+    -webkit-transform: translateZ(30px);
+        -ms-transform: translateZ(30px);
+            transform: translateZ(30px);
 }
 
 #seatplan td .student.Male {

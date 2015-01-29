@@ -126,4 +126,11 @@ class Controller_Teacher_Class extends Controller_Account
 
 	}
 
+	public function action_update_seatplan($class_id, $new_seatplan)
+	{
+		$class = Model_Class::find($class_id);
+		$class->chair_plan = htmlspecialchars_decode($new_seatplan);
+		return $class->save();
+	}
+
 }
