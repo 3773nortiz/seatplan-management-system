@@ -6,12 +6,13 @@ return array(
 		array(
 			'default' => 
 			array(
-				0 => '001_create_users',
-				1 => '003_create_subjects',
-				2 => '004_create_classes',
-				3 => '005_create_studentclasses',
-				4 => '006_create_attendances',
-				5 => '007_add_chair_plan_to_classes',
+				0 => '003_create_subjects',
+				1 => '004_create_classes',
+				2 => '005_create_studentclasses',
+				3 => '006_create_attendances',
+				4 => '007_add_chair_plan_to_classes',
+				5 => '008_create_courses',
+				6 => '009_add_course_id_to_users',
 			),
 		),
 		'module' => 

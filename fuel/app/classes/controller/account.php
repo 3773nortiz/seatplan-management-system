@@ -123,6 +123,7 @@ class Controller_Account extends Controller_Base
 					'last_login' => Input::post('last_login'),
 					'login_hash' => Input::post('login_hash'),
 					'profile_fields' => Input::post('profile_fields'),
+					'course_id' => Input::post('course_id')
 				));
 
 				

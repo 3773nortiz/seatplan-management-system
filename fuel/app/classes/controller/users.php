@@ -21,6 +21,7 @@ class Controller_Users extends Controller_Account
 
 	public function action_create()
 	{
+		exit();
 		if (Input::method() == 'POST')
 		{
 			$val = Model_User::validate('create');
@@ -43,7 +44,11 @@ class Controller_Users extends Controller_Account
 					'last_login' => Input::post('last_login'),
 					'login_hash' => Input::post('login_hash'),
 					'profile_fields' => Input::post('profile_fields'),
+					'course_id' => Input::post('course_id')
 				));
+
+				var_dump($user);
+				exit();
 
 
 			    Upload::process(Config::get('upload_prof_pic'));
@@ -105,6 +110,7 @@ class Controller_Users extends Controller_Account
 			$user->last_login = Input::post('last_login');
 			$user->login_hash = Input::post('login_hash');
 			$user->profile_fields = Input::post('profile_fields');
+			$user->course_id = Input::post('course_id');
 
 			if ($user->save())
 			{
@@ -138,6 +144,7 @@ class Controller_Users extends Controller_Account
 				$user->last_login = $val->validated('last_login');
 				$user->login_hash = $val->validated('login_hash');
 				$user->profile_fields = $val->validated('profile_fields');
+				$user->course_id = $val->validated('course_id');
 
 				Session::set_flash('error', $val->error());
 			}

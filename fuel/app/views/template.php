@@ -5,7 +5,8 @@
 	<title><?php echo $title; ?></title>
 	<?php echo Asset::css([
 		'bootstrap.css',
-		'http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css',
+		'fileinput.min.css',
+		// 'http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css',
 		'fm.selectator.jquery.css',
 		'styles.css'
 	]); ?>
@@ -26,13 +27,14 @@
 		'http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js',
 		'fm.selectator.jquery.js',
 		'angular.min.js',
-		'angular/addstudentctrl.js'
+		'angular/addstudentctrl.js',
+		'fileinput.js'
 	)); ?>
 
 	<script>
 		$(function(){
 			$('.topbar').dropdown();
-			$(".fileinput").fileinput();
+			// $(".fileinput").fileinput();
 		});
 	</script>
 </head>
@@ -119,7 +121,7 @@
 				<div class="row">
 				<?php if($current_user && $title == 'Dashboard'): ?>
 					<div class="col-md-4">
-						<?= Asset::img(Config::get('base_url').'uploads/'.$current_user->prof_pic, array(
+						<?= Asset::img('../../uploads/'.$current_user->prof_pic, array(
 				            'class' => 'img-responsive',
 				            'width' => '200px',
 				        	)); ?>

@@ -20,6 +20,7 @@ class Model_User extends \Orm\Model
 		'profile_fields',
 		'created_at',
 		'updated_at',
+		'course_id'
 	);
 
 	protected static $_observers = array(
@@ -59,7 +60,7 @@ class Model_User extends \Orm\Model
 		$val->add_field('prof_pic', 'Prof Pic', 'max_length[255]');
 		$val->add_field('group', 'Group', 'required|valid_string[numeric]');
 		$val->add_field('last_login', 'Last Login', 'valid_string[numeric]');
-
+		$val->add_field('course_id', 'Course', 'required|valid_string[numeric]');
 		return $val;
 	}
 

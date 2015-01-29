@@ -1,55 +1,34 @@
+        <?php if($current_user != ''): ?>
+            <script type="text/javascript">
+                $(function () {
+                    $("#fileselect").fileinput({
+                        initialPreview: [
+                            '<?= Asset::img("../../uploads/".$current_user->prof_pic, array(
+                                "class" => "img-responsive",
+                                "width" => "200px",
+                                )); ?>',
+                        ],
+                        overwriteInitial: true,
+                        initialCaption: '<?=  $current_user->prof_pic; ?>'
+                    });
+                });
+            </script>
+        <?php else: ?>
+            <script>
+             $(function () {
+                $("#fileselect").fileinput();
+            });
+            </script>
+        <?php endif; ?>
+
 
         <div class="row">
-            <div class="col-md-6">
-                <?php 
-                    echo Asset::img('ic-avatar.jpg',
-                        array(
-                            'id' => 'previewHolder',
-                            'class' => 'img-responsive',
-                        ));
-                ?> 
-            </div>
+             <?php echo Form::label('Upload Image', 'fileselect1', array('class'=>'control-label')); ?>
+            <input id="fileselect" name="fileselect" type="file" multiple="false"
+              data-show-preview="true" data-show-upload="false"
+              data-show-caption="true" accept="image/*">
         </div>
-        <br/>
-        <div class="row">
-            <?php 
-                echo Form::input('fileselect','upload', 
-                    array(
-                        'type'      => 'file', 
-                        'id'        => 'fileselect', 
-                        'class'     => 'file-inputs',
-                        'required'  => ''
-                        ));     
-            ?>
-        </div>
-
-    <!--     <div class="fileinput fileinput-new" data-provides="fileinput">
-          <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
-          <div>
-            <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="..."></span>
-            <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-          </div>
-        </div>
- -->
-        <!-- Script for Upload Picture -->
-        <script type="text/javascript">
-             function readURL(input) {
-                   if (input.files && input.files[0]) {
-                       var reader = new FileReader();
-                       reader.onload = function(e) {
-                           $('#previewHolder').attr('src', e.target.result);
-                       }
-
-                       reader.readAsDataURL(input.files[0]);
-                   }
-               }
-
-               $("#fileselect").change(function() {
-                   readURL(this);
-               });
-        </script>
-        <br/>
-
+    
         <?php 
             $userTypes = array();
             foreach (Config::get('simpleauth.groups') as $key => $value) {
@@ -61,7 +40,8 @@
              <div class="form-group">    
                 <?php echo Form::label('Registe As', 'group', array('class'=>'control-label')); ?>
                 <?php echo Form::select('group', $userTypes, $userTypes,
-                      array('class' => 'form-control'));
+                      array('class'    => 'form-control register-as',
+                            'onchange' => 'filterRegisterType()'));
                 ?>
             </div>
         <?php endif; ?>
@@ -74,6 +54,7 @@
                 array('class' => 'col-md-4 form-control', 'placeholder'=>'First Name', 'required' => '')); ?>
 
         </div>
+
         <div class="form-group">
             <?php echo Form::label('Middle Name', 'mname', array('class'=>'control-label')); ?>
 
@@ -136,13 +117,14 @@
             ?>
         </div>
 
+        
         <div class="form-group">
             <?php echo Form::label('Contact Number', 'contact', array('class'=>'control-label')); ?>
             <?php echo Form::input('contact', Input::post('contact', isset($user) ? $user->contact : ''), 
             array('class' => 'col-md-4 form-control', 'placeholder'=>'Contact Number', 'required'   => '')); ?>
 
         </div>
-   
+    
         <?php
             $courses = array();
             $course = Model_Course::find('all', array(
@@ -152,18 +134,15 @@
             foreach ($course  as $key => $value) {
                     $courses[$key]  = $value['coursename'];
                 }
+
         ?>
 
-        <div class="form-group" id="course">
-            <label for="course_id" class="col-sm-2 control-label">Course</label>
-            <div class="col-sm-10">
-                <?php
-                    echo Form::select('course_id', 0, $courses,
-                        array('class' => 'form-control'));
-                ?>
-            </div>
+        <div class="form-group course-list">
+               <?= Form::label('Course', 'course_id', array('class'=>'control-label')); ?>
+               
+                <?= Form::select('course_id', $courses, $courses,
+                    array('class' => 'form-control')); ?>
         </div>
-
         <!-- HIDDEN -->
 
 
@@ -204,3 +183,13 @@
             </div>
         </div>
 
+
+<script>
+        function filterRegisterType () {
+            var registerType = $("select.register-as option:selected").val();
+            console.log(registerType);
+                if(registerType == 50) {
+                   $('div.form-group.course-list').attr('hidden', 'true');
+                }
+            }
+</script>
