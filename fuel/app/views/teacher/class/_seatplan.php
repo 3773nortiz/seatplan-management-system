@@ -33,7 +33,7 @@
     </table>
 </div>
 
-<div class="modal fade bs-example-modal-sm" id="add-student" tabindex="-1" role="dialog" 
+<div class="modal fade bs-example-modal-sm" id="add-student" tabindex="-1" role="dialog"
 aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudentCtrl">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
@@ -53,7 +53,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
                     'onsubmit' => 'addStudentPerSeat(event)'));
                 ?>
 
-                <select class="form-control" name="select1" 
+                <select class="form-control" name="select1"
                 id="select1" ng-show="student.length > 0">
                     <option ng-repeat="student in students" value="{{student.id}}">
                         <span>{{student.fname}} {{student.mname}} {{student.lname}}</span>
@@ -103,7 +103,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
                 ?>
 
                 <div class="row">
-                    <div class="col-md-12"> 
+                    <div class="col-md-12">
                     <div class="form-group">
                         <div class="col-md-6">
                             <?php echo Form::submit('submit', 'Add', array(
@@ -145,7 +145,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
             $target.addClass('drag-over');
         }
 
-        if (!isChair && $('#' + draggedId).is('.student')) {
+        if ((!isChair && $('#' + draggedId).is('.student')) || (isChair && $('#' + draggedId).is('.chair'))) {
             $target.addClass('no-drag');
         }
 
@@ -168,7 +168,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
         }
         $target.removeClass('drag-over');
         $('#' + data).removeClass('drag-over');
-        if ($target.hasClass('no-drag') || !$target.attr('ondrop') || $target.hasClass('has-student') || (!$target.hasClass('has-chair') && $('#' + data).is('.student'))) {
+        if ($target.hasClass('no-drag') || !$target.attr('ondrop') || $target.hasClass('has-student')) {
             return false;
         }
 
