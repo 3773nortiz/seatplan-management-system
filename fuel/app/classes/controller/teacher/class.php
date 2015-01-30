@@ -29,11 +29,32 @@ class Controller_Teacher_Class extends Controller_Account
 
 			if ($val->run())
 			{
+				$chairs = Input::post('chairs');
+				$chair_plan = '';
+				$row = 'A';
+				$col = 1;
+				for ($i = 0; $i < $chairs; $i++, $col++) {
+					if ($chairs > 40 || ($chairs <= 40 && $col != 6)) {
+						if ($chair_plan) {
+							$chair_plan .= ',';
+						}
+						$chair_plan .= '"' . $row . $col . '":1';
+					} else {
+						$i--;
+					}
+
+					if ($col >= 11) {
+						$col = 0;
+						$row++;
+					}
+				}
+
 				$class = Model_Class::forge(array(
 					'class_name' => Input::post('class_name'),
 					'chairs' => Input::post('chairs'),
 					'subject_id' => Input::post('subject_id'),
 					'user_id' => Input::post('user_id'),
+					'chair_plan' => '{' . $chair_plan . '}'
 				));
 
 				if ($class and $class->save())

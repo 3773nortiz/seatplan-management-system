@@ -75,6 +75,23 @@
     cursor: pointer;
 }
 
+#seatplan td .before {
+    float: right;
+    background: rgba(255, 0, 0, 0.5);
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    /*content: "×";*/
+    color: #fff;
+    text-align: center;
+    vertical-align: top;
+    padding-bottom: 20px;
+
+    -webkit-transform: translateZ(50px);
+        -ms-transform: translateZ(50px);
+            transform: translateZ(50px);
+}
+
 #seatplan td.drag-over {
     background-color: rgba(0, 0, 255, 0.2);
 }

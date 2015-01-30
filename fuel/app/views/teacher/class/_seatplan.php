@@ -14,7 +14,7 @@
                         $hasChair = !empty($chairPlan->{$coord});
                         $hasStudent = !empty($student_seats[$coord]);
                     ?>
-                    <td ondrop="drop(event)" ondragover="allowDrop(event)" onclick="showAddStudent('<?= $coord ?>')" id="<?= $coord ?>"
+                    <td ondrop="drop(event)" ondragover="allowDrop(event)" id="<?= $coord ?>"
                         class="<?= ($hasStudent && $hasChair ? ' has-student' : '') . ($hasChair ? ' has-chair' : '') ?>"
                         onmouseover="hover(this, true)" onmouseout="hover(this, false)">
                         <?php if ($hasChair) : ?>
@@ -129,6 +129,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
     var currentSelectedChair;
     var dragFromId;
     var draggedId;
+    var chairRemoved = false;
 
     function allowDrop(ev) {
         ev.preventDefault();
@@ -204,10 +205,31 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
                 $(ele).addClass(className);
             }
         }
+
+
+        $a = $(ele).find('.before');
+        if ($(ele).hasClass('has-chair') && !$(ele).hasClass('has-student') && show && $a.length <= 0) {
+            $(ele).append('<a class="before">×</a>');
+        } else {
+            if ($($a.selector + ':hover').length <= 0) {
+                $a.remove();
+            }
+        }
+    }
+
+    function removeChair(coord) {
+        chairRemoved = true;
+
+        delete chairPlan[coord];
+        $.get(BASE_URL + USER_PREFIX + 'class/update_seatplan/<?= $class->id ?>/' + JSON.stringify(chairPlan), function (data) {
+            $td = $('#' + coord);
+            $td.find('.chair').remove();
+            $td.removeClass('has-chair');
+        });
     }
 
     function showAddStudent(coord) {
-        if (coord) {
+        if (coord && !chairRemoved) {
             if ($('#' + coord).hasClass('has-chair') && !$('#' + coord).hasClass('has-student')) {
                 $('#add-student').modal('show');
             } else if (!$('#' + coord).hasClass('has-chair')) {
@@ -217,6 +239,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
             }
         }
         currentSelectedChair = coord;
+        chairRemoved = false;
     }
 
     function attendace(stat) {
@@ -277,5 +300,13 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
 
             $('#seatplan').css('-webkit-transform','rotate3d(' + tiltx + ', ' + tilty + ', 0, ' + degree + 'deg)');
         });
+
+        $('#seatplan')
+            .on('click', '.before', function (e) {
+                removeChair($(this).closest('td').attr('id'));
+            })
+            .on('click', 'td', function () {
+                showAddStudent(this.id);
+            });
     });
 </script>
