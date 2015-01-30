@@ -21,6 +21,7 @@ class Model_Studentclass extends \Orm\Model
 		),
 	);
 
+
 	public static function validate($factory)
 	{
 		$val = Validation::forge($factory);

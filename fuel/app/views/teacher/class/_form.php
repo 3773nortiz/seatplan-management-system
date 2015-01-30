@@ -17,13 +17,26 @@
 						array('class' => 'col-md-4 form-control', 'placeholder'=>'No. of Chairs')); ?>
 
 				</div>
-				<div class="form-group" hidden>
-					<?php echo Form::label('Subject id', 'subject_id', array('class'=>'control-label')); ?>
 
-						<?php echo Form::input('subject_id', Input::post('subject_id', isset($class) ? $class->subject_id : 0), 
-						array('class' => 'col-md-4 form-control', 'placeholder'=>'Subject id')); ?>
+				 <?php
+		            $subjects = array();
+		            $subject = Model_Subject::find('all', array(
+		                        'select'    => array('id', 'subject_name')
+		                        ));
 
-				</div>
+		            foreach ($subject  as $key => $value) {
+		                    $subjects[$key]  = $value['subject_name'];
+		                }
+
+		        ?>
+
+		         <div class="form-group">
+	              	 <?= Form::label('Subject', 'subject_id', array('class'=>'control-label')); ?>
+	               
+	                <?= Form::select('subject_id', $subjects, $subjects,
+	                    array('class' => 'form-control')); ?>
+       			 </div>
+       			 
 				<div class="form-group" hidden>
 					<?php echo Form::label('User id', 'user_id', array('class'=>'control-label')); ?>
 

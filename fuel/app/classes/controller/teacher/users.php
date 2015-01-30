@@ -16,7 +16,6 @@ class Controller_Teacher_Users extends Controller_Users
                 )
             )
         );
-
         // foreach ($student_list  as $key => $value) if($value['id']){
         //     $students[$value['id']]  = $value['fname'].'  '. $value['mname'][0].'.  '. $value['lname'];
         // }
@@ -24,4 +23,17 @@ class Controller_Teacher_Users extends Controller_Users
         return Format::forge($student_list)->to_json();
     }
 
+
+    public function action_index()
+    {
+        $data['users'] = Model_User::find('all', array(
+            'related' => array('studentlists' => array(
+                'where' => array(array('user_id', Auth::get('id')))
+            )),
+            'group_by' => array('id')
+        ));
+
+        $this->template->title = "Users";
+        $this->template->content = View::forge(parent::get_prefix() . 'users/index', $data);
+    }
 }

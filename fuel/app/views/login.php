@@ -1,5 +1,5 @@
 <div class="row center-block">
-	<div class=" col-md-6">
+	<div class=" col-md-4 col-md-offset-4">
 		<?php echo Form::open(array()); ?>
 
 			<?php if (isset($_GET['destination'])): ?>
@@ -30,10 +30,12 @@
 
 			<div class="actions">
 				<div class="col-md-6">
-					<?php echo Form::submit(array('value'=>'Login', 'name'=>'submit', 'class' => 'btn btn-lg btn-primary btn-block')); ?>
+					<?php echo Form::submit(array('value'=>'Login', 'name'=>'submit', 
+					'class' => 'btn btn-md btn-primary btn-block')); ?>
 				</div>
 				<div class="col-md-6">
-					<?php echo Html::anchor('account/register', 'Register', array('class' => 'btn btn-lg btn-primary btn-block',)); ?>
+					<?php echo Html::anchor('account/register', 'Register', array(
+					'class' => 'btn btn-md btn-primary btn-block',)); ?>
 				</div>
 			</div>
 

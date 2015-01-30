@@ -5,7 +5,7 @@ class Controller_Teacher_Class extends Controller_Account
 	public function action_index()
 	{
 		$data['classes'] = Model_Class::find('all');
-		$this->template->title = "Classes";
+		$this->template->title = "Class";
 		$this->template->content = View::forge(parent::get_prefix() . 'class/index', $data);
 
 	}
@@ -59,7 +59,7 @@ class Controller_Teacher_Class extends Controller_Account
 
 				if ($class and $class->save())
 				{
-					Session::set_flash('success', e('Added class #'.$class->id.'.'));
+					Session::set_flash('success', e('Added class '.$class->name.'.'));
 
 					Response::redirect(parent::get_prefix() . 'class');
 				}
@@ -75,7 +75,7 @@ class Controller_Teacher_Class extends Controller_Account
 			}
 		}
 
-		$this->template->title = "Classes";
+		$this->template->title = "Class";
 		$this->template->content = View::forge(parent::get_prefix() . 'class/create');
 
 	}
@@ -94,14 +94,14 @@ class Controller_Teacher_Class extends Controller_Account
 
 			if ($class->save())
 			{
-				Session::set_flash('success', e('Updated class #' . $id));
+				Session::set_flash('success', e('Updated class' . $class->class_name));
 
 				Response::redirect(parent::get_prefix() . 'class');
 			}
 
 			else
 			{
-				Session::set_flash('error', e('Could not update class #' . $id));
+				Session::set_flash('error', e('Could not update class' . $class->class_name));
 			}
 		}
 
@@ -124,7 +124,7 @@ class Controller_Teacher_Class extends Controller_Account
 		$data['students'] = Controller_Teacher_Users::get_all_students();
 		$data['class'] = $class;
 
-		$this->template->title = "Classes";
+		$this->template->title = "Class";
 		$this->template->content = View::forge(parent::get_prefix() . 'class/edit', $data);
 
 	}
@@ -135,7 +135,7 @@ class Controller_Teacher_Class extends Controller_Account
 		{
 			$class->delete();
 
-			Session::set_flash('success', e('Deleted class #'.$id));
+			Session::set_flash('success', e('Deleted class'.$class->class_name));
 		}
 
 		else

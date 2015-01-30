@@ -9,7 +9,9 @@ class Controller_Base extends Controller_Template
 
 		// Assign current_user to the instance so controllers can use it
 		$this->current_user = Auth::check()
-			? (Config::get('auth.driver', 'Simpleauth') == 'Ormauth' ? Model\Auth_User::find_by_username(Auth::get_screen_name()) : Model_User::find_by_username(Auth::get_screen_name()))
+			? (Config::get('auth.driver', 'Simpleauth') == 'Ormauth' 
+				? Model\Auth_User::find_by_username(Auth::get_screen_name()) 
+				: Model_User::find_by_username(Auth::get_screen_name()))
 			: null;
 
 		// Set a global variable so views can use it
@@ -30,9 +32,12 @@ class Controller_Base extends Controller_Template
 
 	public static function is_black_listed($file) {
 		if(Auth::member(100)){
+			if ($file == "studentclass"){
+				return true;
+			}
 
 		} else if (Auth::member(50)) {
-			if ($file == "studentclass"){
+			if ($file == "studentclass" || $file == "attendance"){
 				return true;
 			}
 
@@ -44,6 +49,6 @@ class Controller_Base extends Controller_Template
 
 		return false;
 	}
-
+	
 	
 }

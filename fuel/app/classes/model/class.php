@@ -34,4 +34,16 @@ class Model_Class extends \Orm\Model
 		return $val;
 	}
 
+	public static function getSubjectName($id) {
+
+		$subjects = DB::select('subject_name')
+					->from('subjects')
+					->where('id', '=', $id)
+					->execute();
+					
+		$subject = $subjects->current();
+		
+		return $subject['subject_name'];
+	}
+
 }

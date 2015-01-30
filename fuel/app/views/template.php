@@ -3,13 +3,13 @@
 <head>
 	<meta charset="utf-8">
 	<title><?php echo $title; ?></title>
-	<?php echo Asset::css([
-		'bootstrap.css',
+	<?php echo Asset::css(array(
+		'bootstrap.min.css',
+		'datepicker3.css',
 		'fileinput.min.css',
-		// 'http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css',
 		'fm.selectator.jquery.css',
 		'styles.css'
-	]); ?>
+	)); ?>
 	<style>
 		body { margin: 50px; }
 	</style>
@@ -23,18 +23,18 @@
 
 	<?php echo Asset::js(array(
 		'jquery.min.js',
-		'bootstrap.js',
-		'http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js',
+		'bootstrap.min.js',
+		'bootstrap-datepicker.js',
 		'fm.selectator.jquery.js',
 		'angular.min.js',
 		'angular/addstudentctrl.js',
-		'fileinput.js'
+		'fileinput.min.js'
 	)); ?>
 
 	<script>
 		$(function(){
 			$('.topbar').dropdown();
-			// $(".fileinput").fileinput();
+			$('.datepicker').datepicker();
 		});
 	</script>
 </head>
@@ -122,7 +122,7 @@
 				<?php if($current_user && $title == 'Dashboard'): ?>
 					<div class="col-md-4">
 						<?= Asset::img('../../uploads/'.$current_user->prof_pic, array(
-				            'class' => 'img-responsive',
+				            'class' => 'img-responsive img-thumbnail',
 				            'width' => '200px',
 				        	)); ?>
 						<h4>
@@ -130,6 +130,7 @@
 					            $current_user->mname[0].'.&nbsp;&nbsp'.
 					            $current_user->lname .'<br/>'.
 					            $current_user->email .'<br/>'.
+					            Date::forge($current_user->bdate)->format("%B %d, %Y", true) . '<br/>' .
 					           	Config::get('gender')[$current_user->gender] . '<br/>' .
 					           	$current_user->address .' <br/> '.
 					           	$current_user->contact;
@@ -144,11 +145,7 @@
 		</div>
 		<hr/>
 		<footer>
-			<p class="pull-right">Page rendered in {exec_time}s using {mem_usage}mb of memory.</p>
-			<p>
-				<a href="http://fuelphp.com">FuelPHP</a> is released under the MIT license.<br>
-				<small>Version: <?php echo e(Fuel::VERSION); ?></small>
-			</p>
+			
 		</footer>
 	</div>
 </body>

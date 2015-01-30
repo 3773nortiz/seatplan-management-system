@@ -90,20 +90,26 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">, 
+        <div class="form-group">
             <?php echo Form::label('Address', 'address', array('class'=>'control-label')); ?>
 
                 <?php echo Form::input('address', Input::post('address', isset($user) ? $user->address : ''), 
                 array('class' => 'col-md-4 form-control', 'placeholder'=>'Address', 'required'  => '')); ?>
 
-        </div>
+        </div>  
+
         <div class="form-group">
             <?php echo Form::label('Birth Date', 'bdate', array('class'=>'control-label')); ?>
-
-                <?php echo Form::input('bdate', Input::post('bdate', isset($user) ? $user->bdate : ''), 
-                array('class' => 'col-md-4 form-control', 'placeholder'=>'Birth Date', 'required'   => '')); ?>
-
+            <div class="input-group date">
+                    <?php echo Form::input('bdate', Input::post('bdate', isset($user) ? $user->bdate : ''), 
+                    array('class' => 'col-md-4 datepicker form-control', 'placeholder'=>' Birth Date', 
+                    'data-date-format' => 'mm/dd/yyyy',
+                    'required'   => '')); ?>
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+            </div>
         </div>
+
+            
 
         <?php
             $gender = Config::get('gender');

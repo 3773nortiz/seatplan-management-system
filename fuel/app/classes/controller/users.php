@@ -25,7 +25,7 @@ class Controller_Users extends Controller_Account
 		if (Input::method() == 'POST')
 		{
 			$val = Model_User::validate('create');
-
+			$_POST['bdate'] = Date::create_from_string(Input::post('bdate') , "us")->get_timestamp();
 			if ($val->run())
 			{
 				$user = Model_User::forge(array(
@@ -92,7 +92,8 @@ class Controller_Users extends Controller_Account
 	{
 		$user = Model_User::find($id);
 		$val = Model_User::validate('edit');
-
+		$user->bdate =  Date::forge($user->bdate)->format("%m/%d/%Y", true);
+		$user->password = "";
 		if ($val->run())
 		{
 			$user->fname = Input::post('fname');
@@ -100,7 +101,7 @@ class Controller_Users extends Controller_Account
 			$user->lname = Input::post('lname');
 			$user->email = Input::post('email');
 			$user->username = Input::post('username');
-			$user->password = Input::post('password');
+			$user->password = uth::instance()->hash_password(Input::post('password'));
 			$user->address = Input::post('address');
 			$user->bdate = Input::post('bdate');
 			$user->gender = Input::post('gender');

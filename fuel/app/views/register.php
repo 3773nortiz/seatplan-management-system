@@ -1,5 +1,5 @@
 <div class="row center-block">
-    <div class=" col-md-6">
+    <div class=" col-md-6 col-md-offset-3">
           <?php echo Form::open(array(
                     "class"=>"form-horizontal col-md-10 col-md-offset-1",
                     "enctype" => "multipart/form-data",

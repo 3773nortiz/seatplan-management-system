@@ -8,10 +8,11 @@
         <p>
         	<strong>No of Chairs:</strong>
         	<?php echo $class->chairs; ?></p>
-        <!-- <p>
-        	<strong>Subject id:</strong>
-        	<?php //echo $class->subject_id; ?></p>
         <p>
+        	<strong>Subject Name:</strong>
+        	<?php echo Model_Class::getSubjectName($class->subject_id); ?></p>
+
+        <!-- <p>
         	<strong>User id:</strong>
         	<?php //echo $class->user_id; ?></p> -->
     </div>
