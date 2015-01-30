@@ -59,7 +59,7 @@ class Controller_Teacher_Class extends Controller_Account
 
 				if ($class and $class->save())
 				{
-					Session::set_flash('success', e('Added class '.$class->name.'.'));
+					Session::set_flash('success', e('Added class '.$class->class_name.'.'));
 
 					Response::redirect(parent::get_prefix() . 'class');
 				}
