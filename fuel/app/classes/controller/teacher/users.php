@@ -36,4 +36,8 @@ class Controller_Teacher_Users extends Controller_Users
         $this->template->title = "Users";
         $this->template->content = View::forge(parent::get_prefix() . 'users/index', $data);
     }
+
+    public function action_get_student($id) {
+        return Format::forge(Model_User::find($id))->to_json();
+    }
 }

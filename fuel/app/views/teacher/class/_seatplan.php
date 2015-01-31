@@ -118,6 +118,60 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
                     </div>
                 </div>
                 </div>
+            <?= Form::close(); ?>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade bs-example-modal-sm" id="view-student" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="exampleModalLabel">Add Chair</h4>
+            <button class="btn btn-danger" onclick="removeStudent">Remove Student</button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-5">
+                    <?= Asset::img('../../uploads/'.$current_user->prof_pic, array(
+                        'class' => 'img-responsive img-thumbnail',
+                        'width' => 'auto',
+                        )); ?>
+                </div>
+                <div class="col-md-7">
+                    <h4 class="email"><?= $current_user->email ?></h4>
+                    <p class="bdate"><?= Date::forge($current_user->bdate)->format("%B %d, %Y", true) ?></p>
+                    <p class="gender"><?= Config::get('gender')[$current_user->gender] ?></p>
+                    <p class="address"><?= $current_user->address ?></p>
+                    <p class="contact"><?= $current_user->contact ?></p>
+                </div>
+            </div>
+            <br>
+            <div class="row action-attendance">
+                <?php
+                    foreach (Config::get('attendace_stat') as $key => $value) {
+                        echo '
+                            <div class="col-md-4 text-center">
+                                <div class="btn-holder" id="' . $value['id'] . '">
+                                    <button class="btn ' . $value['buttonStyle'] . '" data-toggle="tooltip" data-placement="top" title="' . $value['name'] . '"
+                                        onclick="setAttendance(' . $key . ')">' . $value['name'][0] . '</button>
+                                </div>
+                            </div>';
+                    }
+                ?>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <?php echo Form::submit('button', 'OK', array(
+                        'class'        => 'btn btn-primary btn-block md-close',
+                        'data-dismiss' => 'modal')); ?>
+                </div>
+            </div>
         </div>
     </div>
   </div>
@@ -126,14 +180,18 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
 <script>
     var classId  = '<?= $class->id ?>';
     var chairPlan = JSON.parse('<?= html_entity_decode($class->chair_plan ?: "{}") ?>');
+    var studentSeats = JSON.parse('<?= Format::forge($student_seats)->to_json(); ?>');
+    var attendanceStat = JSON.parse('<?= Format::forge(Config::get("attendace_stat"))->to_json() ?>');
     var currentSelectedChair;
     var dragFromId;
     var draggedId;
     var chairRemoved = false;
+    var currentViewedCoord;
 
     function allowDrop(ev) {
         ev.preventDefault();
-        $('#seatplan td.drag-over').removeClass('drag-over').removeClass('no-drag');
+        $('#seatplan td.drag-over').removeClass('drag-over');
+        $('#seatplan td.no-drag').removeClass('no-drag');
         $target = $(ev.target);
 
         var isChair = false;
@@ -154,8 +212,18 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
 
     function drag(ev) {
         ev.dataTransfer.setData("text", ev.target.id);
-        dragFromId = $(ev.target).closest('td').attr('id');
+        $target = $(ev.target);
+        dragFromId = $target.closest('td').attr('id');
         draggedId = ev.target.id;
+
+        if ($target.is('.chair')) {
+            $dragImg = $target.closest('td');
+            setTimeout(function () {
+                $dragImg.addClass('dragging');
+            }, 50);
+            $dragImg.find('.before').remove();
+            ev.dataTransfer.setDragImage($dragImg[0], ev.offsetX, ev.offsetY);
+        }
     }
 
     function drop(ev) {
@@ -168,31 +236,40 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
             $target = $target.closest('td');
         }
         $target.removeClass('drag-over');
-        $('#' + data).removeClass('drag-over');
+        $('#' + data).removeClass('drag-over').closest('td').removeClass('dragging');
         if ($target.hasClass('no-drag') || !$target.attr('ondrop') || $target.hasClass('has-student')) {
+            setTimeout(function () {
+                $target.removeClass('no-drag');
+            }, 50);
             return false;
         }
 
         if (isChair) {
             $target[0].appendChild(document.getElementById(data));
         } else {
-        ev.target.appendChild(document.getElementById(data));
+            ev.target.appendChild(document.getElementById(data));
             $('#' + data).attr('id', 'chair_' + $target.attr('id'));
         }
 
 
         if (isChair) {
-            $.get(BASE_URL + USER_PREFIX + 'studentclass/reseat_student/' + data + '/<?= $class->id ?>/' + $target.attr('id'), function () {
             $target.addClass('has-student');
             $('#' + dragFromId).removeClass('has-student');
+            studentSeats[$target.attr('id')] = studentSeats[dragFromId];
+            delete studentSeats[dragFromId];
+            $('#' + dragFromId + ' ' + '.nameTag').remove();
+
+            $.get(BASE_URL + USER_PREFIX + 'studentclass/reseat_student/' + data + '/<?= $class->id ?>/' + $target.attr('id'), function () {
+
             });
         } else {
             chairPlan[$target.attr('id')] = 1;
             delete chairPlan[dragFromId];
 
-            $.get(BASE_URL + USER_PREFIX + 'class/update_seatplan/<?= $class->id ?>/' + JSON.stringify(chairPlan), function (data) {
             $target.addClass('has-chair');
-                $('#' + dragFromId).removeClass('has-chair').html('');
+            $('#' + dragFromId).removeClass('has-chair').html('');
+            $.get(BASE_URL + USER_PREFIX + 'class/update_seatplan/<?= $class->id ?>/' + JSON.stringify(chairPlan), function (data) {
+
             });
         }
     }
@@ -215,6 +292,45 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
                 $a.remove();
             }
         }
+
+        $nameTag = $(ele).find('.nameTag');
+        var studentSeat = studentSeats[$(ele).attr('id')];
+        if ($(ele).hasClass('has-chair') && $(ele).hasClass('has-student') && show && $nameTag.length <= 0) {
+            $(ele).append('<a class="nameTag">' + studentSeat['fname'] + ' ' + studentSeat['mname'][0] + '. ' + studentSeat['lname'] + '</a>');
+        } else {
+            if ($($nameTag.selector + ':hover').length <= 0) {
+                $nameTag.remove();
+            }
+        }
+    }
+
+    function viewStudent(coord) {
+        chairRemoved = true;
+
+        currentViewedCoord = coord;
+        var studId = studentSeats[coord].user_id;
+
+        $.get(BASE_URL + USER_PREFIX + 'users/get_student/' + studId, function (data) {
+            $modal = $('#view-student');
+            var data = JSON.parse(data);
+
+            $modal.find('.modal-title').html(data.fname + ' ' + data.mname[0] + '. ' + data.lname);
+            $modal.modal('show');
+
+            console.log(data);
+
+        });
+    }
+
+    function removeStudent () {
+
+    }
+
+    function setAttendance (key) {
+        $.get(BASE_URL + USER_PREFIX + 'attendace/set_attendace/' + studentSeats[currentViewedCoord]['user_id'] + '/' + key, function (data) {
+            $('#view-student .action-attendance .btn-holder.current').removeClass('current').find('button').removeClass('disabled');
+            $('#' + attendanceStat[key].id).addClass('current').find('button').addClass('disabled');
+        });
     }
 
     function removeChair(coord) {
@@ -305,8 +421,16 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
             .on('click', '.before', function (e) {
                 removeChair($(this).closest('td').attr('id'));
             })
+            .on('click', '.nameTag', function (e) {
+                viewStudent($(this).closest('td').attr('id'));
+            })
             .on('click', 'td', function () {
                 showAddStudent(this.id);
+            })
+            .on('mousedown', '.chair', function () {
+                $(this).closest('td').removeClass('hovered');
             });
+
+        $('#view-student .action-attendance button').tooltip();
     });
 </script>
