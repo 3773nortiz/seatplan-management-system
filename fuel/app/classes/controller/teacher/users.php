@@ -33,7 +33,7 @@ class Controller_Teacher_Users extends Controller_Users
             'group_by' => array('id')
         ));
 
-        $this->template->title = "Users";
+        $this->template->title = "Students List";
         $this->template->content = View::forge(parent::get_prefix() . 'users/index', $data);
     }
 

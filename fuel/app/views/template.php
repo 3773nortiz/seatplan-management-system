@@ -57,7 +57,6 @@
 					<li class="<?php echo Uri::segment(2) == '' ? 'active' : '' ?>">
 						<?php echo Html::anchor('account', 'Dashboard');?>
 					</li>
-
 					<?php
 						$files = new GlobIterator(APPPATH.'classes/controller/' . Controller_Base::get_prefix() . '/*.php');
 						foreach($files as $file) if (!Controller_Base::is_black_listed($file->getBasename('.php')))
@@ -75,14 +74,17 @@
 				<ul class="nav navbar-nav pull-right">
 					<li class="dropdown">
 						<?php
-							$userTypes = array();
-							foreach (Config::get('simpleauth.groups') as $key => $value) {
-		                        if($key < Auth::get($current_user->group))
-		                        	$userTypes[$key] = $value['name'];
-		                    }
+							//$userTypes = array();
+							//foreach (Config::get('simpleauth.groups') as $key => $value) {
+		                    //    if($key < $current_user->group)
+		                    //    	$userTypes[$key] = $value['name'];
+		                   // }
+
+							// var_dump($current_user->group);
+							// exit();
 						?>
 
-						<a data-toggle="dropdown" class="dropdown-toggle" href="#"><?= Config::get('simpleauth.groups')[$current_user->group]['name'] ?> <b class="caret"></b></a>
+						<a data-toggle="dropdown" class="dropdown-toggle" href="#"><?= Config::get('simpleauth.groups')[$current_user->group]['name'] ?> <b class="caret"></b></a> 
 						<ul class="dropdown-menu">
 							<li>
 							<?php echo Html::anchor(Controller_Base::get_prefix() . 'users/edit/'. $current_user->id, 'Edit Profile'); ?></li>

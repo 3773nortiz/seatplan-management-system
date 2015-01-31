@@ -1,15 +1,17 @@
-        <?php if($current_user != ''): ?>
+            
+        <?php
+        if(isset($user)) :?>
             <script type="text/javascript">
                 $(function () {
                     $("#fileselect").fileinput({
                         initialPreview: [
-                            '<?= Asset::img("../../uploads/".$current_user->prof_pic, array(
+                            '<?= Asset::img("../../uploads/" .$user->prof_pic, array(
                                 "class" => "img-responsive",
                                 "width" => "200px",
                                 )); ?>',
                         ],
                         overwriteInitial: true,
-                        initialCaption: '<?=  $current_user->prof_pic; ?>'
+                        initialCaption: '<?=  $user->prof_pic; ?>'
                     });
                 });
             </script>

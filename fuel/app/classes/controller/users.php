@@ -21,7 +21,6 @@ class Controller_Users extends Controller_Account
 
 	public function action_create()
 	{
-		exit();
 		if (Input::method() == 'POST')
 		{
 			$val = Model_User::validate('create');
@@ -47,9 +46,6 @@ class Controller_Users extends Controller_Account
 					'course_id' => Input::post('course_id')
 				));
 
-				var_dump($user);
-				exit();
-
 
 			    Upload::process(Config::get('upload_prof_pic'));
 
@@ -58,15 +54,13 @@ class Controller_Users extends Controller_Account
                    	Upload::save();
 
                    	$value = Upload::get_files();
-
-                   	foreach($value as $files) {
-                        $user->prof_pic = $value[0]['saved_as'];
-                    }
+                    $user->prof_pic = $value[0]['saved_as'];
+                    
 
 
 					if ($user and $user->save())
 					{
-						// Session::set_flash('success', e('Added user #'.$user->id.'.'));
+						Session::set_flash('success', e('Added user #'.$user->id.'.'));
 						// Response::redirect(parent::get_prefix() . 'users');
 					}
 
@@ -92,8 +86,13 @@ class Controller_Users extends Controller_Account
 	{
 		$user = Model_User::find($id);
 		$val = Model_User::validate('edit');
-		$user->bdate =  Date::forge($user->bdate)->format("%m/%d/%Y", true);
-		$user->password = "";
+
+		$user->bdate = Date::forge($user->bdate)->format("%m/%d/%Y", true);
+
+		if (Input::post('bdate')) {
+			$_POST['bdate'] = Date::create_from_string(Input::post('bdate'), "us")->get_timestamp();
+		}
+
 		if ($val->run())
 		{
 			$user->fname = Input::post('fname');
@@ -101,35 +100,43 @@ class Controller_Users extends Controller_Account
 			$user->lname = Input::post('lname');
 			$user->email = Input::post('email');
 			$user->username = Input::post('username');
-			$user->password = uth::instance()->hash_password(Input::post('password'));
+			$user->password = Auth::instance()->hash_password(Input::post('password'));
 			$user->address = Input::post('address');
 			$user->bdate = Input::post('bdate');
 			$user->gender = Input::post('gender');
 			$user->contact = Input::post('contact');
-			// $user->prof_pic = Input::post('prof_pic');
-			$user->group = Input::post('group');
+			$user->prof_pic = Input::post('prof_pic') ?: $user->prof_pic;
 			$user->last_login = Input::post('last_login');
 			$user->login_hash = Input::post('login_hash');
 			$user->profile_fields = Input::post('profile_fields');
 			$user->course_id = Input::post('course_id');
+		    Upload::process(Config::get('upload_prof_pic'));
 
-			if ($user->save())
-			{
-				Session::set_flash('success', e('Succesfully Updated' . $id));
+			if (Upload::is_valid() || $user->prof_pic) {
+	           	
+	           	Upload::save();
+	           	$value = Upload::get_files();
 
-				Response::redirect(parent::get_prefix() . 'users/edit');
-			}
+	           	if (sizeof($value) > 0) {
+	            	$user->prof_pic = $value[0]['saved_as'];
+	           	}
 
-			else
-			{
-				Session::set_flash('error', e('Could not update user #' . $id));
-			}
+	            if ($user->save()) {
+					Session::set_flash('success', e('You Succesfully Updated your Profile'));
+					Response::redirect('account');
+				}
+				else
+				{
+
+					Session::set_flash('error', e('Could not update user #' . $id));
+				}
+	        }
 		}
 
 		else
 		{
 			if (Input::method() == 'POST')
-			{
+			{	
 				$user->fname = $val->validated('fname');
 				$user->mname = $val->validated('mname');
 				$user->lname = $val->validated('lname');
@@ -141,7 +148,7 @@ class Controller_Users extends Controller_Account
 				$user->gender = $val->validated('gender');
 				$user->contact = $val->validated('contact');
 				$user->prof_pic = $val->validated('prof_pic');
-				$user->group = $val->validated('group');
+				// $user->group = $val->validated('group');
 				$user->last_login = $val->validated('last_login');
 				$user->login_hash = $val->validated('login_hash');
 				$user->profile_fields = $val->validated('profile_fields');
@@ -155,11 +162,9 @@ class Controller_Users extends Controller_Account
 
 		$this->template->title = "Edit Profile";
 		$this->template->content = View::forge('edit_profile');
-
 	}
 
-	public function action_delete($id = null)
-	{
+	public function action_delete($id = null) {
 		if ($user = Model_User::find($id))
 		{
 			$user->delete();

@@ -32,7 +32,8 @@ class Controller_Base extends Controller_Template
 
 	public static function is_black_listed($file) {
 		if(Auth::member(100)){
-			if ($file == "studentclass"){
+			if ($file == "studentclass" || $file == "attendance" || $file == "class" ||
+				$file == "users"){
 				return true;
 			}
 
@@ -50,5 +51,15 @@ class Controller_Base extends Controller_Template
 		return false;
 	}
 	
-	
+	public static function getBaseName($base_name) {
+		if(Auth::member(100)){
+
+		} else if (Auth::member(50)) {
+			if($base_name == "users") {
+				return "student";
+			}
+		} elseif (Auth::member(1)) {
+		}
+
+	}
 }
