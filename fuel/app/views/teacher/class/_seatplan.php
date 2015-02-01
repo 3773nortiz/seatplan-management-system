@@ -132,7 +132,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
                 <span aria-hidden="true">&times;</span>
             </button>
             <h4 class="modal-title" id="exampleModalLabel">Add Chair</h4>
-            <button class="btn btn-danger" onclick="removeStudent">Remove Student</button>
+            <button class="btn btn-danger" onclick="removeStudent()">Remove Student</button>
         </div>
         <div class="modal-body">
             <div class="row">
@@ -152,17 +152,14 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
             </div>
             <br>
             <div class="row action-attendance">
-                <?php
-                    foreach (Config::get('attendace_stat') as $key => $value) {
-                        echo '
-                            <div class="col-md-4 text-center">
-                                <div class="btn-holder" id="' . $value['id'] . '">
-                                    <button class="btn ' . $value['buttonStyle'] . '" data-toggle="tooltip" data-placement="top" title="' . $value['name'] . '"
-                                        onclick="setAttendance(' . $key . ')">' . $value['name'][0] . '</button>
-                                </div>
-                            </div>';
-                    }
-                ?>
+                <?php foreach (Config::get('attendace_stat') as $key => $value): ?>
+                    <div class="col-md-4 text-center">
+                        <div class="btn-holder" id="<?= $value['id'] ?>">
+                            <button class="btn <?= $value['buttonStyle'] ?>" data-toggle="tooltip" data-placement="top" title="<?= $value['name'] ?>"
+                                onclick="setAttendance('<?= $key ?>')"><?= $value['name'][0] ?></button>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
             <br>
             <div class="row">
@@ -315,6 +312,13 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
             var data = JSON.parse(data);
 
             $modal.find('.modal-title').html(data.fname + ' ' + data.mname[0] + '. ' + data.lname);
+            $modal.find('.action-attendance .btn-holder.current').removeClass('current')
+                .find('button').removeClass('disabled');
+            if (studentSeats[coord].status) {
+                console.log(attendanceStat[studentSeats[coord].status].id);
+                $modal.find('.action-attendance .btn-holder#' + attendanceStat[studentSeats[coord].status].id).addClass('current')
+                    .find('button').addClass('disabled');
+            }
             $modal.modal('show');
 
             console.log(data);
@@ -323,13 +327,20 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
     }
 
     function removeStudent () {
-
+        $.get(BASE_URL + USER_PREFIX + 'studentclass/reseat_student/' + studentSeats[currentViewedCoord]['user_id'] + '/<?= $class->id ?>', function () {
+            $('#' + currentViewedCoord).removeClass('has-student');
+            delete studentSeats[currentViewedCoord];
+            $('#' + currentViewedCoord + ' ' + '.nameTag').remove();
+            $('#' + currentViewedCoord + ' ' + '.student').remove();
+            $('#view-student').modal('hide');
+        });
     }
 
     function setAttendance (key) {
-        $.get(BASE_URL + USER_PREFIX + 'attendace/set_attendace/' + studentSeats[currentViewedCoord]['user_id'] + '/' + key, function (data) {
+        $.get(BASE_URL + USER_PREFIX + 'attendance/set_attendace/' + studentSeats[currentViewedCoord]['id'] + '/' + key, function (data) {
             $('#view-student .action-attendance .btn-holder.current').removeClass('current').find('button').removeClass('disabled');
             $('#' + attendanceStat[key].id).addClass('current').find('button').addClass('disabled');
+            studentSeats[currentViewedCoord].status = key;
         });
     }
 
@@ -401,6 +412,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
     }
 
     $(function () {
+        console.log(studentSeats);
         $('#select1').selectator();
 
         $('body').mousemove(function(event) {

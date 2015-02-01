@@ -137,7 +137,7 @@ class Controller_Teacher_Studentclass extends Controller_Base
 
 	}
 
-	public function action_reseat_student($student_id, $class_id, $seat) {
+	public function action_reseat_student($student_id, $class_id, $seat = null) {
 		$student = Model_Studentclass::find('first', [
 			'where'	=> [
 				['user_id', $student_id],
@@ -145,15 +145,22 @@ class Controller_Teacher_Studentclass extends Controller_Base
 			]
 		]);
 
-		$student->seat = $seat;
-		return $student->save();
+		if ($seat) {
+			$student->seat = $seat;
+			return $student->save();
+		} else {
+			return $student->delete();
+		}
+
 	}
 
 	public static function get_student_seats($class_id) {
-		return DB::select(Model_Studentclass::table() . '.id', 'user_id', 'fname', 'mname', 'lname', 'seat', 'gender')
+		return DB::select(Model_Studentclass::table() . '.id', 'user_id', 'fname', 'mname', 'lname', 'seat', 'gender', 'status')
 			->from(Model_Studentclass::table())
-			->where('class_id', $class_id)
 			->join(Model_User::table(), 'INNER')->on('user_id', '=', Model_User::table() . '.id')
+				->on('class_id', '=', DB::escape($class_id))
+			->join(Model_Attendance::table(), 'LEFT')->on('studentclass_id', '=', Model_Studentclass::table() . '.id')
+				->on(DB::expr('UNIX_TIMESTAMP() - ' . Model_Attendance::table() . '.updated_at'), '<=', DB::escape(Config::get('attendace_delay')))
 			->group_by('user_id')
 			->execute()
 			->as_array('seat');

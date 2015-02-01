@@ -115,13 +115,13 @@ class Controller_Teacher_Attendance extends Controller_Account
     }
 
     public function action_set_attendace ($studClassId, $status) {
-        $attendance = Model_Attendance::query()
-            ->where(DB::expr('UNIX_TIMESTAMP() - updated_at'), '<=', 24 * 3600)
-            ->where('studentclass_id', $studClassId)
-            ->limit(1)
-            ->order_by(['updated_at' => 'desc'])
-            ->as_object('Model_Attendance')
-            ->get();
+        $attendance = Model_Attendance::find('first', [
+            'or_where'  => [
+                [DB::expr('UNIX_TIMESTAMP() - updated_at'), '<=', Config::get('attendace_delay')],
+            ],
+            'where'     => [['studentclass_id', $studClassId]],
+            'order_by'  => ['updated_at' => 'desc']
+        ]);
 
         if (!$attendance) {
             $attendance = Model_Attendance::forge([

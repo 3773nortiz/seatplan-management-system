@@ -344,4 +344,6 @@ return array(
                       ]
                 ),
 
+    'attendace_delay'   => 24 * 3600
+
 );
