@@ -67,8 +67,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
                     <div class="form-group">
                         <div class="col-md-6">
                             <?php echo Form::submit('submit', 'Add', array(
-                                'class'    => 'btn btn-primary add-student-action',
-                                'ng-click' => 'removeStudent()'));
+                                'class'    => 'btn btn-primary add-student-action'));
                             ?>
                         </div>
                         <div class="col-md-6">
@@ -329,9 +328,10 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
     function removeStudent () {
         $.get(BASE_URL + USER_PREFIX + 'studentclass/reseat_student/' + studentSeats[currentViewedCoord]['user_id'] + '/<?= $class->id ?>', function () {
             $('#' + currentViewedCoord).removeClass('has-student');
-            delete studentSeats[currentViewedCoord];
             $('#' + currentViewedCoord + ' ' + '.nameTag').remove();
             $('#' + currentViewedCoord + ' ' + '.student').remove();
+            angular.element('[ng-controller="AddStudentCtrl"]').scope().removeStudent(studentSeats[currentViewedCoord]);
+            delete studentSeats[currentViewedCoord];
             $('#view-student').modal('hide');
         });
     }
@@ -380,7 +380,10 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
                 $selectedChair = $('#' + currentSelectedChair);
                 $selectedChair.closest('td').addClass('has-student');
                 $selectedChair.append('<div draggable="true" ondragstart="drag(event)" id="' + data.id + '" ' +
-                    'class="' + data.gender + ' student"></div>');
+                    'class="' + data.genderStr + ' student"></div>');
+                console.log(data);
+                studentSeats[currentSelectedChair] = data;
+                angular.element('[ng-controller="AddStudentCtrl"]').scope().addStudent(studentId);
                 $('#add-student').modal('hide');
             });
 

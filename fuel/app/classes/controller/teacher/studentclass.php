@@ -128,7 +128,15 @@ class Controller_Teacher_Studentclass extends Controller_Base
 			$student = Model_User::find($user_id);
 			$data = [
 				'id'		=> $studentclass->id,
-				'gender'	=> Config::get('gender')[$student->gender]
+				'fname'		=> $student->fname,
+				'mname'		=> $student->mname,
+				'lname'		=> $student->lname,
+				'gender'	=> $student->gender,
+				'seat'		=> $seat,
+				'status'	=> null,
+				'gender'	=> $student->gender,
+				'genderStr'	=> Config::get('gender')[$student->gender],
+				'user_id'	=> $student->id
 			];
 			return json_encode($data);
 		}
