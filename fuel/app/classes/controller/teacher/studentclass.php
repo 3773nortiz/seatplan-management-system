@@ -135,7 +135,6 @@ class Controller_Teacher_Studentclass extends Controller_Base
 				'seat'		=> $seat,
 				'status'	=> null,
 				'gender'	=> $student->gender,
-				'genderStr'	=> Config::get('gender')[$student->gender],
 				'user_id'	=> $student->id
 			];
 			return json_encode($data);

@@ -18,6 +18,7 @@
 		var BASE_URL = '<?= Config::get("base_url") ?>';
 		var USER_PREFIX = '<?= Controller_Base::get_prefix(); ?>';
 		var USER_GROUP = '<?= json_encode(Auth::get("group"));?>';
+		var IMAGES_PATH = '<?= Config::get("images_path") ?>';
 	</script>
 
 

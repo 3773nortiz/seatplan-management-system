@@ -344,6 +344,7 @@ return array(
                       ]
                 ),
 
-    'attendace_delay'   => 24 * 3600
+    'attendace_delay'   => 24 * 3600,
+    'images_path'       => 'assets/img/'
 
 );

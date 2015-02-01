@@ -178,6 +178,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
     var chairPlan = JSON.parse('<?= html_entity_decode($class->chair_plan ?: "{}") ?>');
     var studentSeats = JSON.parse('<?= Format::forge($student_seats)->to_json(); ?>');
     var attendanceStat = JSON.parse('<?= Format::forge(Config::get("attendace_stat"))->to_json() ?>');
+    var gender = JSON.parse('<?= Format::forge(Config::get("gender"))->to_json() ?>');
     var currentSelectedChair;
     var dragFromId;
     var draggedId;
@@ -318,6 +319,18 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
                 $modal.find('.action-attendance .btn-holder#' + attendanceStat[studentSeats[coord].status].id).addClass('current')
                     .find('button').addClass('disabled');
             }
+            console.log(data);
+            $modal.find('.img-thumbnail').attr('src', BASE_URL + IMAGES_PATH + data.prof_pic);
+            $modal.find('.email').html(data.email);
+            $modal.find('.bdate').html(new Date(data.bdate * 1000).toLocaleDateString('en-US', {
+                timeZone: "UTC",
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            }));
+            $modal.find('.gender').html(gender[data.gender]);
+            $modal.find('.address').html(data.address);
+            $modal.find('.contact').attr(data.contact);
             $modal.modal('show');
 
             console.log(data);
@@ -380,7 +393,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
                 $selectedChair = $('#' + currentSelectedChair);
                 $selectedChair.closest('td').addClass('has-student');
                 $selectedChair.append('<div draggable="true" ondragstart="drag(event)" id="' + data.id + '" ' +
-                    'class="' + data.genderStr + ' student"></div>');
+                    'class="' + gender[data.gender] + ' student"></div>');
                 console.log(data);
                 studentSeats[currentSelectedChair] = data;
                 angular.element('[ng-controller="AddStudentCtrl"]').scope().addStudent(studentId);
