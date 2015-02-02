@@ -1,3 +1,11 @@
+<?php if ($scenario != 'edit') : ?>
+<style type="text/css">
+    #seatplan td .before {
+        display: none;
+    }
+</style>
+<?php endif; ?>
+
 <div class="col-md-12" id="seatplan-parent">
     <table class="table table-bordered" id="seatplan">
         <?php
@@ -14,18 +22,18 @@
                         $hasChair = !empty($chairPlan->{$coord});
                         $hasStudent = !empty($student_seats[$coord]);
                     ?>
-                    <td ondrop="drop(event)" ondragover="allowDrop(event)" id="<?= $coord ?>"
+                    <td <?= $scenario == 'edit' ? 'ondrop="drop(event)" ondragover="allowDrop(event)"' : '' ?> id="<?= $coord ?>"
                         class="<?= ($hasStudent && $hasChair ? ' has-student' : '') . ($hasChair ? ' has-chair' : '') ?>"
                         onmouseover="hover(this, true)" onmouseout="hover(this, false)">
                         <?php if ($hasChair) : ?>
-                            <div draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" class="chair" id="chair_<?= $coord ?>">
+                            <div <?= $scenario == 'edit' ? 'draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"' : '' ?> class="chair" id="chair_<?= $coord ?>">
                             </div>
                         <?php endif ?>
                         <?php if ($hasChair && $hasStudent) : ?>
-                                <div draggable="true" ondragstart="drag(event)" id="<?= $student_seats[$coord]['user_id'] ?>"
-                            class="<?= Config::get('gender')[$student_seats[$coord]['gender']] ?> student">
-                                </div>
-                            <?php endif; ?>
+                            <div <?= $scenario == 'edit' ? 'draggable="true" ondragstart="drag(event)"' : '' ?> id="<?= $student_seats[$coord]['user_id'] ?>"
+                                class="<?= Config::get('gender')[$student_seats[$coord]['gender']] ?> student">
+                            </div>
+                        <?php endif; ?>
                     </td>
                 <?php endfor; ?>
                 </tr>
@@ -130,8 +138,10 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="modal-title" id="exampleModalLabel">Add Chair</h4>
+            <h4 class="modal-title <?= $scenario == 'edit' ? 'pull-left' : '' ?>" id="exampleModalLabel">Add Chair</h4>
+            <?php if ($scenario == 'edit') : ?>
             <button class="btn btn-danger" onclick="removeStudent()">Remove Student</button>
+            <?php endif; ?>
         </div>
         <div class="modal-body">
             <div class="row">
@@ -272,6 +282,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
     }
 
     function hover(ele, show) {
+        <?php if ($scenario == 'edit') : ?>
         if (!$(ele).hasClass('has-student') && !$(ele).hasClass('no-drag')) {
             var className = 'hovered';
             $('#seatplan td.hovered').removeClass(className);
@@ -289,6 +300,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
                 $a.remove();
             }
         }
+        <?php endif; ?>
 
         $nameTag = $(ele).find('.nameTag');
         var studentSeat = studentSeats[$(ele).attr('id')];
@@ -437,8 +449,9 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
             dx = event.pageX - cx;
             dy = event.pageY - cy;
 
-            tiltx = (dy / cy);
-            tilty = - (dx / cx);
+            var factor = .55;
+            tiltx = (dy / cy) * factor;
+            tilty = - (dx / cx) * factor;
             radius = Math.sqrt(Math.pow(tiltx,2) + Math.pow(tilty,2));
             degree = (radius * 20);
 
@@ -452,9 +465,11 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
             .on('click', '.nameTag', function (e) {
                 viewStudent($(this).closest('td').attr('id'));
             })
+            <?php if ($scenario == 'edit') : ?>
             .on('click', 'td', function () {
                 showAddStudent(this.id);
             })
+            <?php endif; ?>
             .on('mousedown', '.chair', function () {
                 $(this).closest('td').removeClass('hovered');
             });

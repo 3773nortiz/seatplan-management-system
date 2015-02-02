@@ -15,6 +15,7 @@ class Controller_Teacher_Class extends Controller_Account
 		$data['class'] = Model_Class::find($id);
 		$data['student_seats'] = Controller_Teacher_Studentclass::get_student_seats($id);
 		//$data['students'] = Controller_Teacher_Users::get_all_students_not_in($id);
+		$data['scenario'] = 'view';
 
 		$this->template->title = "Class";
 		$this->template->content = View::forge(parent::get_prefix() . 'class/view', $data);
@@ -121,8 +122,9 @@ class Controller_Teacher_Class extends Controller_Account
 		}
 
 		$data['student_seats'] = Controller_Teacher_Studentclass::get_student_seats($id);
-		$data['students'] = Controller_Teacher_Users::get_all_students();
+		// $data['students'] = Controller_Teacher_Users::get_all_students();
 		$data['class'] = $class;
+		$data['scenario'] = 'edit';
 
 		$this->template->title = "Class";
 		$this->template->content = View::forge(parent::get_prefix() . 'class/edit', $data);
