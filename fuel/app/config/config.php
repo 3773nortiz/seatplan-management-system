@@ -342,11 +342,6 @@ return array(
                         'buttonStyle'   => 'btn-danger',
                         'id'            => 'btn-attendance-a'
                       ],
-                      4 => [
-                         'name'          => 'No Attendance',
-                         'buttonStyle'   => 'btn-default',
-                         'id'            => 'btn-attendance-na'
-                      ]
                 ),
 
     'attendace_delay'   => 24 * 3600,
