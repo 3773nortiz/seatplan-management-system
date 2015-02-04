@@ -138,7 +138,7 @@
 					            $current_user->email .'<br/>'.
 					            Date::forge($current_user->bdate)->format("%B %d, %Y", true) . '<br/>' .
 					           	Config::get('gender')[$current_user->gender] . '<br/>' .
-					           	Model_Yearlevel::getStudentYearLevel($current_user->yearlevel_id) . '<br/>'.
+					           	($current_user->yearlevel_id > 0 ? (Model_Yearlevel::getStudentYearLevel($current_user->yearlevel_id) . '<br/>') : '') . 
 					           	$current_user->address .' <br/> '.
 					           	$current_user->contact;
 					           	?>

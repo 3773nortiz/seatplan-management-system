@@ -40,7 +40,7 @@ class Model_Yearlevel extends \Orm\Model
 			)
 		));
 
-		return $levelname->level;
+		return $levelname ? $levelname->level : null;
 	}
 
 }
