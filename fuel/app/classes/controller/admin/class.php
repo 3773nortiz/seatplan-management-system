@@ -6,7 +6,7 @@ class Controller_Admin_Class extends Controller_Users
 	{
 		$data['classes'] = Model_Class::find('all');
 		$this->template->title = "Classes";
-		$this->template->content = View::forge('admin/class/index', $data);
+		$this->template->content = View::forge(parent::get_prefix() . 'class/index', $data);
 
 	}
 
@@ -15,7 +15,7 @@ class Controller_Admin_Class extends Controller_Users
 		$data['class'] = Model_Class::find($id);
 
 		$this->template->title = "Class";
-		$this->template->content = View::forge('admin/class/view', $data);
+		$this->template->content = View::forge(parent::get_prefix() . 'class/view', $data);
 
 	}
 
@@ -38,7 +38,7 @@ class Controller_Admin_Class extends Controller_Users
 				{
 					Session::set_flash('success', e('Added class #'.$class->id.'.'));
 
-					Response::redirect('admin/class');
+					Response::redirect(parent::get_prefix() . 'class');
 				}
 
 				else
@@ -53,7 +53,7 @@ class Controller_Admin_Class extends Controller_Users
 		}
 
 		$this->template->title = "Classes";
-		$this->template->content = View::forge('admin/class/create');
+		$this->template->content = View::forge(parent::get_prefix() . 'class/create');
 
 	}
 
@@ -73,7 +73,7 @@ class Controller_Admin_Class extends Controller_Users
 			{
 				Session::set_flash('success', e('Updated class #' . $id));
 
-				Response::redirect('admin/class');
+				Response::redirect(parent::get_prefix() . 'class');
 			}
 
 			else
@@ -98,7 +98,7 @@ class Controller_Admin_Class extends Controller_Users
 		}
 
 		$this->template->title = "Classes";
-		$this->template->content = View::forge('admin/class/edit');
+		$this->template->content = View::forge(parent::get_prefix() . 'class/edit');
 
 	}
 
@@ -116,7 +116,7 @@ class Controller_Admin_Class extends Controller_Users
 			Session::set_flash('error', e('Could not delete class #'.$id));
 		}
 
-		Response::redirect('admin/class');
+		Response::redirect(parent::get_prefix() . 'class');
 
 	}
 

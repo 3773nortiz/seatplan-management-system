@@ -15,7 +15,7 @@
 
 			<td><?php echo $item->class_name; ?></td>
 			<td><?php echo $item->chairs; ?></td>
-			<td><?php echo Model_Class::getSubjectName($item->subject_id); ?></p></td>
+			<td><?php echo $item->getSubjectName();?></p></td>
 			<!-- <td><?php //echo $item->user_id; ?></td> -->
 			<td>
 				<?php echo Html::anchor(Controller_Base::get_prefix() . 'class/view/'.$item->id, 'View'); ?> |

@@ -19,9 +19,9 @@
 			<td><?php echo $item->subject_id; ?></td>
 			<td><?php echo $item->user_id; ?></td>
 			<td>
-				<?php echo Html::anchor('admin/class/view/'.$item->id, 'View'); ?> |
-				<?php echo Html::anchor('admin/class/edit/'.$item->id, 'Edit'); ?> |
-				<?php echo Html::anchor('admin/class/delete/'.$item->id, 'Delete', array('onclick' => "return confirm('Are you sure?')")); ?>
+				<?php echo Html::anchor(Controller_Base::get_prefix() . 'class/view/'.$item->id, 'View'); ?> |
+				<?php echo Html::anchor(Controller_Base::get_prefix() . 'class/edit/'.$item->id, 'Edit'); ?> |
+				<?php echo Html::anchor(Controller_Base::get_prefix() . 'class/delete/'.$item->id, 'Delete', array('onclick' => "return confirm('Are you sure?')")); ?>
 
 			</td>
 		</tr>
@@ -32,6 +32,6 @@
 <p>No Classes.</p>
 
 <?php endif; ?><p>
-	<?php echo Html::anchor('admin/class/create', 'Add new Class', array('class' => 'btn btn-success')); ?>
+	<?php echo Html::anchor(Controller_Base::get_prefix() . 'class/create', 'Add new Class', array('class' => 'btn btn-success')); ?>
 
 </p>

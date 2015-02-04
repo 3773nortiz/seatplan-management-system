@@ -13,9 +13,9 @@
 
 			<td><?php echo $item->subject_name; ?></td>
 			<td>
-				<?php echo Html::anchor('admin/subject/view/'.$item->id, 'View'); ?> |
-				<?php echo Html::anchor('admin/subject/edit/'.$item->id, 'Edit'); ?> |
-				<?php echo Html::anchor('admin/subject/delete/'.$item->id, 'Delete', array('onclick' => "return confirm('Are you sure?')")); ?>
+				<?php echo Html::anchor(Controller_Base::get_prefix() . 'subject/view/'.$item->id, 'View'); ?> |
+				<?php echo Html::anchor(Controller_Base::get_prefix() . 'subject/edit/'.$item->id, 'Edit'); ?> |
+				<?php echo Html::anchor(Controller_Base::get_prefix() . 'subject/delete/'.$item->id, 'Delete', array('onclick' => "return confirm('Are you sure?')")); ?>
 
 			</td>
 		</tr>
@@ -26,6 +26,6 @@
 <p>No Subjects.</p>
 
 <?php endif; ?><p>
-	<?php echo Html::anchor('admin/subject/create', 'Add new Subject', array('class' => 'btn btn-success')); ?>
+	<?php echo Html::anchor(Controller_Base::get_prefix() . 'subject/create', 'Add new Subject', array('class' => 'btn btn-success')); ?>
 
 </p>

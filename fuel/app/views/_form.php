@@ -145,6 +145,13 @@
 
         ?>
 
+        <div class="form-group"> 
+                <?= Form::label('Year Level', 'yearlevel_id', array('class'=>'control-label')); ?>              
+                <?= Form::select('yearlevel_id', 0, Arr::assoc_to_keyval(Model_Yearlevel::getYearLevel(), 'id', 'level'),
+                    array('class'    => 'form-control')); ?>
+        </div>
+
+
         <div class="form-group course-list">
                <?= Form::label('Course', 'course_id', array('class'=>'control-label')); ?>
                

@@ -341,6 +341,11 @@ return array(
                         'name'          => 'Absent',
                         'buttonStyle'   => 'btn-danger',
                         'id'            => 'btn-attendance-a'
+                      ],
+                      4 => [
+                         'name'          => 'No Attendance',
+                         'buttonStyle'   => 'btn-default',
+                         'id'            => 'btn-attendance-na'
                       ]
                 ),
 

@@ -1,7 +1,7 @@
 <h2>New Class</h2>
 <br>
 
-<?php echo render('admin/class/_form'); ?>
+<?php echo render(Controller_Base::get_prefix() . 'class/_form'); ?>
 
 
-<p><?php echo Html::anchor('admin/class', 'Back'); ?></p>
+<p><?php echo Html::anchor(Controller_Base::get_prefix() . 'class', 'Back'); ?></p>

@@ -5,7 +5,7 @@ class Controller_Admin_Course extends Controller_Admin{
 	{
 		$data['courses'] = Model_Course::find('all');
 		$this->template->title = "Courses";
-		$this->template->content = View::forge('admin\course/index', $data);
+		$this->template->content = View::forge('admin/course/index', $data);
 
 	}
 
@@ -14,7 +14,7 @@ class Controller_Admin_Course extends Controller_Admin{
 		$data['course'] = Model_Course::find($id);
 
 		$this->template->title = "Course";
-		$this->template->content = View::forge('admin\course/view', $data);
+		$this->template->content = View::forge(parent::get_prefix() . 'course/view', $data);
 
 	}
 
@@ -49,7 +49,7 @@ class Controller_Admin_Course extends Controller_Admin{
 		}
 
 		$this->template->title = "Courses";
-		$this->template->content = View::forge('admin\course/create');
+		$this->template->content = View::forge(parent::get_prefix() . 'course/create');
 
 	}
 
@@ -88,7 +88,7 @@ class Controller_Admin_Course extends Controller_Admin{
 		}
 
 		$this->template->title = "Courses";
-		$this->template->content = View::forge('admin\course/edit');
+		$this->template->content = View::forge(parent::get_prefix() . 'course/edit');
 
 	}
 

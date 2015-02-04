@@ -13,5 +13,5 @@
 	<strong>User id:</strong>
 	<?php echo $class->user_id; ?></p>
 
-<?php echo Html::anchor('admin/class/edit/'.$class->id, 'Edit'); ?> |
-<?php echo Html::anchor('admin/class', 'Back'); ?>
+<?php echo Html::anchor(Controller_Base::get_prefix() . 'class/edit/'.$class->id, 'Edit'); ?> |
+<?php echo Html::anchor(Controller_Base::get_prefix() . 'class', 'Back'); ?>

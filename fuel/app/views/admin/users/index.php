@@ -41,9 +41,9 @@
 			<td><?php echo $item->login_hash; ?></td>
 			<td><?php echo $item->profile_fields; ?></td>
 			<td>
-				<?php echo Html::anchor('admin/users/view/'.$item->id, 'View'); ?> |
-				<?php echo Html::anchor('admin/users/edit/'.$item->id, 'Edit'); ?> |
-				<?php echo Html::anchor('admin/users/delete/'.$item->id, 'Delete', array('onclick' => "return confirm('Are you sure?')")); ?>
+				<?php echo Html::anchor(Controller_Base::get_prefix() . 'users/view/'.$item->id, 'View'); ?> |
+				<?php echo Html::anchor(Controller_Base::get_prefix() . 'users/edit/'.$item->id, 'Edit'); ?> |
+				<?php echo Html::anchor(Controller_Base::get_prefix() . 'users/delete/'.$item->id, 'Delete', array('onclick' => "return confirm('Are you sure?')")); ?>
 
 			</td>
 		</tr>
@@ -54,6 +54,6 @@
 <p>No Users.</p>
 
 <?php endif; ?><p>
-	<?php echo Html::anchor('admin/users/create', 'Add new User', array('class' => 'btn btn-success')); ?>
+	<?php echo Html::anchor(Controller_Base::get_prefix() . 'users/create', 'Add new User', array('class' => 'btn btn-success')); ?>
 
 </p>

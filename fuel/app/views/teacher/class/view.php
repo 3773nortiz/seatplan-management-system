@@ -10,7 +10,7 @@
         	<?php echo $class->chairs; ?></p>
         <p>
         	<strong>Subject Name:</strong>
-        	<?php echo Model_Class::getSubjectName($class->subject_id); ?></p>
+        	<?php echo $class->getSubjectName(); ?></p>
 
         <!-- <p>
         	<strong>User id:</strong>

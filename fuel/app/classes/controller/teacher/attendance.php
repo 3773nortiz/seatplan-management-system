@@ -5,7 +5,7 @@ class Controller_Teacher_Attendance extends Controller_Account
     public function action_index()
     {
         $data['attendances'] = Model_Attendance::find('all');
-        $this->template->title = "Attendances";
+        $this->template->title = "Attendance";
         $this->template->content = View::forge(parent::get_prefix() . 'attendance/index', $data);
 
     }
@@ -134,6 +134,23 @@ class Controller_Teacher_Attendance extends Controller_Account
         }
 
         return $attendance->save();
+    }
+
+    /**
+    * @param $fromDate, $toDate mm-dd-yy
+    *
+    */
+    public function action_get_attendances ($class_id, $fromDate, $toDate) {
+
+        return Format::forge(DB::select(Model_Studentclass::table() . '.id', 'user_id', 'fname', 'mname', 'lname', 'status')
+            ->from(Model_Studentclass::table())
+            ->join(Model_User::table(), 'INNER')->on('user_id', '=', Model_User::table() . '.id')
+                ->on('class_id', '=', DB::escape($class_id))
+            ->join(Model_Attendance::table(), 'LEFT')->on('studentclass_id', '=', Model_Studentclass::table() . '.id')
+                ->on(Model_Attendance::table() . '.updated_at', 'BETWEEN', DB::escape($fromDate) .  ' AND ' . DB::escape($toDate))
+            ->group_by('user_id')
+            ->execute())->to_json();
+
     }
 
 }

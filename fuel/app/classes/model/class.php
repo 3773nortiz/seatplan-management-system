@@ -34,16 +34,20 @@ class Model_Class extends \Orm\Model
 		return $val;
 	}
 
-	public static function getSubjectName($id) {
+	public function getSubjectName() {
 
-		$subjects = DB::select('subject_name')
-					->from('subjects')
-					->where('id', '=', $id)
-					->execute();
-					
-		$subject = $subjects->current();
-		
-		return $subject['subject_name'];
+		$subjects = Model_Subject::find('first', array(
+			'where' => array(
+				array('id', $this->subject_id)
+			)
+		));
+
+		return $subjects->subject_name;
+	}
+
+	public static function getClassName() {
+		$class = static::find('all');
+		return $class;
 	}
 
 }

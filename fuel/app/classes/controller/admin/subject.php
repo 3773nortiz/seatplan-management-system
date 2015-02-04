@@ -6,7 +6,7 @@ class Controller_Admin_Subject extends Controller_Admin
 	{
 		$data['subjects'] = Model_Subject::find('all');
 		$this->template->title = "Subjects";
-		$this->template->content = View::forge('admin/subject/index', $data);
+		$this->template->content = View::forge(parent::get_prefix() . 'subject/index', $data);
 
 	}
 
@@ -15,7 +15,7 @@ class Controller_Admin_Subject extends Controller_Admin
 		$data['subject'] = Model_Subject::find($id);
 
 		$this->template->title = "Subject";
-		$this->template->content = View::forge('admin/subject/view', $data);
+		$this->template->content = View::forge(parent::get_prefix() . 'subject/view', $data);
 
 	}
 
@@ -35,7 +35,7 @@ class Controller_Admin_Subject extends Controller_Admin
 				{
 					Session::set_flash('success', e('Added subject #'.$subject->id.'.'));
 
-					Response::redirect('admin/subject');
+					Response::redirect(parent::get_prefix() . 'subject');
 				}
 
 				else
@@ -50,7 +50,7 @@ class Controller_Admin_Subject extends Controller_Admin
 		}
 
 		$this->template->title = "Subjects";
-		$this->template->content = View::forge('admin/subject/create');
+		$this->template->content = View::forge(parent::get_prefix() . 'subject/create');
 
 	}
 
@@ -67,7 +67,7 @@ class Controller_Admin_Subject extends Controller_Admin
 			{
 				Session::set_flash('success', e('Updated subject #' . $id));
 
-				Response::redirect('admin/subject');
+				Response::redirect(parent::get_prefix() . 'subject');
 			}
 
 			else
@@ -89,7 +89,7 @@ class Controller_Admin_Subject extends Controller_Admin
 		}
 
 		$this->template->title = "Subjects";
-		$this->template->content = View::forge('admin/subject/edit');
+		$this->template->content = View::forge(parent::get_prefix() . 'subject/edit');
 
 	}
 
@@ -107,7 +107,7 @@ class Controller_Admin_Subject extends Controller_Admin
 			Session::set_flash('error', e('Could not delete subject #'.$id));
 		}
 
-		Response::redirect('admin/subject');
+		Response::redirect(parent::get_prefix() . 'subject');
 
 	}
 

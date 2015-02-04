@@ -4,5 +4,5 @@
 	<strong>Coursename:</strong>
 	<?php echo $course->coursename; ?></p>
 
-<?php echo Html::anchor('admin/course/edit/'.$course->id, 'Edit'); ?> |
-<?php echo Html::anchor('admin/course', 'Back'); ?>
+<?php echo Html::anchor(Controller_Base::get_prefix() . 'course/edit/'.$course->id, 'Edit'); ?> |
+<?php echo Html::anchor(Controller_Base::get_prefix() . 'course', 'Back'); ?>

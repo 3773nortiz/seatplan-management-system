@@ -43,7 +43,8 @@ class Controller_Users extends Controller_Account
 					'last_login' => Input::post('last_login'),
 					'login_hash' => Input::post('login_hash'),
 					'profile_fields' => Input::post('profile_fields'),
-					'course_id' => Input::post('course_id')
+					'course_id' => Input::post('course_id'),
+					'yearlevel_id' => Input::post('yearlevel_id')
 				));
 
 
@@ -110,6 +111,7 @@ class Controller_Users extends Controller_Account
 			$user->login_hash = Input::post('login_hash');
 			$user->profile_fields = Input::post('profile_fields');
 			$user->course_id = Input::post('course_id');
+			$user->yearlevel_id = Input::post('yearlevel_id');
 		    Upload::process(Config::get('upload_prof_pic'));
 
 			if (Upload::is_valid() || $user->prof_pic) {
@@ -153,7 +155,7 @@ class Controller_Users extends Controller_Account
 				$user->login_hash = $val->validated('login_hash');
 				$user->profile_fields = $val->validated('profile_fields');
 				$user->course_id = $val->validated('course_id');
-
+				$user->yearlevel_id = $val->validated('yearlevel_id');
 				Session::set_flash('error', $val->error());
 			}
 

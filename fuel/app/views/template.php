@@ -19,6 +19,7 @@
 		var USER_PREFIX = '<?= Controller_Base::get_prefix(); ?>';
 		var USER_GROUP = '<?= json_encode(Auth::get("group"));?>';
 		var IMAGES_PATH = '<?= Config::get("images_path") ?>';
+		var ATTENDANCE = JSON.parse('<?= Format::forge(Config::get("attendace_stat"))->to_json() ?>');
 	</script>
 
 
@@ -29,6 +30,7 @@
 		'fm.selectator.jquery.js',
 		'angular.min.js',
 		'angular/addstudentctrl.js',
+		'angular/studentattendancectrl.js',
 		'fileinput.min.js'
 	)); ?>
 
@@ -36,6 +38,7 @@
 		$(function(){
 			$('.topbar').dropdown();
 			$('.datepicker').datepicker();
+			
 		});
 	</script>
 </head>
@@ -135,6 +138,7 @@
 					            $current_user->email .'<br/>'.
 					            Date::forge($current_user->bdate)->format("%B %d, %Y", true) . '<br/>' .
 					           	Config::get('gender')[$current_user->gender] . '<br/>' .
+					           	Model_Yearlevel::getStudentYearLevel($current_user->yearlevel_id) . '<br/>'.
 					           	$current_user->address .' <br/> '.
 					           	$current_user->contact;
 					           	?>
