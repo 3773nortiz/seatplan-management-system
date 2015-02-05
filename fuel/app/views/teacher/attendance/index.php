@@ -42,6 +42,5 @@
 	<p>No Attendances.</p>
 
 	<?php endif; ?><p>
-		<?php echo Html::anchor(Controller_Base::get_prefix() . 'attendance/create', 'Add new Attendance', array('class' => 'btn btn-success')); ?>
 	</p>
 </div>

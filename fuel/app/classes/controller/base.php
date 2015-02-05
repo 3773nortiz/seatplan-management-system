@@ -38,7 +38,7 @@ class Controller_Base extends Controller_Template
 			}
 
 		} else if (Auth::member(50)) {
-			if ($file == "studentclass" || $file == "attendance"){
+			if ($file == "studentclass"){
 				return true;
 			}
 

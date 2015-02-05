@@ -1,7 +1,7 @@
 (function() {
     'use strict';
          angular
-            .module('spmsapp', [])
+            .module('spmsapp')
             .controller('StudentAttendanceCtrl', StudentAttendanceCtrl);
 
     function StudentAttendanceCtrl($scope) {
