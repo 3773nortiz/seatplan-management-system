@@ -6,10 +6,15 @@
 	<?php echo Asset::css(array(
 		'bootstrap.min.css',
 		'datepicker3.css',
-		'fileinput.min.css',
 		'fm.selectator.jquery.css',
-		'styles.css'
+		'theme.css',
+		'skins/default.css',
+		'theme-custom.css',
+		'fileinput.min.css',
+		'styles.css',
 	)); ?>
+
+	<link rel="stylesheet" href="<?php echo Config::get('base_url') . 'assets/vendor/font-awesome/css/font-awesome.css'; ?>" />
 	<style>
 		body { margin: 50px; }
 	</style>
@@ -22,16 +27,21 @@
 		var ATTENDANCE = JSON.parse('<?= Format::forge(Config::get("attendace_stat"))->to_json() ?>');
 	</script>
 
+	
+	<script src="<?php echo Config::get('base_url') . 'assets/vendor/modernizr/modernizr.js'; ?>"></script>
 
 	<?php echo Asset::js(array(
 		'jquery.min.js',
 		'bootstrap.min.js',
 		'bootstrap-datepicker.js',
 		'fm.selectator.jquery.js',
+		'theme.js',
+		'theme.custom.js',
+		'theme.init.js',
 		'angular.min.js',
 		'angular/addstudentctrl.js',
 		'angular/studentattendancectrl.js',
-		'fileinput.min.js'
+		'fileinput.min.js',
 	)); ?>
 
 	<script>
@@ -87,7 +97,7 @@
 							// exit();
 						?>
 
-						<a data-toggle="dropdown" class="dropdown-toggle" href="#"><?= Config::get('simpleauth.groups')[$current_user->group]['name'] ?> <b class="caret"></b></a> 
+						<a data-toggle="dropdown" class="dropdown-toggle" href="#"><?= Config::get('simpleauth.groups')[$current_user->group]['name']; ?> <b class="caret"></b></a> 
 						<ul class="dropdown-menu">
 							<li>
 							<?php echo Html::anchor(Controller_Base::get_prefix() . 'users/edit/'. $current_user->id, 'Edit Profile'); ?></li>
@@ -126,24 +136,42 @@
 			<div class="col-md-12">
 				<div class="row">
 				<?php if($current_user && $title == 'Dashboard'): ?>
-					<div class="col-md-4">
-						<?= Asset::img('../../uploads/'.$current_user->prof_pic, array(
-				            'class' => 'img-responsive img-thumbnail',
-				            'width' => '200px',
-				        	)); ?>
-						<h4>
-					            <?= $current_user->fname.'&nbsp;&nbsp'.
-					            $current_user->mname[0].'.&nbsp;&nbsp'.
-					            $current_user->lname .'<br/>'.
-					            $current_user->email .'<br/>'.
-					            Date::forge($current_user->bdate)->format("%B %d, %Y", true) . '<br/>' .
-					           	Config::get('gender')[$current_user->gender] . '<br/>' .
-					           	($current_user->yearlevel_id > 0 ? (Model_Yearlevel::getStudentYearLevel($current_user->yearlevel_id) . '<br/>') : '') . 
-					           	$current_user->address .' <br/> '.
-					           	$current_user->contact;
-					           	?>
-				        </h4>
+					<div class="col-md-3">
+						<section class="panel">
+							<div class="panel-body">
+								<div class="thumb-info mb-md">
+									<?= Asset::img('../../uploads/'.$current_user->prof_pic, array(
+						            'class' => 'img-responsive rounded'
+						        	)); ?>
+									<div class="thumb-info-title">
+										<span class="thumb-info-inner">
+											<?= $current_user->fname.'&nbsp;&nbsp'.
+									            $current_user->mname[0].'.&nbsp;&nbsp'.
+									            $current_user->lname; ?>
+										</span>
+										<span class="thumb-info-type">
+											<?= Config::get('simpleauth.groups')[$current_user->group]['name']; ?>
+										</span>
+									</div>
+								</div>
+
+
+								<hr class="dotted short"/>
+								<h5 class="text-muted">About</h5>
+								<div class="widget-toggle-expand mb-md">
+									<ul class="simple-todo-list">
+										<li><?= $current_user->email; ?></li>
+										<li><?= Date::forge($current_user->bdate)->format("%B %d, %Y", true); ?></li>
+										<li><?= Config::get('gender')[$current_user->gender];?></li>
+										<li><?= ($current_user->yearlevel_id > 0 ? (Model_Yearlevel::getStudentYearLevel($current_user->yearlevel_id)) : ''); ?></li>
+										<li><?= $current_user->address; ?></li>
+										<li><?= $current_user->contact; ?></li>
+									</ul>
+								</div>
+							</div>
+						</section>
 					</div>
+				
 				<?php endif; ?>
 
 				<?php echo $content; ?>
@@ -157,3 +185,4 @@
 	</div>
 </body>
 </html>
+
