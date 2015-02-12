@@ -42,7 +42,7 @@ class Model_Class extends \Orm\Model
 			)
 		));
 
-		return '';
+		return $subjects->subject_name;
 	}
 
 	public static function getClassName() {
