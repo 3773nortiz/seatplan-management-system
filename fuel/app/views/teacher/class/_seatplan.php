@@ -12,7 +12,7 @@
             $yCoord = 'A';
             $chairPlan = json_decode(html_entity_decode($class->chair_plan ?: '{}'));
         ?>
-        <?php for($x = 0; $x < Config::get('number_of_seat') / 10; $x++, $yCoord++): ?>
+        <?php for($x = 0; $x < Config::get('number_of_seat') / 8; $x++, $yCoord++): ?>
                 <tr>
                 <?php $xCoord = 1; ?>
                 <?php for($y = 0; $y < 11; $y++, $xCoord++): ?>

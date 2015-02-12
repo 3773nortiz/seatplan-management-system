@@ -27,7 +27,7 @@ class Model_Class extends \Orm\Model
 	{
 		$val = Validation::forge($factory);
 		$val->add_field('class_name', 'Class Name', 'required|max_length[50]');
-		$val->add_field('chairs', 'Chairs', 'required|valid_string[numeric]|numeric_between[0, 44]');
+		$val->add_field('chairs', 'Chairs', 'required|valid_string[numeric]|numeric_between[0, 99]');
 		$val->add_field('subject_id', 'Subject Id', 'required|valid_string[numeric]');
 		$val->add_field('user_id', 'User Id', 'required|valid_string[numeric]');
 

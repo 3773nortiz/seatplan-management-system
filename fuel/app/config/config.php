@@ -313,7 +313,7 @@ return array(
     ),
 
 
-    'number_of_seat' => 40,
+    'number_of_seat' => 72,
 
     'upload_prof_pic' => array(
                         'path' => DOCROOT.'uploads',

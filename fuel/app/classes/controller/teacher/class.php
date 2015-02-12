@@ -35,7 +35,7 @@ class Controller_Teacher_Class extends Controller_Account
 				$row = 'A';
 				$col = 1;
 				for ($i = 0; $i < $chairs; $i++, $col++) {
-					if ($chairs > 40 || ($chairs <= 40 && $col != 6)) {
+					if ($chairs > Config::get('number_of_seat') || ($chairs <= Config::get('number_of_seat') && !in_array($col, [1, 6, 11]))) {
 						if ($chair_plan) {
 							$chair_plan .= ',';
 						}
@@ -152,7 +152,9 @@ class Controller_Teacher_Class extends Controller_Account
 	public function action_update_seatplan($class_id, $new_seatplan)
 	{
 		$class = Model_Class::find($class_id);
-		$class->chair_plan = htmlspecialchars_decode($new_seatplan);
+		$new_seatplan = htmlspecialchars_decode($new_seatplan);
+		$class->chairs = sizeof(explode(',', $new_seatplan));
+		$class->chair_plan = $new_seatplan;
 		return $class->save();
 	}
 
