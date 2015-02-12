@@ -5,7 +5,7 @@
             .controller('StudentAttendanceCtrl', StudentAttendanceCtrl);
 
     function StudentAttendanceCtrl($scope) {
-      var class_id;  
+      var class_id;
       $scope.studLists = [];
       $scope.noStudent;
 
@@ -50,7 +50,7 @@
                   $scope.noStudent = "No Student";
                 }
                 $scope.studLists = [];
-                
+
               });
           }
         });
@@ -58,7 +58,7 @@
       };
 
 
-      $scope.getClassValue = function () {     
+      $scope.getClassValue = function () {
         class_id = $('select[name="class_id"] option:selected').val();
       };
 
@@ -70,7 +70,7 @@
 
       };
 
-    };
+    }
 
 })();
 

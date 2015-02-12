@@ -38,7 +38,7 @@
 		$(function(){
 			$('.topbar').dropdown();
 			$('.datepicker').datepicker();
-			
+
 		});
 	</script>
 </head>
@@ -87,7 +87,7 @@
 							// exit();
 						?>
 
-						<a data-toggle="dropdown" class="dropdown-toggle" href="#"><?= Config::get('simpleauth.groups')[$current_user->group]['name'] ?> <b class="caret"></b></a> 
+						<a data-toggle="dropdown" class="dropdown-toggle" href="#"><?= Config::get('simpleauth.groups')[$current_user->group]['name'] ?> <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li>
 							<?php echo Html::anchor(Controller_Base::get_prefix() . 'users/edit/'. $current_user->id, 'Edit Profile'); ?></li>
@@ -138,7 +138,7 @@
 					            $current_user->email .'<br/>'.
 					            Date::forge($current_user->bdate)->format("%B %d, %Y", true) . '<br/>' .
 					           	Config::get('gender')[$current_user->gender] . '<br/>' .
-					           	($current_user->yearlevel_id > 0 ? (Model_Yearlevel::getStudentYearLevel($current_user->yearlevel_id) . '<br/>') : '') . 
+					           	($current_user->yearlevel_id > 0 ? (Model_Yearlevel::getStudentYearLevel($current_user->yearlevel_id) . '<br/>') : '') .
 					           	$current_user->address .' <br/> '.
 					           	$current_user->contact;
 					           	?>
