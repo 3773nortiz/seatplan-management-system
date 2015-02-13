@@ -404,7 +404,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
                 data = JSON.parse(data);
                 $selectedChair = $('#' + currentSelectedChair);
                 $selectedChair.closest('td').addClass('has-student');
-                $selectedChair.append('<div draggable="true" ondragstart="drag(event)" id="' + data.id + '" ' +
+                $selectedChair.append('<div draggable="true" ondragstart="drag(event)" id="' + data.user_id + '" ' +
                     'class="' + gender[data.gender] + ' student"></div>');
                 console.log(data);
                 studentSeats[currentSelectedChair] = data;
