@@ -7,7 +7,7 @@ class Add_yearlevel_id_to_users
 	public function up()
 	{
 		\DBUtil::add_fields('users', array(
-			'yearlevel_id' => array('constraint' => 11, 'type' => 'int'),
+			'yearlevel_id' => array('constraint' => 11, 'type' => 'int', 'unsigned' => true),
 
 		));
 	}
