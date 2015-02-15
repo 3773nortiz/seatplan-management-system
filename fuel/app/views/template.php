@@ -47,8 +47,7 @@
 	<script>
 		$(function(){
 			$('.topbar').dropdown();
-			$('.datepicker').datepicker();
-			
+			$('.datepicker').datepicker();		
 		});
 	</script>
 </head>
@@ -149,9 +148,13 @@
 									            $current_user->mname[0].'.&nbsp;&nbsp'.
 									            $current_user->lname; ?>
 										</span>
-										<span class="thumb-info-type">
-											<?= Config::get('simpleauth.groups')[$current_user->group]['name']; ?>
-										</span>
+										<?php
+											if($current_user->group == 50) {
+												echo '<span class="thumb-info-type">'. Config::get('simpleauth.groups')[$current_user->group]['name']. '</span>';
+											} else if ($current_user->group == 1) {
+												echo '<span class="thumb-info-type">'. $current_user->idnum  . '</span>';
+											}
+										?>
 									</div>
 								</div>
 

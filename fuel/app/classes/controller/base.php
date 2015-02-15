@@ -32,8 +32,7 @@ class Controller_Base extends Controller_Template
 
 	public static function is_black_listed($file) {
 		if(Auth::member(100)){
-			if ($file == "studentclass" || $file == "attendance" || $file == "class" ||
-				$file == "users"){
+			if ($file == "studentclass" || $file == "attendance" || $file == "class"){
 				return true;
 			}
 

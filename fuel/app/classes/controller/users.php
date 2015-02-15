@@ -21,10 +21,14 @@ class Controller_Users extends Controller_Account
 
 	public function action_create()
 	{
+		var_dump(Date::forge(Input::post('bdate'))->format("%B %d, %Y", true));
+		exit();
 		if (Input::method() == 'POST')
 		{
 			$val = Model_User::validate('create');
 			$_POST['bdate'] = Date::create_from_string(Input::post('bdate') , "us")->get_timestamp();
+			// $_POST['yearlevel_id'] = '0';
+			// $_POST['course_id'] = '0';
 			if ($val->run())
 			{
 				$user = Model_User::forge(array(
@@ -33,18 +37,19 @@ class Controller_Users extends Controller_Account
 					'lname' => Input::post('lname'),
 					'email' => Input::post('email'),
 					'username' => Input::post('username'),
-					'password' => Input::post('password'),
+					'password' => Auth::instance()->hash_password(Input::post('password')),
 					'address' => Input::post('address'),
 					'bdate' => Input::post('bdate'),
 					'gender' => Input::post('gender'),
 					'contact' => Input::post('contact'),
-					'prof_pic' => Input::post('prof_pic'),
+					'prof_pic' => Input::post('prof_pic') ?: 'ic_avatar.jpg',
 					'group' => Input::post('group'),
 					'last_login' => Input::post('last_login'),
 					'login_hash' => Input::post('login_hash'),
 					'profile_fields' => Input::post('profile_fields'),
 					'course_id' => Input::post('course_id'),
-					'yearlevel_id' => Input::post('yearlevel_id')
+					'yearlevel_id' => Input::post('yearlevel_id'),
+					'idnum' => Input::post('idnum')
 				));
 
 
@@ -61,8 +66,8 @@ class Controller_Users extends Controller_Account
 
 					if ($user and $user->save())
 					{
-						Session::set_flash('success', e('Added user #'.$user->id.'.'));
-						// Response::redirect(parent::get_prefix() . 'users');
+						Session::set_flash('success', e('Succesfully Added teacher'));
+						Response::redirect(parent::get_prefix() . 'users');
 					}
 
 					else
@@ -112,6 +117,7 @@ class Controller_Users extends Controller_Account
 			$user->profile_fields = Input::post('profile_fields');
 			$user->course_id = Input::post('course_id');
 			$user->yearlevel_id = Input::post('yearlevel_id');
+			$user->idnum = Input::post('idnum');
 		    Upload::process(Config::get('upload_prof_pic'));
 
 			if (Upload::is_valid() || $user->prof_pic) {
@@ -156,6 +162,7 @@ class Controller_Users extends Controller_Account
 				$user->profile_fields = $val->validated('profile_fields');
 				$user->course_id = $val->validated('course_id');
 				$user->yearlevel_id = $val->validated('yearlevel_id');
+				$user->idnum = $val->validated('idnum');
 				Session::set_flash('error', $val->error());
 			}
 

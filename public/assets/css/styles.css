@@ -178,3 +178,10 @@ div#selectator_select1 {
 }
 
 
+.btn.btn-primary.btn-file {
+    width: 132px;
+}
+
+.thumb-info-title {
+    background: rgba(36, 27, 28, 0.5) !important;
+}

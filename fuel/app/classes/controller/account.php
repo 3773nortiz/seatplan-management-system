@@ -126,7 +126,8 @@ class Controller_Account extends Controller_Base
 					'login_hash' => Input::post('login_hash'),
 					'profile_fields' => Input::post('profile_fields'),
 					'course_id' => Input::post('course_id'),
-					'yearlevel_id' => Input::post('yearlevel_id')
+					'yearlevel_id' => Input::post('yearlevel_id'),
+					'idnum' => Input::post('idnum')
 				));
 
 				

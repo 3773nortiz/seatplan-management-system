@@ -39,7 +39,7 @@
         ?>
         
         <?php if ($action != 'edit'): ?>
-             <div class="form-group">    
+             <div class="form-group" hidden>    
                 <?php echo Form::label('Registe As', 'group', array('class'=>'control-label')); ?>
                 <?php echo Form::select('group', $userTypes, $userTypes,
                       array('class'    => 'form-control register-as',
@@ -48,6 +48,14 @@
             </div>
         <?php endif; ?>
        
+         <div class="form-group">
+            <?php echo Form::label('Student ID Number', 'idnum', array('class'=>'control-label')); ?>
+
+                <?php echo Form::input('idnum', Input::post('idnum', isset($user) ? $user->idnum : ''), 
+                array('class' => 'col-md-4 form-control', 'placeholder'=>'Student ID Number', 'required' => '')); ?>
+
+        </div>
+
 
         <div class="form-group">
             <?php echo Form::label('First Name', 'fname', array('class'=>'control-label')); ?>

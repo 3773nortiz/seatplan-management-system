@@ -1,7 +1,13 @@
-<h2>New User</h2>
-<br>
 
-<?php echo render(Controller_Base::get_prefix() . 'users/_form'); ?>
+<div class="row center-block">
+    <div class=" col-md-6 col-md-offset-3">
+          <?php echo Form::open(array(
+                    "class"=>"form-horizontal col-md-10 col-md-offset-1",
+                    "enctype" => "multipart/form-data",
+                    'action' => 'admin/users/create')); 
+            ?>
+                <?= View::forge(Controller_Base::get_prefix() . 'users/_form', ['action' => 'register']); ?>
 
-
-<p><?php echo Html::anchor(Controller_Base::get_prefix() . 'users', 'Back'); ?></p>
+            <?php echo Form::close(); ?>       
+    </div>
+</div>

@@ -146,12 +146,10 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
         <div class="modal-body">
             <div class="row">
                 <div class="col-md-5">
-                    <?= Asset::img('../../uploads/'.$current_user->prof_pic, array(
-                        'class' => 'img-responsive img-thumbnail',
-                        'width' => 'auto',
-                        )); ?>
+                    <img clas="img-responsive img-thumbnail img-responsive" width="200" src="<?= Config::get('base_url').'uploads/'. $current_user->prof_pic ?>" />
                 </div>
                 <div class="col-md-7">
+                    <h4 class="idnum"><?= $current_user->idnum ?></h4>
                     <h4 class="email"><?= $current_user->email ?></h4>
                     <p class="bdate"><?= Date::forge($current_user->bdate)->format("%B %d, %Y", true) ?></p>
                     <p class="gender"><?= Config::get('gender')[$current_user->gender] ?></p>
