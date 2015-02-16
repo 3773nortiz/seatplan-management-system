@@ -4,7 +4,7 @@
 			<div class="input-daterange input-group" id="datepicker">
 			    <input type="text" class="input-sm form-control" name="start" />
 				<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-			    <!-- 
+			    <!--
 			    <span class="input-group-addon">to</span>
 			    <input type="text" class="input-sm form-control" name="end" />
 			    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
@@ -12,10 +12,9 @@
 		</div>
 
 		<div class="col-md-6 pull-right">
-			<div class="form-group course-list">		       
+			<div class="form-group course-list">
 			        <?= Form::select('class_id', 0, Arr::assoc_to_keyval(Model_Class::getClassName(), 'id', 'class_name'),
-			            array('class'    => 'form-control',
-			            	  'ngChange' => 'getClassValue()')); ?>
+			            array('class'    => 'form-control')); ?>
 			</div>
 		</div>
 	</div>
