@@ -153,4 +153,24 @@ class Controller_Teacher_Attendance extends Controller_Account
 
     }
 
+    public function action_faker ($limit = 10) {
+        $studentclasses = Model_Studentclass::find('all');
+        $data = '';
+
+        for ($x = 0; $x < $limit; $x++) {
+            foreach ($studentclasses as $key => $studentclass) {
+                $attendance = new Model_Attendance();
+                $attendance->status = rand(1, 3);
+                $attendance->studentclass_id = $studentclass->id;
+                if ($attendance->save(true)) {
+                    $attendance->updated_at = time() + $x * 86400;
+                    DB::query("UPDATE attendances SET updated_at = $attendance->updated_at WHERE id = $attendance->id")->execute();
+                }
+
+                $data .= Format::forge($attendance)->to_json();
+            }
+        }
+        return $data;
+    }
+
 }
