@@ -40,4 +40,7 @@ class Controller_Teacher_Users extends Controller_Users
     public function action_get_student($id) {
         return Format::forge(Model_User::find($id))->to_json();
     }
+    
 }
+
+
