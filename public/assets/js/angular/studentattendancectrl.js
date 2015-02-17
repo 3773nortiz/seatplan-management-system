@@ -46,9 +46,6 @@
                             var parsed = JSON.parse(data);
                          if(data.length > 0) {
                             for (var key in parsed) {
-                                    if(parsed[key].status == null) {
-                                        parsed[key].status = 4;
-                                    }
                                 $scope.studLists.push(parsed[key]);
                                 $scope.$digest($scope.studLists);
                             }
@@ -67,9 +64,14 @@
             };
 
             $scope.getStatusValue = function (status) {
-
-                var attendance = ATTENDANCE[status].name;
-
+                var attendance;
+                console.log(status);
+                if(status == 4) {
+                   attendance =  ATTENDANCE[status].name = "NO Attendance";
+                } else {
+                    attendance = ATTENDANCE[status].name;
+                }
+                
                 return attendance;
 
             };

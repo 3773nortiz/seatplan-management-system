@@ -14,7 +14,7 @@ Theme Version:  1.3.0
         function GraphAttendanceCtrl($scope) {
         
         $scope.yearLists = [];
-        $scope.month = [
+        $scope.months = [
             'January',
             'February',
             'March',
@@ -28,92 +28,182 @@ Theme Version:  1.3.0
             'November',
             'December'
         ];
+
+        $scope.status = {
+            '1' : {
+                'label': "Present", 
+                'color': "#0088cc"
+                },
+            '2' : {
+                'label': "Late", 
+                'color': "#ed9c28"
+            },
+            '3' : {
+                'label': "Absent" , 
+                'color': "#E36159"
+            }
+        };
         
-        $scope.morrisBarData = [{
-                y: $scope.month[0],
-                a: 10,
-                b: 30
-            }, {
-                y: $scope.month[1],
-                a: 100,
-                b: 25
-            }, {
-                y: $scope.month[2],
-                a: 60,
-                b: 25
-            }, {
-                y: $scope.month[3],
-                a: 75,
-                b: 35
-            }  ];
+        $scope.morrisBarData = [];
+        $scope.flotPieData = [];
+        $scope.morrisDonutData = [];
+        $scope.morrisStackedData = [];
 
-            // {
-            //     y: '2008',
-            //     a: 90,
-            //     b: 20
-            // }, {
-            //     y: '2009',
-            //     a: 75,
-            //     b: 15
-            // }, {
-            //     y: '2010',
-            //     a: 50,
-            //     b: 10
-            // }, {
-            //     y: '2011',
-            //     a: 75,
-            //     b: 25
-            // }, {
-            //     y: '2012',
-            //     a: 30,
-            //     b: 10
-            // }, {
-            //     y: '2013',
-            //     a: 75,
-            //     b: 5
-            // }, {
-            //     y: '2014',
-            //     a: 60,
-            //     b: 8
-            // }
+        var class_id, year_list, year;   
 
-            $scope.init = function() {
+         $(function () {
+            $scope.getAttendance();
+            $scope.pieChart();
+            $('#form_year_list').on('change', function (e) {
+               $scope.getAttendance();
+               $scope.pieChart();
+            });
+            $('#form_class_id').on('change', function (e) {
+               $scope.getAttendance();
+               $scope.pieChart();
+            });
+        });
 
-                var d = new Date();
-                var n = d.getFullYear();
-                
-                for (var i = n; i <= 2019; i++) {
-                    $scope.yearLists.push(i);
-                }
 
-                console.log($scope.yearLists);
+        $scope.init = function() {
+
+            var d = new Date();
+            var n = d.getFullYear();
+            
+            for (var i = n; i <= 2019; i++) {
+                $scope.yearLists.push(i);
+            }
+
+        };
+
+        $scope.getAttendance = function () {   
+            class_id = $('select[name="class_id"] option:selected').val();
+            year_list = $('select[name="year_list"] option:selected').val();
+            $('#morrisBar').html('');
+
+            $.get(BASE_URL + USER_PREFIX + 'attendance/get_all_students_attendance/' + class_id + '/' + year_list , function (data) {
+                data = JSON.parse(data);
+                $scope.morrisBarData = [];
+                $scope.morrisStackedData = [];
+                //Bar Graph
                
+                $.each($scope.months, function(monthKey, month) {
+                    $scope.morrisBarData.push(
+                        {
+                            'y' : month,
+                            'a' : 0,
+                            'b' : 0
+                        }
+                    );
+                    $scope.morrisStackedData.push(
+                        {
+                            y: month,
+                            a: 0,
+                            b: 0
+                        }
+                    );
+                    $.each(data, function(dataKey, dataVal) {
+                        if (monthKey + 1 == Number(dataVal.month)) {
+
+                            var index = dataVal.status == 1 ? 'a' : (dataVal.status == 3 ? 'b' : '');
+
+                            $scope.morrisBarData[monthKey][index] = Number(dataVal.data);
+                            $scope.morrisStackedData[monthKey][index] = Number(dataVal.data);
+                        }
+                    })
+                });
+
                 Morris.Bar({
                     resize: true,
                     element: 'morrisBar',
                     data: $scope.morrisBarData,
                     xkey: 'y',
                     ykeys: ['a', 'b'],
-                    labels: ['Series A', 'Series B'],
+                    labels: ['Present', 'Absent'],
                     hideHover: true,
                     barColors: ['#0088cc', '#2baab1']
                 });
-            };
 
-            $scope.getAttendance = function () {
-                $.get(BASE_URL + USER_PREFIX + 'attendance/get_all_students_attendance/' + class_id + '/' + year , function (data) {
-                        var parsed = JSON.parse(data);
-                        console.log(parsed);
+
+                Morris.Bar({
+                    resize: true,
+                    element: 'morrisStacked',
+                    data: $scope.morrisStackedData,
+                    xkey: 'y',
+                    ykeys: ['a', 'b'],
+                    labels: ['Series A', 'Series B'],
+                    barColors: ['#0088cc', '#2baab1'],
+                    fillOpacity: 0.7,
+                    smooth: false,
+                    stacked: true,
+                    hideHover: true
                 });
-            };
+
+            }).always(function() {
+                // alert( "finished" );
+            });
+        };
 
 
-            $scope.init();
-        }
+        $scope.pieChart = function () {
+            class_id = $('select[name="class_id"] option:selected').val();
+            year = $('select[name="year_list"] option:selected').val();
+            $('#flotPie').html('');
+            $.get(BASE_URL + USER_PREFIX + 'attendance/students_attendance_pie_chart/' + class_id + '/' + year , function (data) {
+                data = JSON.parse(data);
+                $scope.flotPieData = [];
+
+                $.each(data, function(dataKey, dataVal) {    
+                    $scope.flotPieData.push(
+                    {
+                        label: $scope.status["" + dataVal.status].label,
+                        data: [
+                            [1, Number(dataVal.data)]
+                        ],
+                        color: $scope.status["" + dataVal.status].color
+                    });
+
+                    $scope.morrisDonutData.push(
+                        {
+                            label: $scope.status["" + dataVal.status].label,
+                            value: Number(dataVal.data)
+                        }
+                    );
+
+
+                });
+                var plot = $.plot('#flotPie', $scope.flotPieData, {
+                    series: {
+                        pie: {
+                            show: true,
+                            combine: {
+                                color: '#999',
+                                threshold: 0.1
+                            }
+                        }
+                    },
+                    legend: {
+                        show: false
+                    },
+                    grid: {
+                        hoverable: true,
+                        clickable: true
+                    }
+                });
+
+                Morris.Donut({
+                    resize: true,
+                    element: 'morrisDonut',
+                    data: $scope.morrisDonutData,
+                    colors: ['#0088cc', '#734ba9', '#E36159']
+                });
+
+            }).always(function() {
+                // alert( "finished" );
+            });;
+        };
+
+        $scope.init();
+    }
 
 })();
-
-
-
-
-
