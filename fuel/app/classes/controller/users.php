@@ -21,14 +21,11 @@ class Controller_Users extends Controller_Account
 
 	public function action_create()
 	{
-		var_dump(Date::forge(Input::post('bdate'))->format("%B %d, %Y", true));
-		exit();
 		if (Input::method() == 'POST')
 		{
 			$val = Model_User::validate('create');
 			$_POST['bdate'] = Date::create_from_string(Input::post('bdate') , "us")->get_timestamp();
-			// $_POST['yearlevel_id'] = '0';
-			// $_POST['course_id'] = '0';
+
 			if ($val->run())
 			{
 				$user = Model_User::forge(array(
@@ -61,7 +58,7 @@ class Controller_Users extends Controller_Account
 
                    	$value = Upload::get_files();
                     $user->prof_pic = $value[0]['saved_as'];
-                    
+
 
 
 					if ($user and $user->save())
@@ -74,6 +71,8 @@ class Controller_Users extends Controller_Account
 					{
 						Session::set_flash('error', e('Could not save user.'));
 					}
+				} else {
+					Session::set_flash('error', e('Uploaded photo is invalid.'));
 				}
 			}
 			else
@@ -121,7 +120,7 @@ class Controller_Users extends Controller_Account
 		    Upload::process(Config::get('upload_prof_pic'));
 
 			if (Upload::is_valid() || $user->prof_pic) {
-	           	
+
 	           	Upload::save();
 	           	$value = Upload::get_files();
 
@@ -144,7 +143,7 @@ class Controller_Users extends Controller_Account
 		else
 		{
 			if (Input::method() == 'POST')
-			{	
+			{
 				$user->fname = $val->validated('fname');
 				$user->mname = $val->validated('mname');
 				$user->lname = $val->validated('lname');
