@@ -48,11 +48,11 @@
             </div>
         <?php endif; ?>
 
-         <div class="form-group">
+         <div class="form-group" <?= (isset($user) && $user->group != 1 ? 'hidden' : '') ?>>
             <?php echo Form::label('Student ID Number', 'idnum', array('class'=>'control-label')); ?>
 
                 <?php echo Form::input('idnum', Input::post('idnum', isset($user) ? $user->idnum : ''),
-                array('class' => 'col-md-4 form-control', 'placeholder'=>'Student ID Number', 'required' => '')); ?>
+                array('class' => 'col-md-4 form-control', 'placeholder'=>'Student ID Number') + (isset($user) && $user->group != 1 ? [] : ['required' => ''])); ?>
 
         </div>
 
@@ -156,7 +156,7 @@
 
         <div class="form-group" <?= (isset($user) && $user->group != 1 ? 'hidden' : '') ?>>
                 <?= Form::label('Year Level', 'yearlevel_id', array('class'=>'control-label')); ?>
-                <?= Form::select('yearlevel_id', 0, Arr::assoc_to_keyval(Model_Yearlevel::getYearLevel(), 'id', 'level'),
+                <?= Form::select('yearlevel_id', 0, Arr::assoc_to_keyval(Model_Yearlevel::getYearLevel(), 'id', 'level') + (isset($user) && $user->group != 1 ? ['0' => ''] : []),
                     array('class'    => 'form-control')); ?>
         </div>
 
@@ -164,7 +164,7 @@
         <div class="form-group course-list" <?= (isset($user) && $user->group != 1 ? 'hidden' : '') ?>>
                <?= Form::label('Course', 'course_id', array('class'=>'control-label')); ?>
 
-                <?= Form::select('course_id', $courses, $courses,
+                <?= Form::select('course_id', $courses, $courses + (isset($user) && $user->group != 1 ? ['0' => ''] : []),
                     array('class' => 'form-control')); ?>
         </div>
         <!-- HIDDEN -->

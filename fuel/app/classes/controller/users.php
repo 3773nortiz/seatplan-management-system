@@ -102,6 +102,10 @@ class Controller_Users extends Controller_Account
 			$_POST['bdate'] = Date::create_from_string(Input::post('bdate'), "us")->get_timestamp();
 		}
 
+		if (!Input::post('prof_pic')) {
+			$_POST['prof_pic'] = $user->prof_pic;
+		}
+
 		if ($val->run())
 		{
 			$user->fname = Input::post('fname');
@@ -114,7 +118,7 @@ class Controller_Users extends Controller_Account
 			$user->bdate = Input::post('bdate');
 			$user->gender = Input::post('gender');
 			$user->contact = Input::post('contact');
-			$user->prof_pic = Input::post('prof_pic') ?: $user->prof_pic;
+			$user->prof_pic = Input::post('prof_pic');
 			$user->last_login = Input::post('last_login');
 			$user->login_hash = Input::post('login_hash');
 			$user->profile_fields = Input::post('profile_fields');
