@@ -37,7 +37,7 @@
            <div class="tabs">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#popular" data-toggle="tab">Pie Chart</a>
+                    <a href="#popular" data-toggle="tab">Pie chart</a>
                 </li>
             </ul>
             <div class="tab-content">
