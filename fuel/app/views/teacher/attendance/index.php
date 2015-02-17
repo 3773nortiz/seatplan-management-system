@@ -13,7 +13,7 @@
 
 		<div class="col-md-6 pull-right">
 			<div class="form-group course-list">
-			        <?= Form::select('class_id', 0, Arr::assoc_to_keyval(Model_Class::getClassName(), 'id', 'class_name'),
+			        <?= Form::select('class_id', 0, Arr::assoc_to_keyval(Model_Class::getClassName($current_user->id), 'id', 'class_name'),
 			            array('class'    => 'form-control')); ?>
 			</div>
 		</div>

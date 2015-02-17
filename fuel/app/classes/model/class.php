@@ -45,8 +45,18 @@ class Model_Class extends \Orm\Model
 		return $subjects->subject_name;
 	}
 
-	public static function getClassName() {
-		$class = static::find('all');
+	public static function getClassName($user_id = null) {
+		$filter = [];
+
+		if ($user_id) {
+			$filter = [
+				'where'	=> [
+					['user_id', $user_id]
+				]
+			];
+		}
+
+		$class = static::find('all', $filter);
 		return $class;
 	}
 
