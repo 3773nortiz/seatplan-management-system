@@ -17,7 +17,7 @@ class Controller_Account extends Controller_Base
 				$teacher_group_id = Config::get('auth.driver', 'Simpleauth') == 'Ormauth' ? 6 : 50;
 				$student_group_id = Config::get('auth.driver', 'Simpleauth') == 'Ormauth' ? 6 : 1;
 
-				if ( ! Auth::member($admin_group_id) && ! Auth::member($teacher_group_id) 
+				if ( ! Auth::member($admin_group_id) && ! Auth::member($teacher_group_id)
 					&& ! Auth::member($student_group_id))
 				{
 					Session::set_flash('error', e('You don\'t have access to the admin panel'));
@@ -130,11 +130,11 @@ class Controller_Account extends Controller_Base
 					'idnum' => Input::post('idnum')
 				));
 
-				
+
 			    Upload::process(Config::get('upload_prof_pic'));
 
 			    if (Upload::is_valid()) {
-                                                                        
+
                    	Upload::save();
                    	$value = Upload::get_files();
 
@@ -147,10 +147,16 @@ class Controller_Account extends Controller_Base
 					} else {
 						Session::set_flash('error', e('Could not save user.'));
 					}
+				} else {
+					Session::set_flash('error', e('Uploaded photo is invalid.'));
 				}
 			}
 			else {
 				Session::set_flash('error', $val->error());
+			}
+
+			if (Input::post('bdate')) {
+				$_POST['bdate'] = Date::forge($_POST['bdate'])->format("%m/%d/%Y", true);
 			}
 		}
 

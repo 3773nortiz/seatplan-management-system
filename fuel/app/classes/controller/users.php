@@ -79,6 +79,10 @@ class Controller_Users extends Controller_Account
 			{
 				Session::set_flash('error', $val->error());
 			}
+
+			if (Input::post('bdate')) {
+				$_POST['bdate'] = Date::forge($_POST['bdate'])->format("%m/%d/%Y", true);
+			}
 		}
 
 
@@ -90,7 +94,7 @@ class Controller_Users extends Controller_Account
 	public function action_edit($id = null)
 	{
 		$user = Model_User::find($id);
-		$val = Model_User::validate('edit');
+		$val = Model_User::validate('edit', $user);
 
 		$user->bdate = Date::forge($user->bdate)->format("%m/%d/%Y", true);
 
