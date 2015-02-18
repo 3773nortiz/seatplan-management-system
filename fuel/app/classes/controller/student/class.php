@@ -4,7 +4,7 @@ class Controller_Student_Class extends Controller_Account
 
 	public function action_index()
 	{
-		$data['classes'] = Model_Class::find('all');
+		$data['classes'] = $this->getStudentClassName(Auth::get('id'));
 		$this->template->title = "Class";
 		$this->template->content = View::forge(parent::get_prefix() . 'class/index', $data);
 
@@ -158,11 +158,13 @@ class Controller_Student_Class extends Controller_Account
 		return $class->save();
 	}
 
-	public static function getStudentClassName($user_id = null) {
-		$studentclasses = Model_Class::find('class_name', array(
+	private function getStudentClassName($user_id) {
+		return $studentclasses = Model_Class::find('all', array(
 		    'related' => array(
-		    	'where' => array(
-		    		array('user_id', '=', $user_id)
+		    	'classes' => array(
+		    		'where' => array(
+			    		array('user_id', '=', $user_id)
+			    	)
 		    	)
 		    ),
 		));
