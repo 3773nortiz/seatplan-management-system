@@ -15,18 +15,18 @@ Theme Version:  1.3.0
         
         $scope.yearLists = [];
         $scope.months = [
-            'January',
-            'February',
-            'March',
-            'April',
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
             'May',
-            'June',
-            'July',
-            'August',
-            'September',
-            'October',
-            'November',
-            'December'
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec'
         ];
 
         $scope.status = {
@@ -80,11 +80,14 @@ Theme Version:  1.3.0
             class_id = $('select[name="class_id"] option:selected').val();
             year_list = $('select[name="year_list"] option:selected').val();
             $('#morrisBar').html('');
+            $('#morrisStacked').html('');
+            
 
             $.get(BASE_URL + USER_PREFIX + 'attendance/get_all_students_attendance/' + class_id + '/' + year_list , function (data) {
                 data = JSON.parse(data);
                 $scope.morrisBarData = [];
                 $scope.morrisStackedData = [];
+
                 //Bar Graph
                
                 $.each($scope.months, function(monthKey, month) {
@@ -131,7 +134,7 @@ Theme Version:  1.3.0
                     data: $scope.morrisStackedData,
                     xkey: 'y',
                     ykeys: ['a', 'b'],
-                    labels: ['Series A', 'Series B'],
+                    labels: ['Present', 'Absent'],
                     barColors: ['#0088cc', '#2baab1'],
                     fillOpacity: 0.7,
                     smooth: false,
@@ -149,9 +152,12 @@ Theme Version:  1.3.0
             class_id = $('select[name="class_id"] option:selected').val();
             year = $('select[name="year_list"] option:selected').val();
             $('#flotPie').html('');
+            $('#morrisDonut').html('');
+
             $.get(BASE_URL + USER_PREFIX + 'attendance/students_attendance_pie_chart/' + class_id + '/' + year , function (data) {
                 data = JSON.parse(data);
                 $scope.flotPieData = [];
+                $scope.morrisDonutData = [];
 
                 $.each(data, function(dataKey, dataVal) {    
                     $scope.flotPieData.push(

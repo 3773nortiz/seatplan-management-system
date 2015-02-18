@@ -21,34 +21,50 @@
             <div class="tabs">
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="#popular" data-toggle="tab">Bar Graph</a>
+                        <a href="#popular" data-toggle="tab">Pie chart</a>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div id="popular" class="tab-pane active">
-                        <div class="chart chart-md" id="morrisBar"></div>
+                    <div class="tab-pane active">
+                        <div class="chart chart-md" id="flotPie"></div>
                     </div>
                 </div>
-            </div> 
+            </div>
+
         </div>
     </div>
 
-    <div class="col-md-9 pull-right">
-           <div class="tabs">
+    <div class="col-md-12">
+        <div class="tabs">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#popular" data-toggle="tab">Pie chart</a>
+                    <a href="#popular" data-toggle="tab">Bar Graph</a>
                 </li>
             </ul>
             <div class="tab-content">
                 <div id="popular" class="tab-pane active">
-                    <div class="chart chart-md" id="flotPie"></div>
+                    <div class="chart chart-md" id="morrisBar"></div>
                 </div>
             </div>
-        </div>
+        </div> 
     </div>
 
-    <div class="col-md-9 pull-right">
+    <div class="col-md-12"> 
+        <div class="tabs">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#popular" data-toggle="tab">Stacked Graph</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="popular" class="tab-pane active">
+                    <div class="chart chart-md" id="morrisStacked"></div>
+                </div>
+            </div>
+        </div> 
+    </div>
+
+    <div class="col-md-12">
         <div class="tabs">
             <ul class="nav nav-tabs">
                 <li class="active">
@@ -63,20 +79,6 @@
         </div> 
     </div>
 
-    <div class="col-md-9 pull-right"> 
-        <div class="tabs">
-            <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#popular" data-toggle="tab">Stacked Graph</a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div id="popular" class="tab-pane active">
-                    <div class="chart chart-md" id="morrisStacked"></div>
-                </div>
-            </div>
-        </div> 
-    </div>
 
 </div>
 
