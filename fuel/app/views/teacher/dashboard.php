@@ -13,7 +13,7 @@
                 <div class="col-md-4 pull-right">  
                      <label class="control-label">Class:</label>
                     <div class="form-group">               
-                        <?= Form::select('class_id', 0, Arr::assoc_to_keyval(Model_Class::getClassName(), 'id', 'class_name'),
+                        <?= Form::select('class_id', 0, Arr::assoc_to_keyval(Model_Class::getClassName($current_user->id), 'id', 'class_name'),
                             array('class'    => 'form-control')); ?>
                     </div>
                 </div>
@@ -29,13 +29,13 @@
                         <div class="chart chart-md" id="flotPie"></div>
                     </div>
                 </div>
-            </div>
+            </div> 
 
         </div>
     </div>
 
     <div class="col-md-12">
-        <div class="tabs">
+           <div class="tabs">
             <ul class="nav nav-tabs">
                 <li class="active">
                     <a href="#popular" data-toggle="tab">Bar Graph</a>
@@ -46,7 +46,7 @@
                     <div class="chart chart-md" id="morrisBar"></div>
                 </div>
             </div>
-        </div> 
+        </div>
     </div>
 
     <div class="col-md-12"> 

@@ -3,7 +3,9 @@ class Controller_Admin_Yearlevel extends Controller_Admin{
 
 	public function action_index()
 	{
-		$data['yearlevels'] = Model_Yearlevel::find('all');
+		$data['yearlevels'] = Model_Yearlevel::find('all', array(
+			'where'	=> array(array('id', '!=', '0'))
+		));
 		$this->template->title = "Yearlevels";
 		$this->template->content = View::forge(parent::get_prefix() . '\yearlevel/index', $data);
 

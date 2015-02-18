@@ -28,7 +28,9 @@ class Model_Yearlevel extends \Orm\Model
 	}
 
 	public static function getYearLevel(){
-		$yearlevel = static::find('all');
+		$yearlevel = static::find('all', [
+			'where' => array(array('id', '!=', '0'))
+		]);
 		return $yearlevel;
 	}
 

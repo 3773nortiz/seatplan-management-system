@@ -3,7 +3,9 @@ class Controller_Admin_Course extends Controller_Admin{
 
 	public function action_index()
 	{
-		$data['courses'] = Model_Course::find('all');
+		$data['courses'] = Model_Course::find('all', array(
+			'where'	=> array(array('id', '!=', '0'))
+		));
 		$this->template->title = "Courses";
 		$this->template->content = View::forge('admin/course/index', $data);
 

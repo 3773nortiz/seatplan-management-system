@@ -79,6 +79,10 @@ class Controller_Users extends Controller_Account
 			{
 				Session::set_flash('error', $val->error());
 			}
+
+			if (Input::post('bdate')) {
+				$_POST['bdate'] = Date::forge($_POST['bdate'])->format("%m/%d/%Y", true);
+			}
 		}
 
 
@@ -90,12 +94,16 @@ class Controller_Users extends Controller_Account
 	public function action_edit($id = null)
 	{
 		$user = Model_User::find($id);
-		$val = Model_User::validate('edit');
+		$val = Model_User::validate('edit', $user);
 
 		$user->bdate = Date::forge($user->bdate)->format("%m/%d/%Y", true);
 
 		if (Input::post('bdate')) {
 			$_POST['bdate'] = Date::create_from_string(Input::post('bdate'), "us")->get_timestamp();
+		}
+
+		if (!Input::post('prof_pic')) {
+			$_POST['prof_pic'] = $user->prof_pic;
 		}
 
 		if ($val->run())
@@ -110,7 +118,7 @@ class Controller_Users extends Controller_Account
 			$user->bdate = Input::post('bdate');
 			$user->gender = Input::post('gender');
 			$user->contact = Input::post('contact');
-			$user->prof_pic = Input::post('prof_pic') ?: $user->prof_pic;
+			$user->prof_pic = Input::post('prof_pic');
 			$user->last_login = Input::post('last_login');
 			$user->login_hash = Input::post('login_hash');
 			$user->profile_fields = Input::post('profile_fields');

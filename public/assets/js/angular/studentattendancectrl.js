@@ -47,8 +47,9 @@
                          if(data.length > 0) {
                             for (var key in parsed) {
                                 $scope.studLists.push(parsed[key]);
-                                $scope.$digest($scope.studLists);
                             }
+
+                            $scope.$digest($scope.studLists);
                         } else {
                             $scope.noStudent = "No Student";
                         }
@@ -65,13 +66,12 @@
 
             $scope.getStatusValue = function (status) {
                 var attendance;
-                console.log(status);
-                if(status == 4) {
-                   attendance =  ATTENDANCE[status].name = "NO Attendance";
+                if(status == null || status == 4) {
+                   attendance = "No Attendance";
                 } else {
                     attendance = ATTENDANCE[status].name;
                 }
-                
+
                 return attendance;
 
             };
