@@ -9,9 +9,9 @@ Theme Version:  1.3.0
         'use strict';
                  angular
                         .module('spmsapp')
-                        .controller('GraphAttendanceCtrl', GraphAttendanceCtrl);
+                        .controller('StudentGraphAttendanceCtrl', StudentGraphAttendanceCtrl);
 
-        function GraphAttendanceCtrl($scope) {
+        function StudentGraphAttendanceCtrl($scope) {
         
         $scope.yearLists = [];
         $scope.months = [

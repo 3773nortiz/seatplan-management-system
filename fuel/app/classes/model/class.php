@@ -23,6 +23,16 @@ class Model_Class extends \Orm\Model
 		),
 	);
 
+	protected static $_has_many = array(
+	  	'classes' => array(
+	        'key_from' => 'id',
+	        'model_to' => 'Model_Studentclass',
+	        'key_to' => 'class_id',
+	        'cascade_save' => true,
+	        'cascade_delete' => false,
+    	),
+	);
+
 	public static function validate($factory)
 	{
 		$val = Validation::forge($factory);
@@ -59,5 +69,4 @@ class Model_Class extends \Orm\Model
 		$class = static::find('all', $filter);
 		return $class;
 	}
-
 }
