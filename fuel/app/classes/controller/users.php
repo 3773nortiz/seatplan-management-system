@@ -197,5 +197,7 @@ class Controller_Users extends Controller_Account
 
 	}
 
-
+	public function action_get_student($id) {
+        return Format::forge(Model_User::find($id))->to_json();
+    }
 }

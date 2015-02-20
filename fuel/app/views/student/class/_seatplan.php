@@ -164,7 +164,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
                     <div class="col-md-4 text-center">
                         <div class="btn-holder" id="<?= $value['id'] ?>">
                             <button class="btn <?= $value['buttonStyle'] ?>" data-toggle="tooltip" data-placement="top" title="<?= $value['name'] ?>"
-                                onclick="setAttendance('<?= $key ?>')"><?= $value['name'][0] ?></button>
+                                onclick="setAttendance('<?= $key ?>')" disabled><?= $value['name'][0] ?></button>
                         </div>
                     </div>
                 <?php endforeach; ?>
