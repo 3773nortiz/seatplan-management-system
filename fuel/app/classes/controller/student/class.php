@@ -4,7 +4,7 @@ class Controller_Student_Class extends Controller_Account
 
 	public function action_index()
 	{
-		$data['classes'] = Model_Class::find('all');
+		$data['classes'] = $this->getStudentClassName(Auth::get('id'));
 		$this->template->title = "Class";
 		$this->template->content = View::forge(parent::get_prefix() . 'class/index', $data);
 
@@ -156,6 +156,18 @@ class Controller_Student_Class extends Controller_Account
 		$class->chairs = sizeof(explode(',', $new_seatplan));
 		$class->chair_plan = $new_seatplan;
 		return $class->save();
+	}
+
+	private function getStudentClassName($user_id) {
+		return $studentclasses = Model_Class::find('all', array(
+		    'related' => array(
+		    	'classes' => array(
+		    		'where' => array(
+			    		array('user_id', '=', $user_id)
+			    	)
+		    	)
+		    ),
+		));
 	}
 
 }

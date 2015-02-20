@@ -4,7 +4,11 @@ class Controller_Teacher_Class extends Controller_Account
 
 	public function action_index()
 	{
-		$data['classes'] = Model_Class::find('all');
+		$data['classes'] = Model_Class::find('all', [
+			'where'	=> array(
+				array('user_id', Auth::get('id'))
+			)
+		]);
 		$this->template->title = "Class";
 		$this->template->content = View::forge(parent::get_prefix() . 'class/index', $data);
 
@@ -12,7 +16,16 @@ class Controller_Teacher_Class extends Controller_Account
 
 	public function action_view($id = null)
 	{
-		$data['class'] = Model_Class::find($id);
+		$data['class'] = Model_Class::find($id, [
+			'where'	=> array(
+				array('user_id', Auth::get('id'))
+			)
+		]);
+
+		if (!$data['class']) {
+			return View::forge('404');
+		}
+
 		$data['student_seats'] = Controller_Teacher_Studentclass::get_student_seats($id);
 		//$data['students'] = Controller_Teacher_Users::get_all_students_not_in($id);
 		$data['scenario'] = 'view';
@@ -83,7 +96,15 @@ class Controller_Teacher_Class extends Controller_Account
 
 	public function action_edit($id = null)
 	{
-		$class = Model_Class::find($id);
+		$class = Model_Class::find($id, [
+			'where'	=> array(
+				array('user_id', Auth::get('id'))
+			)
+		]);
+
+		if (!$class) {
+			return View::forge('404');
+		}
 		$val = Model_Class::validate('edit');
 
 		if ($val->run())
