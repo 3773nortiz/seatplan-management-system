@@ -158,14 +158,4 @@ class Controller_Student_Class extends Controller_Account
 		return $class->save();
 	}
 
-	public static function getStudentClassName($user_id = null) {
-		$studentclasses = Model_Class::find('class_name', array(
-		    'related' => array(
-		    	'where' => array(
-		    		array('user_id', '=', $user_id)
-		    	)
-		    ),
-		));
-	}
-
 }

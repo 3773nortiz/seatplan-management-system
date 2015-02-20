@@ -177,6 +177,28 @@ Theme Version:  1.3.0
 
 
                 });
+
+                if (data.length <= 0) {
+                    $('.pie').html("No Attendance");
+                    $scope.flotPieData.push(
+                    {
+                        label: 'No Attendance',
+                        data: [
+                            [1, 0]
+                        ],
+                        color: '#f6f6f6'
+                    });
+
+                    $scope.morrisDonutData.push(
+                        {
+                            label: 'No Attendance',
+                            value: 0
+                        }
+                    );
+                } else {
+                     $('.pie').html("");
+                }
+
                 var plot = $.plot('#flotPie', $scope.flotPieData, {
                     series: {
                         pie: {

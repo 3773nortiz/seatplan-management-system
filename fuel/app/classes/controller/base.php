@@ -42,7 +42,7 @@ class Controller_Base extends Controller_Template
 			}
 
 		} elseif (Auth::member(1)) {
-			if($file == "users") {
+			if($file == "users" || $file == "attendance") {
 				return true;
 			}
 		}

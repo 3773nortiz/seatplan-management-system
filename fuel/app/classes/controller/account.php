@@ -96,9 +96,21 @@ class Controller_Account extends Controller_Base
 	public function action_index()
 	{
 		$this->template->title = 'Dashboard';
-		$this->template->content = View::forge(parent::get_prefix() . 'dashboard');
+		$data['studentclass'] = $this->getStudentClassName(Auth::get('id'));
+		$this->template->content = View::forge(parent::get_prefix() . 'dashboard', $data);
 	}
 
+	private function getStudentClassName($user_id) {
+		return Model_Class::find('all', array(
+		    'related' => array(
+		    	'classes' => array(
+		    		'where' => array(
+		    			array('user_id', '=', $user_id)
+		    		)
+		    	)
+		    ),
+		));
+	}
 
 	public function action_register() {
 		if (Input::method() == 'POST')
