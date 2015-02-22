@@ -52,7 +52,7 @@ class Model_Class extends \Orm\Model
 			)
 		));
 
-		return $subjects ? $subjects->subject_id : '';
+		return $subjects ? $subjects->subject_name : '';
 	}
 
 	public static function getClassName($user_id = null) {
