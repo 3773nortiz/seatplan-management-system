@@ -265,9 +265,10 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
 
 
         if (isChair) {
-            $target
-                .addClass('has-student')
-                .append('<span class="attendance-indicator ' + attendanceStat[studentSeats[dragFromId].status].buttonStyle + '"></span>');
+            $target.addClass('has-student');
+            if (studentSeats[dragFromId].status) {
+                $target.append('<span class="attendance-indicator ' + attendanceStat[studentSeats[dragFromId].status].buttonStyle + '"></span>');
+            }
             $('#' + dragFromId).removeClass('has-student');
             studentSeats[$target.attr('id')] = studentSeats[dragFromId];
             delete studentSeats[dragFromId];
