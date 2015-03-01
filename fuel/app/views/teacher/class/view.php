@@ -16,11 +16,13 @@
         	<strong>User id:</strong>
         	<?php //echo $class->user_id; ?></p> -->
     </div>
-
-    <?= render(Controller_Base::get_prefix() . 'class/_seatplan', compact('students', 'student_seats', 'class', 'scenario')); ?>
-
+</div>
+<div class="row">
     <div class="col-md-4">
         <?php echo Html::anchor(Controller_Base::get_prefix() . 'class/edit/'.$class->id, 'Edit'); ?> |
         <?php echo Html::anchor(Controller_Base::get_prefix() . 'class', 'Back'); ?>
     </div>
+</div>
+<div class="row">
+    <?= render(Controller_Base::get_prefix() . 'class/_seatplan', compact('students', 'student_seats', 'class', 'scenario')); ?>
 </div>

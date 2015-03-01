@@ -33,6 +33,9 @@
                             <div <?= $scenario == 'edit' ? 'draggable="true" ondragstart="drag(event)"' : '' ?> id="<?= $student_seats[$coord]['user_id'] ?>"
                                 class="<?= Config::get('gender')[$student_seats[$coord]['gender']] ?> student">
                             </div>
+                            <?php if ($student_seats[$coord]['status']) : ?>
+                                <span class="attendance-indicator <?= Config::get('attendace_stat')[$student_seats[$coord]['status']]['buttonStyle'] ?>"></span>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </td>
                 <?php endfor; ?>
@@ -192,6 +195,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
     var draggedId;
     var chairRemoved = false;
     var currentViewedCoord;
+    var setDraggingTimeout;
 
     function allowDrop(ev) {
         ev.preventDefault();
@@ -223,7 +227,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
 
         if ($target.is('.chair')) {
             $dragImg = $target.closest('td');
-            setTimeout(function () {
+            setDraggingTimeout = setTimeout(function () {
                 $dragImg.addClass('dragging');
             }, 50);
             $dragImg.find('.before').remove();
@@ -241,6 +245,9 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
             $target = $target.closest('td');
         }
         $target.removeClass('drag-over');
+        if (setDraggingTimeout) {
+            clearTimeout(setDraggingTimeout);
+        }
         $('#' + data).removeClass('drag-over').closest('td').removeClass('dragging');
         if ($target.hasClass('no-drag') || !$target.attr('ondrop') || $target.hasClass('has-student')) {
             setTimeout(function () {
@@ -258,11 +265,14 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
 
 
         if (isChair) {
-            $target.addClass('has-student');
+            $target
+                .addClass('has-student')
+                .append('<span class="attendance-indicator ' + attendanceStat[studentSeats[dragFromId].status].buttonStyle + '"></span>');
             $('#' + dragFromId).removeClass('has-student');
             studentSeats[$target.attr('id')] = studentSeats[dragFromId];
             delete studentSeats[dragFromId];
             $('#' + dragFromId + ' ' + '.nameTag').remove();
+            $('#' + dragFromId + ' ' + '.attendance-indicator').remove();
 
             $.get(BASE_URL + USER_PREFIX + 'studentclass/reseat_student/' + data + '/<?= $class->id ?>/' + $target.attr('id'), function () {
 
@@ -353,6 +363,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
             $('#' + currentViewedCoord).removeClass('has-student');
             $('#' + currentViewedCoord + ' ' + '.nameTag').remove();
             $('#' + currentViewedCoord + ' ' + '.student').remove();
+            $('#' + currentViewedCoord + ' ' + '.attendance-indicator').remove();
             angular.element('[ng-controller="AddStudentCtrl"]').scope().removeStudent(studentSeats[currentViewedCoord]);
             delete studentSeats[currentViewedCoord];
             $('#view-student').modal('hide');
@@ -361,6 +372,16 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
 
     function setAttendance (key) {
         $.get(BASE_URL + USER_PREFIX + 'attendance/set_attendace/' + studentSeats[currentViewedCoord]['id'] + '/' + key, function (data) {
+            console.log($('#' + currentViewedCoord + ' attendance-indicator'));
+
+            if (studentSeats[currentViewedCoord].status) {
+              $('#' + currentViewedCoord + ' .attendance-indicator')
+                .removeClass(attendanceStat[studentSeats[currentViewedCoord].status].buttonStyle)
+                .addClass(attendanceStat[key].buttonStyle);
+            } else {
+                $('#' + currentViewedCoord).append('<span class="attendance-indicator ' + attendanceStat[key].buttonStyle + '"></span>');
+            }
+
             $('#view-student .action-attendance .btn-holder.current').removeClass('current').find('button').removeClass('disabled');
             $('#' + attendanceStat[key].id).addClass('current').find('button').addClass('disabled');
             studentSeats[currentViewedCoord].status = key;

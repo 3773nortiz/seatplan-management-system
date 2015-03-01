@@ -104,6 +104,21 @@
             transform: translateZ(80px);
 }
 
+.attendance-indicator {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: 1px solid #555;
+    border-radius: 50%;
+    margin-top: 90px;
+    margin-left: 65px;
+    border-color: #fff !important;
+
+    -webkit-transform: translateZ(80px);
+        -ms-transform: translateZ(80px);
+            transform: translateZ(80px);
+}
+
 #seatplan td .nameTag {
     float: none;
     background: rgba(0, 0, 0, 0.5);
