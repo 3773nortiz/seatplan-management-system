@@ -6,6 +6,7 @@ class Model_Subject extends \Orm\Model
 		'subject_name',
 		'created_at',
 		'updated_at',
+		'description',
 	);
 
 	protected static $_observers = array(
@@ -23,7 +24,7 @@ class Model_Subject extends \Orm\Model
 	{
 		$val = Validation::forge($factory);
 		$val->add_field('subject_name', 'Subject Name', 'required|max_length[50]');
-
+		$val->add_field('description', 'Description', 'required|max_length[255]');
 		return $val;
 	}
 

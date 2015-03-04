@@ -29,6 +29,8 @@ class Controller_Admin_Subject extends Controller_Admin
 			{
 				$subject = Model_Subject::forge(array(
 					'subject_name' => Input::post('subject_name'),
+					'description' => Input::post('description'),
+
 				));
 
 				if ($subject and $subject->save())
@@ -62,6 +64,7 @@ class Controller_Admin_Subject extends Controller_Admin
 		if ($val->run())
 		{
 			$subject->subject_name = Input::post('subject_name');
+			$subject->description = Input::post('description');
 
 			if ($subject->save())
 			{
@@ -81,6 +84,7 @@ class Controller_Admin_Subject extends Controller_Admin
 			if (Input::method() == 'POST')
 			{
 				$subject->subject_name = $val->validated('subject_name');
+				$subject->description = $val->validated('description');
 
 				Session::set_flash('error', $val->error());
 			}

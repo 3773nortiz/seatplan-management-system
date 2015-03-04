@@ -1,5 +1,4 @@
 <div class="row">
-
     <div class="col-md-4">
         <h2>View Seat Plan for <?php echo $class->class_name; ?></h2>
         <p>
@@ -11,10 +10,9 @@
         <p>
         	<strong>Subject Name:</strong>
         	<?php echo $class->getSubjectName($class->subject_id); ?></p>
-
-        <!-- <p>
-        	<strong>User id:</strong>
-        	<?php //echo $class->user_id; ?></p> -->
+        <p>
+        	<strong>Subject Description:</strong>
+        	<?php echo $class->getSubjectDescription($class->subject_id); ?></p>
     </div>
 </div>
 <div class="row">

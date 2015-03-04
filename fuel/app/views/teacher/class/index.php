@@ -7,6 +7,7 @@
 			<th>Class Name</th>
 			<th>No. of Chairs</th>
 			<th>Subject Name</th>
+			<th>Subject Description</th>
 			<th></th>
 		</tr>
 	</thead>
@@ -16,7 +17,7 @@
 			<td><?php echo $item->class_name; ?></td>
 			<td><?php echo $item->chairs; ?></td>
 			<td><?php echo $item->getSubjectName();?></p></td>
-			<!-- <td><?php //echo $item->user_id; ?></td> -->
+			<td><?php echo $item->getSubjectDescription(); ?></td>
 			<td>
 				<?php echo Html::anchor(Controller_Base::get_prefix() . 'class/view/'.$item->id, 'View'); ?> |
 				<?php echo Html::anchor(Controller_Base::get_prefix() . 'class/edit/'.$item->id, 'Edit'); ?> |

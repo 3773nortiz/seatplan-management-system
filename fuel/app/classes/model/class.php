@@ -55,6 +55,17 @@ class Model_Class extends \Orm\Model
 		return $subjects ? $subjects->subject_name : '';
 	}
 
+	public function getSubjectDescription() {
+
+		$subjects = Model_Subject::find('first', array(
+			'where' => array(
+				array('id', $this->subject_id)
+			)
+		));
+
+		return $subjects ? $subjects->description : '';
+	}
+	
 	public static function getClassName($user_id = null) {
 		$filter = [];
 
