@@ -47,21 +47,31 @@
                 ?>
             </div>
         <?php endif; ?>
+        <?php if ($action != 'edit'): ?>
+            <div class="form-group">
+                <?php echo Form::label('ID Number', 'username', array('class'=>'control-label')); ?>
+                <?php echo Form::input('username', Input::post('username', isset($user) ? $user->username : ''),
+                array('class' => 'col-md-4 form-control', 'required' => '')); ?>
+            </div>
+        <?php else: ?>
+            <div class="form-group">
+                <?php echo Form::label('ID Number', 'username', array('class'=>'control-label')); ?>
+                <?php echo Form::input('username', Input::post('username', isset($user) ? $user->username : ''),
+                array('class' => 'col-md-4 form-control', 'required' => '', 'disabled')); ?>
+            </div>
+        <?php endif; ?>
 
-         <div class="form-group" <?= (isset($user) && $user->group != 1 ? 'hidden' : '') ?>>
-            <?php echo Form::label('Student ID Number', 'idnum', array('class'=>'control-label')); ?>
-
-                <?php echo Form::input('idnum', Input::post('idnum', isset($user) ? $user->idnum : ''),
-                array('class' => 'col-md-4 form-control', 'placeholder'=>'Student ID Number') + (isset($user) && $user->group != 1 ? [] : ['required' => ''])); ?>
-
+         <div class="form-group">
+            <?php echo Form::label('Password', 'password', array('class'=>'control-label')); ?>
+            <?php echo Form::password('password', Input::post('password', isset($user) ? $user->password : ''),
+            array('class' => 'col-md-4 form-control', 'required' => '')); ?>
         </div>
-
 
         <div class="form-group">
             <?php echo Form::label('First Name', 'fname', array('class'=>'control-label')); ?>
 
                 <?php echo Form::input('fname', Input::post('fname', isset($user) ? $user->fname : ''),
-                array('class' => 'col-md-4 form-control', 'placeholder'=>'First Name', 'required' => '')); ?>
+                array('class' => 'col-md-4 form-control', 'required' => '')); ?>
 
         </div>
 
@@ -69,75 +79,103 @@
             <?php echo Form::label('Middle Name', 'mname', array('class'=>'control-label')); ?>
 
                 <?php echo Form::input('mname', Input::post('mname', isset($user) ? $user->mname : ''),
-                array('class' => 'col-md-4 form-control', 'placeholder'=>'Middle Name', 'required' => '')); ?>
+                array('class' => 'col-md-4 form-control', 'required' => '')); ?>
 
         </div>
         <div class="form-group">
             <?php echo Form::label('Last Name', 'lname', array('class'=>'control-label')); ?>
 
                 <?php echo Form::input('lname', Input::post('lname', isset($user) ? $user->lname : ''),
-                array('class' => 'col-md-4 form-control', 'placeholder'=>'Last Name', 'required'    => '')); ?>
+                array('class' => 'col-md-4 form-control', 'required'    => '')); ?>
 
         </div>
         <div class="form-group">
             <?php echo Form::label('Email', 'email', array('class'=>'control-label')); ?>
 
                 <?php echo Form::input('email', Input::post('email', isset($user) ? $user->email : ''),
-                array('class' => 'col-md-4 form-control', 'placeholder'=>'Email', 'required'    => '')); ?>
+                array('class' => 'col-md-4 form-control', 'required' => '')); ?>
 
         </div>
-        <div class="row">
+        
+         <?php if ($action != 'edit'): ?>          
             <div class="form-group">
-                <div class="col-md-6">
-                    <?php echo Form::label('Username', 'username', array('class'=>'control-label')); ?>
-                    <?php echo Form::input('username', Input::post('username', isset($user) ? $user->username : ''),
-                    array('class' => 'col-md-4 form-control', 'placeholder'=>'Username', 'required' => '')); ?>
-                </div>
-                <div class="col-md-6">
-                    <?php echo Form::label('Password', 'password', array('class'=>'control-label')); ?>
-                    <?php echo Form::password('password', Input::post('password', isset($user) ? $user->password : ''),
-                    array('class' => 'col-md-4 form-control', 'placeholder'=>'Password', 'required' => '')); ?>
+                <?php echo Form::label('Birth Date', 'bdate', array('class'=>'control-label')); ?>
+                <div class="input-group date">
+                        <?php echo Form::input('bdate', Input::post('bdate', isset($user) ? $user->bdate : ''),
+                        array('class' => 'col-md-4 datepicker form-control',
+                        'data-date-format' => 'mm/dd/yyyy',
+                        'required'   => '')); ?>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>
             </div>
-        </div>
-        <div class="form-group">
-            <?php echo Form::label('Address', 'address', array('class'=>'control-label')); ?>
-
-                <?php echo Form::input('address', Input::post('address', isset($user) ? $user->address : ''),
-                array('class' => 'col-md-4 form-control', 'placeholder'=>'Address', 'required'  => '')); ?>
-
-        </div>
-
-        <div class="form-group">
-            <?php echo Form::label('Birth Date', 'bdate', array('class'=>'control-label')); ?>
-            <div class="input-group date">
-                    <?php echo Form::input('bdate', Input::post('bdate', isset($user) ? $user->bdate : ''),
-                    array('class' => 'col-md-4 datepicker form-control', 'placeholder'=>' Birth Date',
-                    'data-date-format' => 'mm/dd/yyyy',
-                    'required'   => '')); ?>
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+        <?php else: ?>            
+            <div class="form-group">
+                <?php echo Form::label('Birth Date', 'bdate', array('class'=>'control-label')); ?>
+                <div class="input-group date">
+                        <?php echo Form::input('bdate', Input::post('bdate', isset($user) ? $user->bdate : ''),
+                        array('class' => 'col-md-4 datepicker form-control',
+                        'data-date-format' => 'mm/dd/yyyy',
+                        'required'   => '',
+                        'disabled')); ?>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                </div>
             </div>
-        </div>
-
+        <?php endif; ?>
 
 
         <?php
             $gender = Config::get('gender');
         ?>
 
+        <?php if ($action != 'edit'): ?>    
+            <div class="form-group">
+                <?php echo Form::label('Gender', 'gender', array('class'=>'control-label')); ?>
+                <?php
+                    echo Form::select('gender', $gender, $gender,
+                        array('class' => 'form-control'));
+                ?>
+            </div>
+        <?php else: ?>        
+            <div class="form-group">
+                <?php echo Form::label('Gender', 'gender', array('class'=>'control-label')); ?>
+                <?php
+                    echo Form::select('gender', $gender, $gender,
+                        array('class' => 'form-control', 'disabled'));
+                ?>
+            </div>
+        <?php endif; ?>
+
+
         <div class="form-group">
-            <?php echo Form::label('Gender', 'gender', array('class'=>'control-label')); ?>
-            <?php
-                echo Form::select('gender', $gender, $gender,
-                    array('class' => 'form-control'));
-            ?>
+            <?php echo Form::label('Address', 'address', array('class'=>'control-label')); ?>
+
+                <?php echo Form::input('address', Input::post('address', isset($user) ? $user->address : ''),
+                array('class' => 'col-md-4 form-control', 'required'  => '')); ?>
         </div>
 
+
+        <?php if ($action != 'edit'): ?>    
+            <div class="form-group">
+                <?php echo Form::label('Gender', 'gender', array('class'=>'control-label')); ?>
+                <?php
+                    echo Form::select('gender', $gender, $gender,
+                        array('class' => 'form-control'));
+                ?>
+            </div>
+        <?php else: ?>        
+            <div class="form-group">
+                <?php echo Form::label('Gender', 'gender', array('class'=>'control-label')); ?>
+                <?php
+                    echo Form::select('gender', $gender, $gender,
+                        array('class' => 'form-control', 'disabled'));
+                ?>
+            </div>
+        <?php endif; ?>
 
         <div class="form-group">
             <?php echo Form::label('Contact Number', 'contact', array('class'=>'control-label')); ?>
             <?php echo Form::input('contact', Input::post('contact', isset($user) ? $user->contact : ''),
-            array('class' => 'col-md-4 form-control', 'placeholder'=>'Contact Number', 'required'   => '')); ?>
+            array('class' => 'col-md-4 form-control', 'required'   => '')); ?>
 
         </div>
 
@@ -154,39 +192,57 @@
 
         ?>
 
-        <div class="form-group" <?= (isset($user) && $user->group != 1 ? 'hidden' : '') ?>>
+        <?php if ($action != 'edit'): ?>          
+            <div class="form-group" <?= (isset($user) && $user->group != 1 ? 'hidden' : '') ?>>
                 <?= Form::label('Year Level', 'yearlevel_id', array('class'=>'control-label')); ?>
                 <?= Form::select('yearlevel_id', 0, Arr::assoc_to_keyval(Model_Yearlevel::getYearLevel(), 'id', 'level') + (isset($user) && $user->group != 1 ? ['0' => ''] : []),
                     array('class'    => 'form-control')); ?>
-        </div>
+            </div>
+        <?php else: ?>            
+            <div class="form-group" <?= (isset($user) && $user->group != 1 ? 'hidden' : '') ?>>
+                <?= Form::label('Year Level', 'yearlevel_id', array('class'=>'control-label')); ?>
+                <?= Form::select('yearlevel_id', 0, Arr::assoc_to_keyval(Model_Yearlevel::getYearLevel(), 'id', 'level') + (isset($user) && $user->group != 1 ? ['0' => ''] : []),
+                    array('class'    => 'form-control', 'disabled')); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($action != 'edit'): ?>          
+            <div class="form-group course-list" <?= (isset($user) && $user->group != 1 ? 'hidden' : '') ?>>
+                   <?= Form::label('Course', 'course_id', array('class'=>'control-label')); ?>
+
+                    <?= Form::select('course_id', $courses, $courses + (isset($user) && $user->group != 1 ? ['0' => ''] : []),
+                        array('class' => 'form-control')); ?>
+            </div>
+        <?php else: ?>            
+            <div class="form-group course-list" <?= (isset($user) && $user->group != 1 ? 'hidden' : '') ?>>
+                   <?= Form::label('Course', 'course_id', array('class'=>'control-label')); ?>
+
+                    <?= Form::select('course_id', $courses, $courses + (isset($user) && $user->group != 1 ? ['0' => ''] : []),
+                        array('class' => 'form-control', 'disabled')); ?>
+            </div>
+        <?php endif; ?>
 
 
-        <div class="form-group course-list" <?= (isset($user) && $user->group != 1 ? 'hidden' : '') ?>>
-               <?= Form::label('Course', 'course_id', array('class'=>'control-label')); ?>
-
-                <?= Form::select('course_id', $courses, $courses + (isset($user) && $user->group != 1 ? ['0' => ''] : []),
-                    array('class' => 'form-control')); ?>
-        </div>
         <!-- HIDDEN -->
 
 
         <div class="form-group" hidden>
             <?php echo Form::label('Last login', 'last_login', array('class'=>'control-label')); ?>
             <?php echo Form::input('last_login', Input::post('last_login', isset($user) ? $user->last_login : ''),
-            array('class' => 'col-md-4 form-control', 'placeholder'=>'Last login')); ?>
+            array('class' => 'col-md-4 form-control')); ?>
         </div>
 
         <div class="form-group" hidden>
             <?php echo Form::label('Login hash', 'login_hash', array('class'=>'control-label')); ?>
             <?php echo Form::input('login_hash', Input::post('login_hash', isset($user) ? $user->login_hash : ''),
-            array('class' => 'col-md-4 form-control', 'placeholder'=>'Login hash')); ?>
+            array('class' => 'col-md-4 form-control')); ?>
         </div>
 
         <div class="form-group" hidden>
             <?php echo Form::label('Profile fields', 'profile_fields',
                 array('class'=>'control-label')); ?>
             <?php echo Form::textarea('profile_fields', Input::post('profile_fields', isset($user) ? $user->profile_fields : ''),
-            array('class' => 'col-md-8 form-control', 'rows' => 8, 'placeholder'=>'Profile fields')); ?>
+            array('class' => 'col-md-8 form-control', 'rows' => 8)); ?>
         </div>
 
         <!-- HIDDEN -->

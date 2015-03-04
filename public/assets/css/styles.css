@@ -200,3 +200,12 @@ div#selectator_select1 {
 .thumb-info-title {
     background: rgba(36, 27, 28, 0.5) !important;
 }
+
+.formdetails input[type="text"],
+.formdetails label {
+    text-transform: uppercase;
+}
+.formdetails input[name="email"] {
+    text-transform: lowercase;
+}
+

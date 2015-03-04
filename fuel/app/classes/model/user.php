@@ -22,7 +22,6 @@ class Model_User extends \Orm\Model
 		'updated_at',
 		'course_id',
 		'yearlevel_id',
-		'idnum'
 	);
 
 	protected static $_observers = array(
@@ -69,8 +68,8 @@ class Model_User extends \Orm\Model
 		$val->add_field('mname', 'Mname', 'required|max_length[50]');
 		$val->add_field('lname', 'Lname', 'required|max_length[50]');
 		$val->add_field('email', 'Email', 'required|valid_email|max_length[255]|unique[users.email' . ($factory == 'edit' ? (',' . $data['email']) : '') . ']');
-		$val->add_field('username', 'Username', 'required|max_length[50]|unique[users.username' . ($factory == 'edit' ? (',' . $data['username']) : '') . ']');
-		$val->add_field('password', 'Password', 'required|max_length[255]');
+		$val->add_field('username', 'Username', 'required|max_length[255]|unique[users.username' . ($factory == 'edit' ? (',' . $data['username']) : '') . ']');
+		$val->add_field('password', 'Password', 'required|max_length[10]|min_length[6]');
 		$val->add_field('address', 'Address', 'required|max_length[255]');
 		$val->add_field('bdate', 'Bdate', 'required|valid_string[numeric]');
 		$val->add_field('gender', 'Gender', 'required|valid_string[numeric]');
@@ -80,7 +79,6 @@ class Model_User extends \Orm\Model
 		$val->add_field('last_login', 'Last Login', 'valid_string[numeric]');
 		$val->add_field('yearlevel_id', 'Year Level', 'required|valid_string[numeric]');
 		$val->add_field('course_id', 'Course', 'required|valid_string[numeric]');
-		$val->add_field('idnum', 'Student ID Number', 'required|valid_string[numeric]');
 		return $val;
 	}
 

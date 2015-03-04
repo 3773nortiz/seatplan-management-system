@@ -152,7 +152,7 @@
 											if($current_user->group == 50) {
 												echo '<span class="thumb-info-type">'. Config::get('simpleauth.groups')[$current_user->group]['name']. '</span>';
 											} else if ($current_user->group == 1) {
-												echo '<span class="thumb-info-type">'. $current_user->idnum  . '</span>';
+												echo '<span class="thumb-info-type">'. $current_user->username  . '</span>';
 											}
 										?>
 									</div>
