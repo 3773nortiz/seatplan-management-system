@@ -1,4 +1,4 @@
-﻿
+
 #seatplan-parent {
     -webkit-perspective: 5000;
         -ms-perspective: 5000;
@@ -208,8 +208,4 @@ div#selectator_select1 {
 }
 .formdetails input[name="email"] {
     text-transform: lowercase;
-}
-
-.test 
-{
 }
