@@ -5,7 +5,7 @@
 			</h2>
 			<form id="form-download-file" action="http://spms.amaers.tk/getfile.php" method="POST" hidden>
                 <input value="" type="text" name="url">
-                <input value="" type="text" name="cacheid" value="cacheid">
+                <input value="" type="text" name="cacheid" value="{{ cacheid }}">
             </form>
 		</div>
 	</div>
