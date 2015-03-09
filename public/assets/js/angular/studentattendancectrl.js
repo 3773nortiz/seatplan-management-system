@@ -9,6 +9,8 @@
             $scope.studLists = {};
             $scope.noStudent = false;
             $scope.ranges = [];
+            $scope.cacheid = '';
+
 
             $scope.months = [
                 '01',
