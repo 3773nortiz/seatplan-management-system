@@ -48,14 +48,6 @@
             </div>
         <?php endif; ?>
 
-         <div class="form-group" hidden>
-            <?php echo Form::label('Student ID Number', 'idnum', array('class'=>'control-label')); ?>
-
-                <?php echo Form::input('idnum', Input::post('idnum', isset($user) ? $user->idnum : '0000000000000000'),
-                array('class' => 'col-md-4 form-control', 'placeholder'=>'Student ID Number')); ?>
-
-        </div>
-
 
         <div class="form-group">
             <?php echo Form::label('First Name', 'fname', array('class'=>'control-label')); ?>
@@ -91,7 +83,7 @@
                 <div class="col-md-6">
                     <?php echo Form::label('Username', 'username', array('class'=>'control-label')); ?>
                     <?php echo Form::input('username', Input::post('username', isset($user) ? $user->username : ''),
-                    array('class' => 'col-md-4 form-control', 'placeholder'=>'Username', 'required' => '')); ?>
+                    array('class' => 'col-md-4 form-control admin-username', 'placeholder'=>'Username', 'required' => '')); ?>
                 </div>
                 <div class="col-md-6">
                     <?php echo Form::label('Password', 'password', array('class'=>'control-label')); ?>

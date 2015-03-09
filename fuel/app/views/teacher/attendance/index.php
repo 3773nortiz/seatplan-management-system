@@ -1,27 +1,37 @@
 <div ng-controller="StudentAttendanceCtrl">
-	<div class="row pull-right">
-		<div class="col-md-6">
-			<div class="input-daterange input-group" id="datepicker">
-			    <input type="text" class="input-sm form-control" name="start" />
-				<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-			    <!--
-			    <span class="input-group-addon">to</span>
-			    <input type="text" class="input-sm form-control" name="end" />
-			    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-	 -->		</div>
-		</div>
+	<div class="row">
+		<div class="col-md-12">
+				<div class="col-md-4">
+					<label>Class:</label>
+					<div class="form-group course-list">
+				        <?= Form::select('class_id', 0, Arr::assoc_to_keyval(Model_Class::getClassName($current_user->id), 'id', 'class_name'),
+				            array('class'    => 'form-control')); ?>
+					</div>
+				</div>
 
-		<div class="col-md-6 pull-right">
-			<div class="form-group course-list">
-			        <?= Form::select('class_id', 0, Arr::assoc_to_keyval(Model_Class::getClassName($current_user->id), 'id', 'class_name'),
-			            array('class'    => 'form-control')); ?>
-			</div>
+				<div class="col-md-4">
+					<label>Start Date:</label>
+					<div class="input-daterange input-group" id="datepicker" style="width: 100%;">
+					    <input type="text" class="input-sm form-control" name="start"  width="100%"/>
+						<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+					</div>
+				</div>
+
+				<div class="col-md-4">
+					<label>End Date:</label>
+					<div class="input-daterange input-group" id="datepicker1" style="width: 100%;">
+					    <input type="text" class="input-sm form-control" name="end" />
+						<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+					</div>
+				</div>
 		</div>
 	</div>
 
 
 	<?php if ($attendances): ?>
-	<table class="table table-striped attendance">
+	<br/>
+	<h3 class="noStudent" align="center"></h3>
+	<table class="table table-striped attendance" ng-show="noStudent == true">
 		<thead>
 			<tr>
 				<th>Name</th>
@@ -29,10 +39,13 @@
 			</tr>
 		</thead>
 		<tbody>
+			<tr>
+				<td></td>
+				<td ng-repeat="range in ranges"> {{ range.months }} {{ range.date }} , {{ range.year }} {{ range.weeks }}</td>
+			</tr>
 			<tr ng-repeat="studList in studLists">
-				<td ng-show="studList > 0">{{noStudent}}</td>
-				<td>{{studList.fname}} {{studList.mname[0]}} {{studList.lname}}</td>
-				<td>{{getStatusValue(studList.status)}}</td>
+				<td>{{studList.attendances[0].fname}} {{studList.attendances[0].mname[0]}} {{studList.attendances[0].lname}}</td>
+				<td ng-repeat="attendance in studList.attendances">{{getStatusValue(attendance.status)}}</td>
 			</tr>
 		</tbody>
 	</table>

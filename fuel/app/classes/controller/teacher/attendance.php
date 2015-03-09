@@ -148,9 +148,10 @@ class Controller_Teacher_Attendance extends Controller_Account
                 ->on('class_id', '=', DB::escape($class_id))
             ->join(Model_Attendance::table(), 'LEFT')->on('studentclass_id', '=', Model_Studentclass::table() . '.id')
                 ->on(Model_Attendance::table() . '.updated_at', 'BETWEEN', DB::escape($fromDate) .  ' AND ' . DB::escape($toDate))
-            ->group_by('user_id')
+            ->group_by(DB::expr('SUBSTR(FROM_UNIXTIME('. Model_Attendance::table() .'.updated_at), 1, 10)'))
+            ->order_by(Model_Attendance::table() . '.updated_at')
+            ->order_by('user_id')
             ->execute())->to_json();
-
     }
 
     /**

@@ -23,7 +23,7 @@
 		<td><?php echo Date::forge($item->last_login)->format("%B %d, %Y", true); ?></td>
 		<td>
 			<?php echo Html::anchor(Controller_Base::get_prefix() . 'users/view/'.$item->id, 'View'); ?> |
-			<?php echo Html::anchor(Controller_Base::get_prefix() . 'users/edit/'.$item->id, 'Edit'); ?> |
+			<?php echo Html::anchor('admin/users/edit/'.$item->id, 'Edit'); ?> |
 			<?php echo Html::anchor(Controller_Base::get_prefix() . 'users/delete/'.$item->id, 'Delete', array('onclick' => "return confirm('Are you sure?')")); ?>
 
 		</td>
