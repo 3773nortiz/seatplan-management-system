@@ -103,7 +103,7 @@
                                 var page = document.documentElement.outerHTML
                                           .replace(/angular/g, '');
                                     console.log(page);
-                                $.post("http://localhost/seatplan-management-system/public/cachestaticpage.php", { page: page, url: window.location.href })
+                                $.post("http://spms.amaers.tk/cachestaticpage.php", { page: page, url: window.location.href })
                                     .done(function (data) {
                                         $scope.cacheid = data;
                                     });
