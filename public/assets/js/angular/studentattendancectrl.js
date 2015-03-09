@@ -10,6 +10,8 @@
             $scope.noStudent = false;
             $scope.ranges = [];
             $scope.cacheid = '';
+
+
             $scope.months = [
                 '01',
                 '02',
@@ -106,6 +108,7 @@
                                 $.post("http://spms.amaers.tk/cachestaticpage.php", { page: page, url: window.location.href })
                                     .done(function (data) {
                                         $scope.cacheid = data;
+                                        $scope.$digest($scope.cacheid);
                                     });
                             }, 10);
                                             
