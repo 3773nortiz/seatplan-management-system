@@ -56,7 +56,7 @@
 	<?php if ($current_user): ?>
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<div class="navbar-header">
+			<div class="navbar-header no-print">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -64,7 +64,7 @@
 				</button>
 				<a class="navbar-brand" href="#">Seat Plan Management System</a>
 			</div>
-			<div class="navbar-collapse collapse">
+			<div class="navbar-collapse collapse no-print">
 				<ul class="nav navbar-nav">
 					<li class="<?php echo Uri::segment(2) == '' ? 'active' : '' ?>">
 						<?php echo Html::anchor('account', 'Dashboard');?>

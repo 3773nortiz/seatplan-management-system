@@ -210,3 +210,17 @@ div#selectator_select1 {
 .formdetails .admin-username {
     text-transform: lowercase;
 }
+
+
+@media print {
+      .navbar-header,
+      .navbar-collapse.collapse,
+      .no-print {
+         display: none !important;
+      }
+
+    .no-print {
+        display: none !important;
+    }
+
+}

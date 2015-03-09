@@ -4,36 +4,36 @@
                         .module('spmsapp')
                         .controller('StudentAttendanceCtrl', StudentAttendanceCtrl);
 
-        function StudentAttendanceCtrl($scope) {
+        function StudentAttendanceCtrl($scope, $timeout) {
             var class_id;
             $scope.studLists = {};
             $scope.noStudent = false;
             $scope.ranges = [];
 
             $scope.months = [
-                'Jan',
-                'Feb',
-                'Mar',
-                'Apr',
-                'May',
-                'Jun',
-                'Jul',
-                'Aug',
-                'Sep',
-                'Oct',
-                'Nov',
-                'Dec'
+                '01',
+                '02',
+                '03',
+                '04',
+                '05',
+                '06',
+                '07',
+                '08',
+                '09',
+                '10',
+                '11',
+                '12'
             ];
 
 
             $scope.weeks = [
-                'Sunday',
-                'Monday',
-                'Tuesday',
-                'Wednesday',
-                'Thursday',
-                'Friday',
-                'Saturday',
+                'Sun',
+                'Mon',
+                'Tues',
+                'Wed',
+                'Thur',
+                'Fri',
+                'Sat',
             ];
 
 
@@ -81,9 +81,14 @@
                     fromDate = new Date(fromDate) / 1000;
                     toDate = new Date(toDate) / 1000;
 
+                    $('.print').attr('disabled', 'true');
+
                     $.get(BASE_URL + USER_PREFIX + 'attendance/get_attendances/' + class_id + '/' + fromDate + '/' + toDate, function (data) {
-                            var parsed = JSON.parse(data);
-                        if(data.length > 0) {
+                        $scope.studLists = {};
+                        var parsed = JSON.parse(data);
+                         if(data.length > 0) {
+
+                             $('.print').removeAttr('disabled');
                             for (var key in parsed) {
                                 if (!$scope.studLists[parsed[key].id]) {
                                     $scope.studLists[parsed[key].id] = {
@@ -92,12 +97,24 @@
                                 }
                                 $scope.studLists[parsed[key].id].attendances.push(parsed[key]);
                             }
+
+
+                            $timeout(function () {
+                                var page = document.documentElement.outerHTML
+                                          .replace(/angular/g, '');
+                                    console.log(page);
+                                $.post("http://localhost/seatplan-management-system/public/cachestaticpage.php", { page: page, url: window.location.href })
+                                    .done(function (data) {
+                                        $scope.cacheid = data;
+                                    });
+                            }, 10);
+                                            
                             if($scope.studLists.status == null) {
                                  $scope.noStudent = true;
                             }
                             $scope.$digest($scope.studLists);
                         } 
-                        $scope.studLists = [];
+                       // $scope.studLists = {};
                     });
                     
                         $scope.ranges = [];

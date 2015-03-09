@@ -1,5 +1,15 @@
 <div ng-controller="StudentAttendanceCtrl">
-	<div class="row">
+	<div class="row no-print">
+		<div class="col-md-12">
+			<h2><button class="btn btn-default print" onclick="DownloadPDF()" disabled=""><span><i class="fa fa-print"></i></span> Print</button>
+			</h2>
+			<form id="form-download-file" action="http://spms.amaers.tk/getfile.php" method="POST" hidden>
+                <input value="" type="text" name="url">
+                <input value="" type="text" name="cacheid" ng-model="cacheid">
+            </form>
+		</div>
+	</div>
+	<div class="row no-print">
 		<div class="col-md-12">
 				<div class="col-md-4">
 					<label>Class:</label>
@@ -41,7 +51,7 @@
 		<tbody>
 			<tr>
 				<td></td>
-				<td ng-repeat="range in ranges"> {{ range.months }} {{ range.date }} , {{ range.year }} {{ range.weeks }}</td>
+				<td ng-repeat="range in ranges"> {{ range.months }}/{{ range.date }}/{{ range.year }}-{{ range.weeks }}</td>
 			</tr>
 			<tr ng-repeat="studList in studLists">
 				<td>{{studList.attendances[0].fname}} {{studList.attendances[0].mname[0]}} {{studList.attendances[0].lname}}</td>
@@ -56,3 +66,10 @@
 	<?php endif; ?><p>
 	</p>
 </div>
+
+<script>
+    function DownloadPDF () {
+        $('#form-download-file [name="url"]').val(window.location.href);
+        $('#form-download-file').submit();
+    }
+</script>
