@@ -149,7 +149,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
         <div class="modal-body">
             <div class="row">
                 <div class="col-md-5">
-                    <img clas="img-responsive img-thumbnail img-responsive" width="200" src="<?= Config::get('base_url').'uploads/'. $current_user->prof_pic ?>" />
+                    <img class="img-responsive img-thumbnail img-responsive" width="200" src="<?= Config::get('base_url').'uploads/'. $current_user->prof_pic ?>" />
                 </div>
                 <div class="col-md-7">
                     <h4 class="username"><?= $current_user->username ?></h4>
@@ -303,7 +303,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
 
         $a = $(ele).find('.before');
         if ($(ele).hasClass('has-chair') && !$(ele).hasClass('has-student') && show && $a.length <= 0) {
-            $(ele).append('<a class="before">×</a>');
+            $(ele).append('<a class="before">Ã—</a>');
         } else {
             if ($($a.selector + ':hover').length <= 0) {
                 $a.remove();
@@ -341,7 +341,8 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
                     .find('button').addClass('disabled');
             }
             console.log(data);
-            $modal.find('.img-thumbnail').attr('src', BASE_URL + IMAGES_PATH + data.prof_pic);
+            $modal.find('.img-thumbnail').attr('src', BASE_URL + UPLOADS_PATH + data.prof_pic);
+            $modal.find('.username').html(data.username);
             $modal.find('.email').html(data.email);
             $modal.find('.bdate').html(new Date(data.bdate * 1000).toLocaleDateString('en-US', {
                 timeZone: "UTC",

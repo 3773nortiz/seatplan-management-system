@@ -24,6 +24,7 @@
 		var USER_PREFIX = '<?= Controller_Base::get_prefix(); ?>';
 		var USER_GROUP = '<?= json_encode(Auth::get("group"));?>';
 		var IMAGES_PATH = '<?= Config::get("images_path") ?>';
+		var UPLOADS_PATH = '<?= Config::get("uploads_path") ?>';
 		var ATTENDANCE = JSON.parse('<?= Format::forge(Config::get("attendace_stat"))->to_json() ?>');
 	</script>
 
