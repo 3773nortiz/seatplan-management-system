@@ -44,15 +44,11 @@
                     $scope.getDateRangeData();
                     $('.input-daterange').datepicker().on('changeDate', function(e){
                         $scope.getDateRangeData();
-
-
-                        $scope.getDateRanges();
+               
                     });
                     $('#form_class_id').on('change', function (e) {
                         $scope.getDateRangeData();
-
-
-                        $scope.getDateRanges();
+                        // $scope.getDateRanges();
                     });
             });
 
@@ -80,47 +76,74 @@
                     toDate.setMinutes(59);
                     toDate.setSeconds(59);
 
-                    fromDate = new Date(fromDate) / 1000;
-                    toDate = new Date(toDate) / 1000;
-
-                    $('.print').attr('disabled', 'true');
-
-                    $.get(BASE_URL + USER_PREFIX + 'attendance/get_attendances/' + class_id + '/' + fromDate + '/' + toDate, function (data) {
-                        $scope.studLists = {};
-                        var parsed = JSON.parse(data);
-                         if(data.length > 0) {
-
-                             $('.print').removeAttr('disabled');
-                            for (var key in parsed) {
-                                if (!$scope.studLists[parsed[key].id]) {
-                                    $scope.studLists[parsed[key].id] = {
-                                        'attendances': []
-                                    }
-                                }
-                                $scope.studLists[parsed[key].id].attendances.push(parsed[key]);
-                            }
-
-
-                            $timeout(function () {
-                                var page = document.documentElement.outerHTML
-                                          .replace(/angular/g, '');
-                                    console.log(page);
-                                $.post("http://spms.amaers.tk/cachestaticpage.php", { page: page, url: window.location.href })
-                                    .done(function (data) {
-                                        $scope.cacheid = data;
-                                        $scope.$digest($scope.cacheid);
-                                    });
-                            }, 10);
-                                            
-                            if($scope.studLists.status == null) {
-                                 $scope.noStudent = true;
-                            }
-                            $scope.$digest($scope.studLists);
-                        } 
-                       // $scope.studLists = {};
-                    });
-                    
+                    if (toDate <= fromDate) {
+                        alert("End date should be greater than Start date");
+                        return;
+                    } else if (toDate - fromDate > 86400000 * 10) {
+                        alert("Reports is limited to 10 days to fit screen");
+                        return;
+                    } else 
+                        
+                        //  var sdate = $('input[name="start"]').val();
+                        // var edate = $('input[name="end"]').val();
                         $scope.ranges = [];
+                        var rangeStartDate = new Date(fromDate);
+                        var rangeEndDate = new Date(toDate);
+                            while(rangeStartDate <= rangeEndDate) 
+                            {
+                                $scope.dateObj = {
+                                   'months' :  $scope.months[rangeStartDate.getMonth()],
+                                   'date'   :  rangeStartDate.getDate(),
+                                   'year'   :  rangeStartDate.getFullYear(),
+                                   'weeks'  :  $scope.weeks[rangeStartDate.getDay()],
+                                };
+
+                                $scope.ranges.push($scope.dateObj);
+                                $scope.$digest($scope.ranges);
+
+                                rangeStartDate.setDate(rangeStartDate.getDate() + 1);
+                         }
+
+                        fromDate = new Date(fromDate) / 1000;
+                        toDate = new Date(toDate) / 1000;
+                       
+                        $('.print').attr('disabled', 'true');
+                        $.get(BASE_URL + USER_PREFIX + 'attendance/get_attendances/' + class_id + '/' + fromDate + '/' + toDate, function (data) {
+                            $scope.studLists = {};
+                            var parsed = JSON.parse(data);
+                             if(data.length > 0) {
+                                $('.print').removeAttr('disabled');
+                                for (var key in parsed) {
+                                    if (!$scope.studLists[parsed[key].id]) {
+                                        $scope.studLists[parsed[key].id] = {
+                                            'attendances': []
+                                        }
+                                    }
+                                    $scope.studLists[parsed[key].id].attendances.push(parsed[key]);
+                                }
+
+                                $('.datepicker.datepicker-dropdown.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom').addClass('no-print');
+
+                                $timeout(function () {
+                                    var page = document.documentElement.outerHTML
+                                              .replace(/angular/g, '');
+                                        console.log(page);
+                                    $.post("http://spms.amaers.tk/cachestaticpage.php", { page: page, url: window.location.href })
+                                        .done(function (data) {
+                                            $scope.cacheid = data;
+                                            $scope.$digest($scope.cacheid);
+                                        });
+                                }, 10);
+
+                                if($scope.studLists.status == null) {
+                                     $scope.noStudent = true;
+                                }
+                                $scope.$digest($scope.studLists);
+                            } 
+                           // $scope.studLists = {};
+                        });
+
+                    // $scope.ranges = [];
                 } else {
 
                     $scope.noStudent = false;
@@ -137,9 +160,9 @@
             $scope.getStatusValue = function (status) {
                 var attendance;
                 if(status == null || status == 4) {
-                   attendance = "No Attendance";
+                   attendance = "N/A";
                 } else {
-                    attendance = ATTENDANCE[status].name;
+                    attendance = ATTENDANCE[status].name[0];
                 }
                 return attendance;
 
@@ -147,28 +170,7 @@
 
             $scope.getDateRanges = function () {
 
-                var sdate = $('input[name="start"]').val();
-                var edate = $('input[name="end"]').val();
-
-                var rangeStartDate = new Date(sdate);
-                var rangeEndDate = new Date(edate);
-                    
-                while(rangeStartDate <= rangeEndDate) 
-                {
-                    $scope.dateObj = {
-                       'months' :  $scope.months[rangeStartDate.getMonth()],
-                       'date'   :  rangeStartDate.getDate(),
-                       'year'   :  rangeStartDate.getFullYear(),
-                       'weeks'  :  $scope.weeks[rangeStartDate.getDay()],
-                    };
-
-                    $scope.ranges.push($scope.dateObj);
-                    $scope.$digest($scope.ranges);
-
-                    rangeStartDate.setDate(rangeStartDate.getDate() + 1);
-                }
-
-               
+  
             }
 
         }

@@ -332,11 +332,11 @@ return array(
                         'buttonStyle'   => 'btn-success',
                         'id'            => 'btn-attendance-p'
                       ],
-                      2 => [
-                        'name'          => 'Late',
-                        'buttonStyle'   => 'btn-warning',
-                        'id'            => 'btn-attendance-l'
-                      ],
+                      // 2 => [
+                      //   'name'          => 'Late',
+                      //   'buttonStyle'   => 'btn-warning',
+                      //   'id'            => 'btn-attendance-l'
+                      // ],
                       3 => [
                         'name'          => 'Absent',
                         'buttonStyle'   => 'btn-danger',

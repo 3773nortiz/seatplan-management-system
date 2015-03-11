@@ -154,24 +154,6 @@
         </div>
 
 
-        <?php if ($action != 'edit'): ?>    
-            <div class="form-group">
-                <?php echo Form::label('Gender', 'gender', array('class'=>'control-label')); ?>
-                <?php
-                    echo Form::select('gender', $gender, $gender,
-                        array('class' => 'form-control'));
-                ?>
-            </div>
-        <?php else: ?>        
-            <div class="form-group">
-                <?php echo Form::label('Gender', 'gender', array('class'=>'control-label')); ?>
-                <?php
-                    echo Form::select('gender', $gender, $gender,
-                        array('class' => 'form-control', 'disabled'));
-                ?>
-            </div>
-        <?php endif; ?>
-
         <div class="form-group">
             <?php echo Form::label('Contact Number', 'contact', array('class'=>'control-label')); ?>
             <?php echo Form::input('contact', Input::post('contact', isset($user) ? $user->contact : ''),

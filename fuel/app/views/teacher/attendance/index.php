@@ -51,11 +51,11 @@
 		<tbody>
 			<tr>
 				<td></td>
-				<td ng-repeat="range in ranges"> {{ range.months }}/{{ range.date }}/{{ range.year }}-{{ range.weeks }}</td>
+				<td align="center" class="date" ng-repeat="range in ranges"> {{ range.months }}/{{ range.date }}/{{ range.year }}</td>
 			</tr>
 			<tr ng-repeat="studList in studLists">
-				<td>{{studList.attendances[0].fname}} {{studList.attendances[0].mname[0]}} {{studList.attendances[0].lname}}</td>
-				<td ng-repeat="attendance in studList.attendances">{{getStatusValue(attendance.status)}}</td>
+				<td class="name">{{studList.attendances[0].fname}} {{studList.attendances[0].mname[0]}}. {{studList.attendances[0].lname}}</td>
+				<td align="center" ng-repeat="attendance in studList.attendances">{{getStatusValue(attendance.status)}}</td>
 			</tr>
 		</tbody>
 	</table>

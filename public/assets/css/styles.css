@@ -204,22 +204,33 @@ div#selectator_select1 {
 
 .formdetails input[type="text"],
 .formdetails label {
-    text-transform: uppercase;
+    text-transform: capitalize;
 }
 .formdetails input[name="email"],
 .formdetails .admin-username {
     text-transform: lowercase;
 }
 
+table.attendance tbody td.name{
+     text-transform: uppercase;
+}
+table.attendance tbody td.date {
+    font-size: 12px;
+}
 
 @media print {
-      .navbar-header,
-      .navbar-collapse.collapse,
-      .no-print {
+    .navbar-header,
+    .navbar-collapse.collapse,
+    .no-print {
          display: none !important;
       }
 
     .no-print {
+        display: none !important;
+    }
+    .datepicker-days,
+    .datepicker-months,
+    .datepicker-years {
         display: none !important;
     }
 
