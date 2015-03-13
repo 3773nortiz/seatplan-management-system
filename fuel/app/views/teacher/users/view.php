@@ -1,7 +1,4 @@
-<?= Asset::img("../../uploads/" .$user->prof_pic, array(
-            "class" => "img-responsive",
-            "width" => "200px",
-            )); ?>
+<img class="img-responsive" width="200" src="<?= Config::get('base_url').'uploads/'. $user->prof_pic ?>" />
 <br/>
 <p>
 	<strong>Name:</strong>

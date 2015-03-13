@@ -8,12 +8,26 @@
                     <option ng-repeat="year in yearLists">{{ year }}</option>
                 </select>
             </div>
+            <div class="col-md-2 pull-right">  
+                 <label class="control-label">Month:</label>
+                <select class="form-control" id="form_month_list" name="month_list">
+                    <option ng-repeat="month in months">{{ month }}</option>
+                </select>
+            </div>
+            <div class="col-md-2 pull-right">
+                <label class="control-label">Month:</label>
+                <select class="form-control" id="form_month_list" name="month_list">
+                    <option ng-repeat="month in months">{{ month }}</option>
+                </select>
+            </div>
              <div class="col-md-4 pull-right">  
                  <label class="control-label">Class:</label>
                 <div class="form-group">               
                     <?= Form::select('class_id', 0, Arr::assoc_to_keyval(Model_Class::getClassName($current_user->id), 'id', 'class_name'),
                         array('class'    => 'form-control')); ?>
                 </div>
+                <br/>
+                <br/>
             </div>
            
         </div>
@@ -65,7 +79,7 @@
         </div> 
     </div>
 
-
+<!-- 
     <div class="col-md-12"> 
         <div class="tabs">
             <ul class="nav nav-tabs">
@@ -80,7 +94,7 @@
             </div>
         </div> 
     </div>
-
+ -->
 </div>
 
 

@@ -1,7 +1,4 @@
-<?= Asset::img("../../uploads/" .$user->prof_pic, array(
-            "class" => "img-responsive",
-            "width" => "200px",
-            )); ?>
+<img class="img-responsive img-thumbnail" width="200" src="<?= Config::get('base_url').'uploads/'. $user->prof_pic ?>" />
 <br/>
 <p>
 	<strong>Name:</strong>
@@ -21,8 +18,8 @@
 <p>
 	<strong>Contact:</strong>
 	<?php echo $user->contact; ?></p>
-<p>
+<!-- <p>
 	<strong>Last login:</strong>
-	<?php echo Date::forge($user->last_login)->format("%B %d, %Y", true);?></p>
+	<?php//echo Date::forge($user->last_login)->format("%B %d, %Y", true);?></p> -->
 
 <?php echo Html::anchor(Controller_Base::get_prefix() . 'users', 'Back'); ?>

@@ -5,10 +5,7 @@
                 $(function () {
                     $("#fileselect").fileinput({
                         initialPreview: [
-                            '<?= Asset::img("../../uploads/" .$user->prof_pic, array(
-                                "class" => "img-responsive",
-                                "width" => "200px",
-                                )); ?>',
+                            "<img class='img-responsive' width='200px' src='<?= Config::get('base_url').'uploads/'. $user->prof_pic ?>'/>",
                         ],
                         overwriteInitial: true,
                         initialCaption: '<?=  $user->prof_pic; ?>'
@@ -64,7 +61,7 @@
          <div class="form-group">
             <?php echo Form::label('Password', 'password', array('class'=>'control-label')); ?>
             <?php echo Form::password('password', Input::post('password', isset($user) ? $user->password : ''),
-            array('class' => 'col-md-4 form-control', 'required' => '')); ?>
+            array('class' => 'col-md-4 form-control', 'required' => '', 'placeholder' => 'Password must not greater than 10')); ?>
         </div>
 
         <div class="form-group">
@@ -104,7 +101,8 @@
                         <?php echo Form::input('bdate', Input::post('bdate', isset($user) ? $user->bdate : ''),
                         array('class' => 'col-md-4 datepicker form-control',
                         'data-date-format' => 'mm/dd/yyyy',
-                        'required'   => '')); ?>
+                        'required'   => '',
+                        'placeholder' => 'MM/DD/YYYY')); ?>
                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>
             </div>

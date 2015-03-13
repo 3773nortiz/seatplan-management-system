@@ -73,7 +73,7 @@ class Model_User extends \Orm\Model
 		$val->add_field('address', 'Address', 'required|max_length[255]');
 		$val->add_field('bdate', 'Bdate', 'required|valid_string[numeric]');
 		$val->add_field('gender', 'Gender', 'required|valid_string[numeric]');
-		$val->add_field('contact', 'Contact', 'required|max_length[50]');
+		$val->add_field('contact', 'Contact', 'required|valid_string[numeric]|max_length[11]');
 		$val->add_field('prof_pic', 'Prof Pic', 'max_length[255]');
 		$val->add_field('group', 'Group', 'valid_string[numeric]');
 		$val->add_field('last_login', 'Last Login', 'valid_string[numeric]');
