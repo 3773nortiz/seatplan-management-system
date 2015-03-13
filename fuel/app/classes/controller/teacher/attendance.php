@@ -204,10 +204,11 @@ class Controller_Teacher_Attendance extends Controller_Account
 
 
     /**
+    * @param $fromMonth mm
+    * @param $toMonth mm
     * @param $year yyyy
     */
-    public function action_students_attendance_pie_chart($class_id, $year) {
-
+    public function action_students_attendance_pie_chart($class_id, $fromMonth, $toMonth, $year) {
         return Format::forge(DB::select(
                 Model_Studentclass::table() . '.class_id',
                 array(DB::expr('COUNT(' . Model_Attendance::table() . '.id)'), 'data'),
@@ -220,7 +221,8 @@ class Controller_Teacher_Attendance extends Controller_Account
                 ->on(Model_Studentclass::table(). '.class_id', '=', DB::expr($class_id))
 
             ->where(array(
-                array(DB::expr('SUBSTR(FROM_UNIXTIME('. Model_Attendance::table().'.updated_at), 1, 4)'), '=', DB::expr($year))
+                array(DB::expr('SUBSTR(FROM_UNIXTIME('. Model_Attendance::table().'.updated_at), 1, 4)'), '=', DB::expr(DB::quote($year))),
+                array(DB::expr('SUBSTR(FROM_UNIXTIME('. Model_Attendance::table(). '.updated_at), 6, 2)'), 'BETWEEN', DB::expr(DB::quote($fromMonth) . ' AND ' . DB::quote($toMonth)))
             ))
 
             ->group_by(Model_Attendance::table().'.status')
