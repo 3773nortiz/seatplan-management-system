@@ -13,7 +13,7 @@ class Controller_Teacher_Studentclass extends Controller_Base
 	public function action_view($id = null)
 	{
 		$data['studentclass'] = Model_Studentclass::find($id);
-		$data['student_seats'] =
+		// $data['student_seats'] =
 
 		$this->template->title = "Studentclass";
 		$this->template->content = View::forge(parent::get_prefix() . 'studentclass/view', $data);
@@ -167,7 +167,7 @@ class Controller_Teacher_Studentclass extends Controller_Base
 			->join(Model_User::table(), 'INNER')->on('user_id', '=', Model_User::table() . '.id')
 				->on('class_id', '=', DB::escape($class_id))
 			->join(Model_Attendance::table(), 'LEFT')->on('studentclass_id', '=', Model_Studentclass::table() . '.id')
-				->on(DB::expr('UNIX_TIMESTAMP() - ' . Model_Attendance::table() . '.updated_at'), '<=', DB::escape(Config::get('attendace_delay')))
+				->on(DB::expr('UNIX_TIMESTAMP() - ' . Model_Attendance::table() . '.updated_at'), 'BETWEEN', DB::expr('0 AND ' . Config::get('attendace_delay')))
 			->group_by('user_id')
 			->execute()
 			->as_array('seat');
