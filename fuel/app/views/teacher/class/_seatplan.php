@@ -303,7 +303,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
 
         $a = $(ele).find('.before');
         if ($(ele).hasClass('has-chair') && !$(ele).hasClass('has-student') && show && $a.length <= 0) {
-            $(ele).append('<a class="before">Ã—</a>');
+            $(ele).append('<a class="before">×</a>');
         } else {
             if ($($a.selector + ':hover').length <= 0) {
                 $a.remove();

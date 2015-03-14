@@ -147,7 +147,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
         <div class="modal-body">
             <div class="row">
                 <div class="col-md-5">
-                    <img clas="img-responsive img-thumbnail img-responsive" width="200" src="<?= Config::get('base_url').'uploads/'. $current_user->prof_pic ?>" />
+                    <img class="img-responsive img-thumbnail img-responsive" width="200" src="<?= Config::get('base_url').'uploads/'. $current_user->prof_pic ?>" />
                 </div>
                 <div class="col-md-7">
                     <h4 class="username"><?= $current_user->username ?></h4>
@@ -157,17 +157,6 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
                     <p class="address"><?= $current_user->address ?></p>
                     <p class="contact"><?= $current_user->contact ?></p>
                 </div>
-            </div>
-            <br>
-            <div class="row action-attendance">
-                <?php foreach (Config::get('attendace_stat') as $key => $value): ?>
-                    <div class="col-md-4 text-center">
-                        <div class="btn-holder" id="<?= $value['id'] ?>">
-                            <button class="btn <?= $value['buttonStyle'] ?>" data-toggle="tooltip" data-placement="top" title="<?= $value['name'] ?>"
-                                onclick="setAttendance('<?= $key ?>')" disabled><?= $value['name'][0] ?></button>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
             </div>
             <br>
             <div class="row">

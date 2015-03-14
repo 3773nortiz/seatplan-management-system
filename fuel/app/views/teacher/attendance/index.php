@@ -55,7 +55,7 @@
 			</tr>
 			<tr ng-repeat="studList in studLists">
 				<td class="name">{{studList.attendances[0].fname}} {{studList.attendances[0].mname[0]}}. {{studList.attendances[0].lname}}</td>
-				<td align="center" ng-repeat="attendance in studList.attendances">{{getStatusValue(attendance.status)}}</td>
+				<td align="center" ng-repeat="range in ranges">{{getStatusValue(studList, range)}}</td>
 			</tr>
 		</tbody>
 	</table>

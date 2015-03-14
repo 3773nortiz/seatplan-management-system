@@ -142,22 +142,24 @@ class Controller_Teacher_Attendance extends Controller_Account
     */
     public function action_get_attendances ($class_id, $fromDate, $toDate) {
 
-        return Format::forge(DB::select(Model_Studentclass::table() . '.id', 'user_id', 'fname', 'mname', 'lname', 'status')
+        return Format::forge(DB::select(Model_Studentclass::table() . '.id', 'user_id', 'fname', 'mname', 'lname', 'status', [DB::expr('SUBSTR(FROM_UNIXTIME('. Model_Attendance::table() .'.updated_at), 1, 10)'), 'date'])
             ->from(Model_Studentclass::table())
             ->join(Model_User::table(), 'INNER')->on('user_id', '=', Model_User::table() . '.id')
                 ->on('class_id', '=', DB::escape($class_id))
             ->join(Model_Attendance::table(), 'LEFT')->on('studentclass_id', '=', Model_Studentclass::table() . '.id')
                 ->on(Model_Attendance::table() . '.updated_at', 'BETWEEN', DB::escape($fromDate) .  ' AND ' . DB::escape($toDate))
-            ->group_by(DB::expr('SUBSTR(FROM_UNIXTIME('. Model_Attendance::table() .'.updated_at), 1, 10)'))
+            ->group_by([DB::expr('SUBSTR(FROM_UNIXTIME('. Model_Attendance::table() .'.updated_at), 1, 10)'), 'user_id'])
             ->order_by(Model_Attendance::table() . '.updated_at')
             ->order_by('user_id')
             ->execute())->to_json();
     }
 
     /**
+    * @param $fromMonth mm
+    * @param $toMonth mm
     * @param $year yyyy
     */
-    public function action_get_all_students_attendance($class_id, $year) {
+    public function action_get_all_students_attendance($class_id, $fromMonth, $toMonth, $year) {
 
         return Format::forge(DB::select(
                 Model_Studentclass::table() . '.class_id',
@@ -172,13 +174,14 @@ class Controller_Teacher_Attendance extends Controller_Account
                 ->on(Model_Studentclass::table(). '.class_id', '=', DB::expr($class_id))
 
             ->where(array(
-                array(DB::expr('SUBSTR(FROM_UNIXTIME('. Model_Attendance::table().'.updated_at), 1, 4)'), '=', DB::expr($year))
+                array(DB::expr('SUBSTR(FROM_UNIXTIME('. Model_Attendance::table().'.updated_at), 1, 4)'), '=', DB::expr(DB::quote($year))),
+                array(DB::expr('SUBSTR(FROM_UNIXTIME('. Model_Attendance::table(). '.updated_at), 6, 2)'), 'BETWEEN', DB::expr(DB::quote($fromMonth) . ' AND ' . DB::quote($toMonth)))
             ))
-            
-            ->group_by(DB::expr('SUBSTR(FROM_UNIXTIME('. Model_Attendance::table().'.updated_at), 6, 2)'), Model_Attendance::table().'.status')
+
+            ->group_by('month', Model_Attendance::table().'.status')
             ->execute())->to_json();
     }
-    
+
     public function action_faker ($limit = 10) {
         $studentclasses = Model_Studentclass::find('all');
         $data = '';
@@ -219,7 +222,7 @@ class Controller_Teacher_Attendance extends Controller_Account
             ->where(array(
                 array(DB::expr('SUBSTR(FROM_UNIXTIME('. Model_Attendance::table().'.updated_at), 1, 4)'), '=', DB::expr($year))
             ))
-            
+
             ->group_by(Model_Attendance::table().'.status')
             ->execute())->to_json();
     }
