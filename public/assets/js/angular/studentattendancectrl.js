@@ -2,7 +2,8 @@
         'use strict';
                  angular
                         .module('spmsapp')
-                        .controller('StudentAttendanceCtrl', StudentAttendanceCtrl);
+                        .controller('StudentAttendanceCtrl', StudentAttendanceCtrl)
+                        .filter('range', RangeFilter);
 
         function StudentAttendanceCtrl($scope, $timeout) {
             var class_id;
@@ -39,12 +40,11 @@
             ];
 
 
-
             $(function () {
                     $scope.getDateRangeData();
                     $('.input-daterange').datepicker().on('changeDate', function(e){
                         $scope.getDateRangeData();
-               
+
                     });
                     $('#form_class_id').on('change', function (e) {
                         $scope.getDateRangeData();
@@ -82,14 +82,14 @@
                     } else if (toDate - fromDate > 86400000 * 10) {
                         alert("Reports is limited to 10 days to fit screen");
                         return;
-                    } else 
-                        
+                    } else
+
                         //  var sdate = $('input[name="start"]').val();
                         // var edate = $('input[name="end"]').val();
                         $scope.ranges = [];
                         var rangeStartDate = new Date(fromDate);
                         var rangeEndDate = new Date(toDate);
-                            while(rangeStartDate <= rangeEndDate) 
+                            while(rangeStartDate <= rangeEndDate)
                             {
                                 $scope.dateObj = {
                                    'months' :  $scope.months[rangeStartDate.getMonth()],
@@ -106,7 +106,7 @@
 
                         fromDate = new Date(fromDate) / 1000;
                         toDate = new Date(toDate) / 1000;
-                       
+
                         $('.print').attr('disabled', 'true');
                         $.get(BASE_URL + USER_PREFIX + 'attendance/get_attendances/' + class_id + '/' + fromDate + '/' + toDate, function (data) {
                             $scope.studLists = {};
@@ -139,7 +139,7 @@
                                      $scope.noStudent = true;
                                 }
                                 $scope.$digest($scope.studLists);
-                            } 
+                            }
                            // $scope.studLists = {};
                         });
 
@@ -148,7 +148,7 @@
 
                     $scope.noStudent = false;
                     $('.noStudent').text('No Attendance Lists');
-                } 
+                }
 
             };
 
@@ -157,9 +157,22 @@
                 class_id = $('select[name="class_id"] option:selected').val();
             };
 
-            $scope.getStatusValue = function (status) {
+            var appendZeroes = function (date) {
+                return Number(date) > 9 ? date : '0' + Number(date);
+            }
+
+            $scope.getStatusValue = function (student, range) {
                 var attendance;
-                if(status == null || status == 4) {
+                var status = null;
+
+                $.each(student.attendances, function (key, attendance) {
+                    if (attendance.date === range.year + '-' + appendZeroes(range.months) + '-' + appendZeroes(range.date)) {
+                        status = attendance.status;
+                        return false;
+                    }
+                });
+
+                if(!status || status == 4) {
                    attendance = "N/A";
                 } else {
                     attendance = ATTENDANCE[status].name[0];
@@ -170,9 +183,19 @@
 
             $scope.getDateRanges = function () {
 
-  
+
             }
 
+        }
+
+        function RangeFilter() {
+            return function (input, total) {
+                var total = parseInt(total);
+                for (var x = 0; x <= total; x++) {
+                    input.push(x);
+                }
+                return input;
+            }
         }
 
 })();

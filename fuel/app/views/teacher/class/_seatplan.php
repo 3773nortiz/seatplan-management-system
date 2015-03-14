@@ -33,7 +33,7 @@
                             <div <?= $scenario == 'edit' ? 'draggable="true" ondragstart="drag(event)"' : '' ?> id="<?= $student_seats[$coord]['user_id'] ?>"
                                 class="<?= Config::get('gender')[$student_seats[$coord]['gender']] ?> student">
                             </div>
-                            <?php if ($student_seats[$coord]['status']) : ?>
+                            <?php if ($student_seats[$coord]['status'] && !empty(Config::get('attendace_stat')[$student_seats[$coord]['status']])) : ?>
                                 <span class="attendance-indicator <?= Config::get('attendace_stat')[$student_seats[$coord]['status']]['buttonStyle'] ?>"></span>
                             <?php endif; ?>
                         <?php endif; ?>
@@ -303,7 +303,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
 
         $a = $(ele).find('.before');
         if ($(ele).hasClass('has-chair') && !$(ele).hasClass('has-student') && show && $a.length <= 0) {
-            $(ele).append('<a class="before">Ã—</a>');
+            $(ele).append('<a class="before">×</a>');
         } else {
             if ($($a.selector + ':hover').length <= 0) {
                 $a.remove();
