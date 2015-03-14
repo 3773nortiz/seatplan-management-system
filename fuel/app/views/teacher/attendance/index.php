@@ -37,7 +37,8 @@
 		</div>
 	</div>
 
-
+	<h2>Attendance Report</h2>
+	<h5>Date: {{ datePrinted }}</h5>
 	<?php if ($attendances): ?>
 	<br/>
 	<h3 class="noStudent" align="center"></h3>

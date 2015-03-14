@@ -47,14 +47,22 @@ Theme Version:  1.3.0
         $scope.morrisBarData = [];
         $scope.flotPieData = [];
         $scope.morrisDonutData = [];
-        $scope.morrisStackedData = [];
+        // $scope.morrisStackedData = [];
 
-        var class_id, year_list, year;   
+        var class_id, year_list, year, fromMonth, toMonth;   
 
          $(function () {
             $scope.getAttendance();
             $scope.pieChart();
             $('#form_year_list').on('change', function (e) {
+               $scope.getAttendance();
+               $scope.pieChart();
+            });
+            $('#form_month_list').on('change', function (e) {
+               $scope.getAttendance();
+               $scope.pieChart();
+            });
+              $('#to_month_list').on('change', function (e) {
                $scope.getAttendance();
                $scope.pieChart();
             });
@@ -75,17 +83,29 @@ Theme Version:  1.3.0
 
         };
 
+        $scope.appendZeroes = function (month) {
+            return Number(month) > 9 ? month : '0' + Number(month);
+        }
+
+
         $scope.getAttendance = function () {   
             class_id = $('select[name="class_id"] option:selected').val();
             year_list = $('select[name="year_list"] option:selected').val();
+            fromMonth = $('select[name="from_month_list"]').val();
+            toMonth = $('select[name="to_month_list"] option:selected').val();
+            fromMonth  = $scope.appendZeroes(fromMonth);
+            toMonth = $scope.appendZeroes(toMonth);
+
+            console.log(fromMonth);
+            console.log(toMonth);
             $('#morrisBar').html('');
-            $('#morrisStacked').html('');
+            // $('#morrisStacked').html('');
             
 
-            $.get(BASE_URL + USER_PREFIX + 'attendance/get_all_students_attendance/' + class_id + '/' + year_list , function (data) {
+            $.get(BASE_URL + USER_PREFIX + 'attendance/get_all_students_attendance/'+ class_id + '/' + fromMonth + '/'+  toMonth + '/' + year_list , function (data) {
                 data = JSON.parse(data);
                 $scope.morrisBarData = [];
-                $scope.morrisStackedData = [];
+                // $scope.morrisStackedData = [];
 
                 //Bar Graph
                
@@ -97,20 +117,20 @@ Theme Version:  1.3.0
                             'b' : 0
                         }
                     );
-                    $scope.morrisStackedData.push(
-                        {
-                            y: month,
-                            a: 0,
-                            b: 0
-                        }
-                    );
+                    // $scope.morrisStackedData.push(
+                    //     {
+                    //         y: month,
+                    //         a: 0,
+                    //         b: 0
+                    //     }
+                    // );
                     $.each(data, function(dataKey, dataVal) {
                         if (monthKey + 1 == Number(dataVal.month)) {
 
                             var index = dataVal.status == 1 ? 'a' : (dataVal.status == 3 ? 'b' : '');
 
                             $scope.morrisBarData[monthKey][index] = Number(dataVal.data);
-                            $scope.morrisStackedData[monthKey][index] = Number(dataVal.data);
+                            // $scope.morrisStackedData[monthKey][index] = Number(dataVal.data);
                         }
                     })
                 });
@@ -127,19 +147,19 @@ Theme Version:  1.3.0
                 });
 
 
-                Morris.Bar({
-                    resize: true,
-                    element: 'morrisStacked',
-                    data: $scope.morrisStackedData,
-                    xkey: 'y',
-                    ykeys: ['a', 'b'],
-                    labels: ['Present', 'Absent'],
-                    barColors: ['#0088cc', '#2baab1'],
-                    fillOpacity: 0.7,
-                    smooth: false,
-                    stacked: true,
-                    hideHover: true
-                });
+                // Morris.Bar({
+                //     resize: true,
+                //     element: 'morrisStacked',
+                //     data: $scope.morrisStackedData,
+                //     xkey: 'y',
+                //     ykeys: ['a', 'b'],
+                //     labels: ['Present', 'Absent'],
+                //     barColors: ['#0088cc', '#2baab1'],
+                //     fillOpacity: 0.7,
+                //     smooth: false,
+                //     stacked: true,
+                //     hideHover: true
+                // });
 
             }).always(function() {
                 // alert( "finished" );
@@ -149,11 +169,15 @@ Theme Version:  1.3.0
 
         $scope.pieChart = function () {
             class_id = $('select[name="class_id"] option:selected').val();
-            year = $('select[name="year_list"] option:selected').val();
+            year_list = $('select[name="year_list"] option:selected').val();
+            fromMonth = $('select[name="from_month_list"]').val();
+            toMonth = $('select[name="to_month_list"] option:selected').val();
+            fromMonth  = $scope.appendZeroes(fromMonth);
+            toMonth = $scope.appendZeroes(toMonth);
             $('#flotPie').html('');
             $('#morrisDonut').html('');
 
-            $.get(BASE_URL + USER_PREFIX + 'attendance/students_attendance_pie_chart/' + class_id + '/' + year , function (data) {
+            $.get(BASE_URL + USER_PREFIX + 'attendance/students_attendance_pie_chart/' + class_id + '/' + fromMonth + '/'+  toMonth + '/' + year_list , function (data) {
                 data = JSON.parse(data);
                 $scope.flotPieData = [];
                 $scope.morrisDonutData = [];

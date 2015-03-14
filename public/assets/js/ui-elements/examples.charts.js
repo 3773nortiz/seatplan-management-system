@@ -261,19 +261,19 @@ Theme Version: 	1.3.0
 	/*
 	Morris: Stacked
 	*/
-	Morris.Bar({
-		resize: true,
-		element: 'morrisStacked',
-		data: morrisStackedData,
-		xkey: 'y',
-		ykeys: ['a', 'b'],
-		labels: ['Series A', 'Series B'],
-		barColors: ['#0088cc', '#2baab1'],
-		fillOpacity: 0.7,
-		smooth: false,
-		stacked: true,
-		hideHover: true
-	});
+	// Morris.Bar({
+	// 	resize: true,
+	// 	element: 'morrisStacked',
+	// 	data: morrisStackedData,
+	// 	xkey: 'y',
+	// 	ykeys: ['a', 'b'],
+	// 	labels: ['Series A', 'Series B'],
+	// 	barColors: ['#0088cc', '#2baab1'],
+	// 	fillOpacity: 0.7,
+	// 	smooth: false,
+	// 	stacked: true,
+	// 	hideHover: true
+	// });
 
 	// /*
 	// Gauge: Basic

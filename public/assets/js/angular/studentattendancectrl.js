@@ -11,6 +11,7 @@
             $scope.noStudent = false;
             $scope.ranges = [];
             $scope.cacheid = '';
+            $scope.datePrinted = new Date().toDateString();
 
 
             $scope.months = [

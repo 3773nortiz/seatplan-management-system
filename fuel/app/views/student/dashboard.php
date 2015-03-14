@@ -2,20 +2,37 @@
 <div ng-controller="StudentGraphAttendanceCtrl"> 
     <div class="col-md-9 pull-right" style="z-index: 1;">
         <div class="form-group">
-            <div class="col-md-4 pull-right">  
-                 <label class="control-label">Year:</label>
-                <select class="form-control" id="form_year_list" name="year_list">
-                    <option ng-repeat="year in yearLists">{{ year }}</option>
-                </select>
-            </div>
-             <div class="col-md-4 pull-right">  
+            <div class="col-md-4">  
                  <label class="control-label">Class:</label>
                 <div class="form-group">               
                     <?= Form::select('class_id', 0, Arr::assoc_to_keyval($studentclass, 'id', 'class_name'),
                         array('class'    => 'form-control')); ?>
                 </div>
+                 <br/>
+                <br/>
+            </div>  
+            <div class="col-md-2">
+                <label class="control-label">Month From:</label>
+                <select class="form-control" id="to_month_list" name="to_month_list">
+                    <option ng-repeat="month in months" ng-value="$index + 1">{{ month }}</option>
+                </select>
             </div>
-           
+            <div class="col-md-1"> 
+                <label style="margin-top:30px; margin-left:10px;">to</label>
+            </div>
+            <div class="col-md-2">  
+                 <label class="control-label">Month From:</label>
+                <select class="form-control" id="form_month_list" name="from_month_list">
+                    <option ng-repeat="month in months" ng-value="$index + 1">{{ month }}</option>
+                </select>
+            </div>
+            <div class="col-md-3">  
+                 <label class="control-label">Year:</label>
+                <select class="form-control" id="form_year_list" name="year_list">
+                    <option ng-repeat="year in yearLists">{{ year }}</option>
+                </select>
+            </div>
+              
         </div>
     </div>
     <div class="col-md-9" style="z-index: 1;">        
@@ -60,22 +77,6 @@
             <div class="tab-content">
                 <div id="popular" class="tab-pane active">
                     <div class="chart chart-md" id="morrisDonut"></div>
-                </div>
-            </div>
-        </div> 
-    </div>
-
-
-    <div class="col-md-12"> 
-        <div class="tabs">
-            <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#popular" data-toggle="tab">Stacked Graph</a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div id="popular" class="tab-pane active">
-                    <div class="chart chart-md" id="morrisStacked"></div>
                 </div>
             </div>
         </div> 
