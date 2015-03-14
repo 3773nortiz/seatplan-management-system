@@ -16,8 +16,6 @@ class Controller_Admin_Users extends Controller_Users
         $user = Model_User::find($id);
         $val = Model_User::validate('edit', $user);
 
-        $user->bdate = Date::forge($user->bdate)->format("%m/%d/%Y", true);
-
         if (Input::post('bdate')) {
             $_POST['bdate'] = Date::create_from_string(Input::post('bdate'), "us")->get_timestamp();
         }
@@ -26,14 +24,24 @@ class Controller_Admin_Users extends Controller_Users
             $_POST['prof_pic'] = $user->prof_pic;
         }
 
+        // $_POST['username'] = $user->username;
+        // $_POST['bdate'] = $user->bdate;
+        // $_POST['gender'] = $user->gender;
+
         if ($val->run())
         {
+            if (Input::post('password') == '••••••' || !Input::post('password')) {
+                $_POST['password'] = $user->password;
+            } else {
+                $_POST['password'] = Auth::instance()->hash_password(Input::post('password'));
+            }
+
             $user->fname = Input::post('fname');
             $user->mname = Input::post('mname');
             $user->lname = Input::post('lname');
             $user->email = Input::post('email');
             $user->username = Input::post('username');
-            $user->password = Auth::instance()->hash_password(Input::post('password'));
+            $user->password = Input::post('password');
             $user->address = Input::post('address');
             $user->bdate = Input::post('bdate');
             $user->gender = Input::post('gender');
@@ -56,8 +64,8 @@ class Controller_Admin_Users extends Controller_Users
                 }
 
                 if ($user->save()) {
-                    Session::set_flash('success', e('You Succesfully Updated your Profile'));
-                    Response::redirect('account');
+                    Session::set_flash('success', e('You Succesfully Updated Profile #' . $id));
+                    Response::redirect('users');
                 }
                 else
                 {
@@ -71,6 +79,7 @@ class Controller_Admin_Users extends Controller_Users
         {
             if (Input::method() == 'POST')
             {
+
                 $user->fname = $val->validated('fname');
                 $user->mname = $val->validated('mname');
                 $user->lname = $val->validated('lname');
@@ -91,6 +100,7 @@ class Controller_Admin_Users extends Controller_Users
                 Session::set_flash('error', $val->error());
             }
 
+            $_POST['bdate'] = $user->bdate = Date::forge($user->bdate)->format("%m/%d/%Y", true);
             $this->template->set_global('user', $user, false);
         }
 
