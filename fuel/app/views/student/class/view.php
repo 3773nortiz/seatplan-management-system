@@ -11,6 +11,12 @@
         <p>
         	<strong>Subject Name:</strong>
         	<?php echo $class->getSubjectName($class->subject_id); ?></p>
+        <p>
+            <strong>Subject Description:</strong>
+            <?php echo $class->getSubjectDescription($class->subject_id); ?></p>
+        <p>
+            <strong>Attendace For:</strong>
+            <?php echo date('F j, Y h:i A'); ?></p>
 
         <!-- <p>
         	<strong>User id:</strong>
