@@ -5,10 +5,7 @@
                 $(function () {
                     $("#fileselect").fileinput({
                         initialPreview: [
-                            '<?= Asset::img("../../uploads/" .$user->prof_pic, array(
-                                "class" => "img-responsive",
-                                "width" => "200px",
-                                )); ?>',
+                             "<img class='img-responsive' width='200px' src='<?= Config::get('base_url').'uploads/'. $user->prof_pic ?>'/>",
                         ],
                         overwriteInitial: true,
                         initialCaption: '<?=  $user->prof_pic; ?>'

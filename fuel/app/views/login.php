@@ -1,4 +1,4 @@
-<div class="row center-block">
+<div class="row center-block login">
 	<div class=" col-md-4 col-md-offset-4">
 		<?php echo Form::open(array()); ?>
 

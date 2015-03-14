@@ -132,7 +132,7 @@ class Controller_Account extends Controller_Base
 					'bdate' => Input::post('bdate'),
 					'gender' => Input::post('gender'),
 					'contact' => Input::post('contact'),
-					'prof_pic' => Input::post('prof_pic') ?: 'ic_avatar.jpg',
+					'prof_pic' => Input::post('prof_pic') ?: 'ic-avatar.jpg',
 					'group' => Input::post('group'),
 					'last_login' => Input::post('last_login'),
 					'login_hash' => Input::post('login_hash'),

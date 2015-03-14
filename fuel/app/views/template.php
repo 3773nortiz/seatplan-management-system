@@ -140,9 +140,7 @@
 						<section class="panel">
 							<div class="panel-body">
 								<div class="thumb-info mb-md">
-									<?= Asset::img('../../uploads/'.$current_user->prof_pic, array(
-						            'class' => 'img-responsive rounded'
-						        	)); ?>
+						        	<img class='img-responsive rounded' src='<?= Config::get('base_url').'uploads/'. $current_user->prof_pic ?>'/>
 									<div class="thumb-info-title">
 										<span class="thumb-info-inner">
 											<?= $current_user->fname.'&nbsp;&nbsp'.
