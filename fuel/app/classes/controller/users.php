@@ -95,8 +95,6 @@ class Controller_Users extends Controller_Account
 		$user = Model_User::find($id);
 		$val = Model_User::validate('edit', $user);
 
-		$user->bdate = Date::forge($user->bdate)->format("%m/%d/%Y", true);
-
 		if (Input::post('bdate')) {
 			$_POST['bdate'] = Date::create_from_string(Input::post('bdate'), "us")->get_timestamp();
 		}
@@ -105,14 +103,26 @@ class Controller_Users extends Controller_Account
 			$_POST['prof_pic'] = $user->prof_pic;
 		}
 
+		$_POST['username'] = $user->username;
+		$_POST['bdate'] = $user->bdate;
+		$_POST['gender'] = $user->gender;
+		$_POST['yearlevel_id'] = $user->yearlevel_id;
+		$_POST['course_id'] = $user->course_id;
+
 		if ($val->run())
 		{
+			if ($id == Auth::get('id') && (Input::post('password') == '••••••' || !Input::post('password'))) {
+				$_POST['password'] = Auth::get('password');
+			} else {
+				$_POST['password'] = Auth::instance()->hash_password(Input::post('password'));
+			}
+
 			$user->fname = Input::post('fname');
 			$user->mname = Input::post('mname');
 			$user->lname = Input::post('lname');
 			$user->email = Input::post('email');
 			$user->username = Input::post('username');
-			$user->password = Auth::instance()->hash_password(Input::post('password'));
+			$user->password = Input::post('password');
 			$user->address = Input::post('address');
 			$user->bdate = Input::post('bdate');
 			$user->gender = Input::post('gender');
@@ -167,9 +177,11 @@ class Controller_Users extends Controller_Account
 				$user->profile_fields = $val->validated('profile_fields');
 				$user->course_id = $val->validated('course_id');
 				$user->yearlevel_id = $val->validated('yearlevel_id');
+
 				Session::set_flash('error', $val->error());
 			}
 
+			$_POST['bdate'] = $user->bdate = Date::forge($user->bdate)->format("%m/%d/%Y", true);
 			$this->template->set_global('user', $user, false);
 		}
 

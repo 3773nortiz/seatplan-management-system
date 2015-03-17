@@ -37,7 +37,7 @@
 
         <?php if ($action != 'edit'): ?>
              <div class="form-group" hidden>
-                <?php echo Form::label('Registe As', 'group', array('class'=>'control-label')); ?>
+                <?php echo Form::label('Register As', 'group', array('class'=>'control-label')); ?>
                 <?php echo Form::select('group', $userTypes, $userTypes,
                       array('class'    => 'form-control register-as',
                             'onchange' => 'filterRegisterType()'));
@@ -60,8 +60,8 @@
 
          <div class="form-group">
             <?php echo Form::label('Password', 'password', array('class'=>'control-label')); ?>
-            <?php echo Form::password('password', Input::post('password', isset($user) ? $user->password : ''),
-            array('class' => 'col-md-4 form-control', 'required' => '', 'placeholder' => 'Password must not greater than 10')); ?>
+            <?php echo Form::password('password', Input::post('password', isset($user) ? '••••••' : ''),
+            array('class' => 'col-md-4 form-control', 'required' => '', 'placeholder' => 'Password must not be greater than 10')); ?>
         </div>
 
         <div class="form-group">
@@ -93,8 +93,8 @@
                 array('class' => 'col-md-4 form-control', 'required' => '')); ?>
 
         </div>
-        
-         <?php if ($action != 'edit'): ?>          
+
+         <?php if ($action != 'edit'): ?>
             <div class="form-group">
                 <?php echo Form::label('Birth Date', 'bdate', array('class'=>'control-label')); ?>
                 <div class="input-group date">
@@ -106,7 +106,7 @@
                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>
             </div>
-        <?php else: ?>            
+        <?php else: ?>
             <div class="form-group">
                 <?php echo Form::label('Birth Date', 'bdate', array('class'=>'control-label')); ?>
                 <div class="input-group date">
@@ -125,7 +125,7 @@
             $gender = Config::get('gender');
         ?>
 
-        <?php if ($action != 'edit'): ?>    
+        <?php if ($action != 'edit'): ?>
             <div class="form-group">
                 <?php echo Form::label('Gender', 'gender', array('class'=>'control-label')); ?>
                 <?php
@@ -133,7 +133,7 @@
                         array('class' => 'form-control'));
                 ?>
             </div>
-        <?php else: ?>        
+        <?php else: ?>
             <div class="form-group">
                 <?php echo Form::label('Gender', 'gender', array('class'=>'control-label')); ?>
                 <?php
@@ -172,13 +172,13 @@
 
         ?>
 
-        <?php if ($action != 'edit'): ?>          
+        <?php if ($action != 'edit'): ?>
             <div class="form-group" <?= (isset($user) && $user->group != 1 ? 'hidden' : '') ?>>
                 <?= Form::label('Year Level', 'yearlevel_id', array('class'=>'control-label')); ?>
                 <?= Form::select('yearlevel_id', 0, Arr::assoc_to_keyval(Model_Yearlevel::getYearLevel(), 'id', 'level') + (isset($user) && $user->group != 1 ? ['0' => ''] : []),
                     array('class'    => 'form-control')); ?>
             </div>
-        <?php else: ?>            
+        <?php else: ?>
             <div class="form-group" <?= (isset($user) && $user->group != 1 ? 'hidden' : '') ?>>
                 <?= Form::label('Year Level', 'yearlevel_id', array('class'=>'control-label')); ?>
                 <?= Form::select('yearlevel_id', 0, Arr::assoc_to_keyval(Model_Yearlevel::getYearLevel(), 'id', 'level') + (isset($user) && $user->group != 1 ? ['0' => ''] : []),
@@ -186,14 +186,14 @@
             </div>
         <?php endif; ?>
 
-        <?php if ($action != 'edit'): ?>          
+        <?php if ($action != 'edit'): ?>
             <div class="form-group course-list" <?= (isset($user) && $user->group != 1 ? 'hidden' : '') ?>>
                    <?= Form::label('Course', 'course_id', array('class'=>'control-label')); ?>
 
                     <?= Form::select('course_id', $courses, $courses + (isset($user) && $user->group != 1 ? ['0' => ''] : []),
                         array('class' => 'form-control')); ?>
             </div>
-        <?php else: ?>            
+        <?php else: ?>
             <div class="form-group course-list" <?= (isset($user) && $user->group != 1 ? 'hidden' : '') ?>>
                    <?= Form::label('Course', 'course_id', array('class'=>'control-label')); ?>
 

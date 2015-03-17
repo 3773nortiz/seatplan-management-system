@@ -84,7 +84,7 @@
                 </div>
                 <div class="col-md-6">
                     <?php echo Form::label('Password', 'password', array('class'=>'control-label')); ?>
-                    <?php echo Form::password('password', Input::post('password', isset($user) ? $user->password : ''),
+                    <?php echo Form::password('password', Input::post('password', isset($user) ? '••••••' : ''),
                     array('class' => 'col-md-4 form-control', 'placeholder'=>'Password', 'required' => '')); ?>
                 </div>
             </div>
