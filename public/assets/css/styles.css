@@ -230,7 +230,8 @@ table.attendance tbody td.date {
     }
     .datepicker-days,
     .datepicker-months,
-    .datepicker-years {
+    .datepicker-years,
+    h1{
         display: none !important;
     }
 

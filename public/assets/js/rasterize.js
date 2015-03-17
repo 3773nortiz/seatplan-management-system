@@ -2,22 +2,21 @@ var page = require("webpage").create();
 var system = require("system");
 
 page.paperSize = {
-    format: 'Letter',
-    orientation: 'Portrait',
+    format: 'Legal',
+    orientation: 'Landscape',
     margin: {
-        top: '.2in',
-        left: '.2in',
-        right: '.2in',
-        bottom: '.2in'
+        top: '.1in',
+        left: '.1in',
+        right: '.1in',
+        bottom: '.1in'
     }
 }
 
-page.zoomFactor = .8;
+page.zoomFactor = .5;
 
 page.open(system.args[1], function (status) {
     window.setTimeout(function () {
         page.render(system.args[2]);
-
         phantom.exit();
     }, 5000);
 });
