@@ -54,7 +54,7 @@
 				<td></td>
 				<td align="center" class="date" ng-repeat="range in ranges"> {{ range.months }}/{{ range.date }}/{{ range.year }}</td>
 			</tr>
-			<tr ng-repeat="studList in studLists | orderBy">
+			<tr ng-repeat="studList in studLists">
 				<td class="name">{{studList.attendances[0].lname}}, {{studList.attendances[0].fname}} {{studList.attendances[0].mname[0]}}.</td>
 				<td align="center" ng-repeat="range in ranges">{{getStatusValue(studList, range)}}</td>
 			</tr>
