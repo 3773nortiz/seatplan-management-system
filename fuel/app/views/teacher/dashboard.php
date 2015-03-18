@@ -21,7 +21,7 @@
                 <label style="margin-top:30px; margin-left:10px;">to</label>
             </div>
             <div class="col-md-2">
-                <label class="control-label">Month:</label>
+                <label class="control-label">Month to:</label>
                 <select class="form-control" id="to_month_list" name="to_month_list">
                     <option ng-repeat="month in months" ng-value="$index + 1">{{ month }}</option>
                 </select>
