@@ -5,6 +5,7 @@ class Model_Attendance extends \Orm\Model
 		'id',
 		'status',
 		'studentclass_id',
+		'reason',
 		'created_at',
 		'updated_at',
 	);
@@ -18,6 +19,16 @@ class Model_Attendance extends \Orm\Model
 			'events' => array('before_save'),
 			'mysql_timestamp' => false,
 		),
+	);
+
+	protected static $_has_one = array(
+	    'studentclass' => array(
+	        'key_from' => 'studentclass_id',
+	        'model_to' => 'Model_Studentclass',
+	        'key_to' => 'id',
+	        'cascade_save' => true,
+	        'cascade_delete' => false,
+	    )
 	);
 
 	public static function validate($factory)

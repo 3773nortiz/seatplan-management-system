@@ -1,6 +1,6 @@
 
 <div class="row">
-	<div class="col-md-6 col-md-offset-3">
+	<div class="col-md-4 col-md-offset-4">
 		<?php echo Form::open(array("class"=>"form-horizontal")); ?>
 
 			<fieldset>
@@ -10,13 +10,15 @@
 						<?php echo Form::input('class_name', Input::post('class_name', isset($class) ? $class->class_name : ''), array('class' => 'col-md-4 form-control', 'placeholder'=>'Class name')); ?>
 
 				</div>
+				<?php if ($scenario != 'edit') : ?>
 				<div class="form-group">
 					<?php echo Form::label('No. of Chairs', 'chairs', array('class'=>'control-label')); ?>
 
-						<?php echo Form::input('chairs', Input::post('chairs', isset($class) ? $class->chairs : ''), 
+						<?php echo Form::input('chairs', Input::post('chairs', isset($class) ? $class->chairs : ''),
 						array('class' => 'col-md-4 form-control', 'placeholder'=>'No. of Chairs')); ?>
 
 				</div>
+				<?php endif; ?>
 
 				 <?php
 		            $subjects = array();
@@ -32,16 +34,16 @@
 
 		         <div class="form-group">
 	              	 <?= Form::label('Subject', 'subject_id', array('class'=>'control-label')); ?>
-	               
-	                <?= Form::select('subject_id', $subjects, $subjects,
+
+	                <?= Form::select('subject_id', Input::post('subject_id', isset($class) ? $class->subject_id : ''), $subjects,
 	                    array('class' => 'form-control')); ?>
        			 </div>
-       			 
+
 				<div class="form-group" hidden>
 					<?php echo Form::label('User id', 'user_id', array('class'=>'control-label')); ?>
 
-						<?php echo Form::input('user_id', (isset($class) ? $class->user_id : $current_user->id), 
-								array('class' => 'col-md-4 form-control', 
+						<?php echo Form::input('user_id', (isset($class) ? $class->user_id : $current_user->id),
+								array('class' => 'col-md-4 form-control',
 									  'placeholder'=>'User id')); ?>
 
 				</div>
@@ -49,7 +51,7 @@
 					<label class='control-label'>&nbsp;</label>
 					<?php echo Form::submit('submit', 'Save', array(
 						'class' => 'btn btn-primary',
-						'style' => 'width: 100%')); ?>		
+						'style' => 'width: 100%')); ?>
 				</div>
 			</fieldset>
 		<?php echo Form::close(); ?>

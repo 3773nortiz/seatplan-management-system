@@ -18,6 +18,8 @@ return array(
 				9 => '011_add_yearlevel_id_to_users',
 				10 => '012_add_description_to_subjects',
 				11 => '012_add_idnum_to_users',
+				12 => '013_add_table_and_board_to_classes',
+				13 => '014_add_reason_to_attendances',
 			),
 		),
 		'module' => 

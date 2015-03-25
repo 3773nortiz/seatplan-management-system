@@ -332,18 +332,23 @@ return array(
                         'buttonStyle'   => 'btn-success',
                         'id'            => 'btn-attendance-p'
                       ],
-                      // 2 => [
-                      //   'name'          => 'Late',
-                      //   'buttonStyle'   => 'btn-warning',
-                      //   'id'            => 'btn-attendance-l'
-                      // ],
+                      2 => [
+                        'name'          => 'Late',
+                        'buttonStyle'   => 'btn-warning',
+                        'id'            => 'btn-attendance-l'
+                      ],
                       3 => [
                         'name'          => 'Absent',
                         'buttonStyle'   => 'btn-danger',
                         'id'            => 'btn-attendance-a'
                       ],
                 ),
-
+    'class_position' => array(
+                    'bottom' => 0,
+                    'top'    => 1,
+                    'left'   => 2,
+                    'right'  => 3
+                ),
     'attendace_delay'   => 24 * 3600,
     'images_path'       => 'assets/img/',
     'uploads_path'      => 'uploads/'

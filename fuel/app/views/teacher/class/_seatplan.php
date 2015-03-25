@@ -6,42 +6,68 @@
 </style>
 <?php endif; ?>
 
-<div class="col-md-12" id="seatplan-parent">
-    <table class="table table-bordered" id="seatplan">
-        <?php
-            $yCoord = 'A';
-            $chairPlan = json_decode(html_entity_decode($class->chair_plan ?: '{}'));
-        ?>
-        <?php for($x = 0; $x < Config::get('number_of_seat') / 8; $x++, $yCoord++): ?>
-                <tr>
-                <?php $xCoord = 1; ?>
-                <?php for($y = 0; $y < 11; $y++, $xCoord++): ?>
-                    <?php
-                        $coord = '';
-                        $coord = $yCoord . $xCoord;
-                        $hasChair = !empty($chairPlan->{$coord});
-                        $hasStudent = !empty($student_seats[$coord]);
-                    ?>
-                    <td <?= $scenario == 'edit' ? 'ondrop="drop(event)" ondragover="allowDrop(event)"' : '' ?> id="<?= $coord ?>"
-                        class="<?= ($hasStudent && $hasChair ? ' has-student' : '') . ($hasChair ? ' has-chair' : '') ?>"
-                        onmouseover="hover(this, true)" onmouseout="hover(this, false)">
-                        <?php if ($hasChair) : ?>
-                            <div <?= $scenario == 'edit' ? 'draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"' : '' ?> class="chair" id="chair_<?= $coord ?>">
-                            </div>
-                        <?php endif ?>
-                        <?php if ($hasChair && $hasStudent) : ?>
-                            <div <?= $scenario == 'edit' ? 'draggable="true" ondragstart="drag(event)"' : '' ?> id="<?= $student_seats[$coord]['user_id'] ?>"
-                                class="<?= Config::get('gender')[$student_seats[$coord]['gender']] ?> student">
-                            </div>
-                            <?php if ($student_seats[$coord]['status'] && !empty(Config::get('attendace_stat')[$student_seats[$coord]['status']])) : ?>
-                                <span class="attendance-indicator <?= Config::get('attendace_stat')[$student_seats[$coord]['status']]['buttonStyle'] ?>"></span>
+<div id="seatplan-parent">
+    <div id="seatplan">
+        <div class="col-md-12 board">
+            <?php if ($class->board_position == Config::get('class_position')['top']) : ?>
+            <button class="board-actions" onclick="moveBoard('board', 'bottom')"><span class="glyphicon glyphicon-circle-arrow-down"></span></button>
+            <?= Asset::img('board.png') ?>
+            <?php endif; ?>
+        </div>
+        <div class="col-md-12 desk">
+            <?php if ($class->table_position == Config::get('class_position')['top']) : ?>
+            <button class="board-actions" onclick="moveBoard('desk', 'bottom')"><span class="glyphicon glyphicon-circle-arrow-down"></span></button>
+            <?= Asset::img('table.png') ?>
+            <?php endif; ?>
+        </div>
+        <table class="table table-bordered col-md-12">
+            <?php
+                $yCoord = 'A';
+                $chairPlan = json_decode(html_entity_decode($class->chair_plan ?: '{}'));
+            ?>
+            <?php for($x = 0; $x < Config::get('number_of_seat') / 8; $x++, $yCoord++): ?>
+                    <tr>
+                    <?php $xCoord = 1; ?>
+                    <?php for($y = 0; $y < 11; $y++, $xCoord++): ?>
+                        <?php
+                            $coord = '';
+                            $coord = $yCoord . $xCoord;
+                            $hasChair = !empty($chairPlan->{$coord});
+                            $hasStudent = !empty($student_seats[$coord]);
+                        ?>
+                        <td <?= $scenario == 'edit' ? 'ondrop="drop(event)" ondragover="allowDrop(event)"' : '' ?> id="<?= $coord ?>"
+                            class="<?= ($hasStudent && $hasChair ? ' has-student' : '') . ($hasChair ? ' has-chair' : '') ?>"
+                            onmouseover="hover(this, true)" onmouseout="hover(this, false)">
+                            <?php if ($hasChair) : ?>
+                                <div <?= $scenario == 'edit' ? 'draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"' : '' ?> class="chair" id="chair_<?= $coord ?>">
+                                </div>
+                            <?php endif ?>
+                            <?php if ($hasChair && $hasStudent) : ?>
+                                <div <?= $scenario == 'edit' ? 'draggable="true" ondragstart="drag(event)"' : '' ?> id="<?= $student_seats[$coord]['user_id'] ?>"
+                                    class="<?= Config::get('gender')[$student_seats[$coord]['gender']] ?> student">
+                                </div>
+                                <?php if ($student_seats[$coord]['status'] && !empty(Config::get('attendace_stat')[$student_seats[$coord]['status']])) : ?>
+                                    <span class="attendance-indicator <?= Config::get('attendace_stat')[$student_seats[$coord]['status']]['buttonStyle'] ?>"></span>
+                                <?php endif; ?>
                             <?php endif; ?>
-                        <?php endif; ?>
-                    </td>
-                <?php endfor; ?>
-                </tr>
-        <?php endfor; ?>
-    </table>
+                        </td>
+                    <?php endfor; ?>
+                    </tr>
+            <?php endfor; ?>
+        </table>
+        <div class="col-md-12 desk">
+            <?php if ($class->table_position == Config::get('class_position')['bottom']) : ?>
+            <button class="board-actions" onclick="moveBoard('desk', 'top')"><span class="glyphicon glyphicon-circle-arrow-up"></span></button>
+            <?= Asset::img('table.png') ?>
+            <?php endif; ?>
+        </div>
+        <div class="col-md-12 board">
+            <?php if ($class->board_position == Config::get('class_position')['bottom']) : ?>
+            <button class="board-actions" onclick="moveBoard('board', 'top')"><span class="glyphicon glyphicon-circle-arrow-up"></span></button>
+            <?= Asset::img('board.png') ?>
+            <?php endif; ?>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade bs-example-modal-sm" id="add-student" tabindex="-1" role="dialog"
@@ -182,6 +208,32 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
         </div>
     </div>
   </div>
+</div>
+
+<div class="modal fade bs-example-modal-sm" id="late-reason" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Reason for Late</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php echo Form::input('reason', '', array('class' => 'form-control', 'placeholder'=>'Type in a reason')); ?>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <?php echo Form::submit('button', 'OK', array(
+                            'onclick'      => 'setAttendance(2, true)',
+                            'class'        => 'btn btn-primary btn-block md-close',
+                            'data-dismiss' => 'modal')); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -372,8 +424,19 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
         });
     }
 
-    function setAttendance (key) {
-        $.get(BASE_URL + USER_PREFIX + 'attendance/set_attendace/' + studentSeats[currentViewedCoord]['id'] + '/' + key, function (data) {
+    function setAttendance (key, isReasoned) {
+        var reason = '';
+        if (key == 2) {
+            if (!isReasoned) {
+                $('#late-reason').modal('show');
+                $('#late-reason').find('[name="reason"]').val('');
+                return;
+            } else if (isReasoned) {
+                reason = $('#late-reason').find('[name="reason"]').val();
+            }
+        }
+
+        $.get(BASE_URL + USER_PREFIX + 'attendance/set_attendace/' + studentSeats[currentViewedCoord]['id'] + '/' + key + '/' + reason, function (data) {
             console.log($('#' + currentViewedCoord + ' attendance-indicator'));
 
             if (studentSeats[currentViewedCoord].status) {
@@ -458,6 +521,12 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
         var studId = $('[name="select1"]').val();
         console.log(studId);
         addStudent(studId);
+    }
+
+    function moveBoard (type, direction) {
+        $.get(BASE_URL + USER_PREFIX + 'class/moveboard/<?= $class->id ?>/' + type + '/' + direction, function () {
+            window.location.reload();
+        });
     }
 
     $(function () {
