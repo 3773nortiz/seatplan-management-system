@@ -58,4 +58,59 @@ class Controller_Student_Attendance extends Controller_Account
             ->group_by(Model_Attendance::table().'.status')
             ->execute())->to_json();
     }
+
+    public function action_get_notified ()
+    {
+        $attendances = Model_Attendance::find('all', [
+            'related'  => [
+                'studentclass' => [
+                    'related' => [
+                        'class'   => [
+                            'related' => ['subject']
+                        ],
+                        'student' => [
+                            'where'   => [['id', '=', Auth::get('id')]],
+                        ]
+                    ]
+                ]
+            ],
+            'order_by' => ['studentclass_id', 'updated_at'],
+            'where'    => [['status', 3]]
+        ]);
+
+        $notified = [];
+        $ctr = 0;
+        $currStudentclassId = -1;
+        $currValue;
+
+        foreach ($attendances as $key => $value) {
+            $currValue = $value;
+
+            if ($currValue->studentclass_id != $currStudentclassId) {
+                if ($ctr >= 3) {
+                    $notified[] = [
+                        'studentclass_id' => $currStudentclassId,
+                        'absent_count'    => $ctr,
+                        'name'            => ucwords($currValue->studentclass->student->fname . ' ' . $currValue->studentclass->student->mname[0] . '. ' . $currValue->studentclass->student->lname),
+                        'class'           => $currValue->studentclass->class->class_name,
+                        'subject'         => $currValue->studentclass->class->subject->subject_name,
+                    ];
+                }
+                $ctr = 0;
+                $currStudentclassId = $currValue->studentclass_id;
+            }
+            $ctr++;
+        }
+        if ($ctr >= 3) {
+            $notified[] = [
+                'studentclass_id' => $currStudentclassId,
+                'absent_count'    => $ctr,
+                'name'            => ucwords($currValue->studentclass->student->fname . ' ' . $currValue->studentclass->student->mname[0] . '. ' . $currValue->studentclass->student->lname),
+                'class'           => $currValue->studentclass->class->class_name,
+                'subject'         => $currValue->studentclass->class->subject->subject_name,
+            ];
+        }
+
+        return Format::forge($notified)->to_json();
+    }
 }

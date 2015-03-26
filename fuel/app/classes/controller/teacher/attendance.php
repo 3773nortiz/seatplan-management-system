@@ -114,7 +114,7 @@ class Controller_Teacher_Attendance extends Controller_Account
 
     }
 
-    public function action_set_attendace ($studClassId, $status) {
+    public function action_set_attendace ($studClassId, $status, $reason = '') {
         $attendance = Model_Attendance::find('first', [
             'or_where'  => [
                 [DB::expr('UNIX_TIMESTAMP() - updated_at'), '<=', Config::get('attendace_delay')],
@@ -126,14 +126,71 @@ class Controller_Teacher_Attendance extends Controller_Account
         if (!$attendance) {
             $attendance = Model_Attendance::forge([
                 'status'            => $status,
-                'studentclass_id'   => $studClassId
+                'studentclass_id'   => $studClassId,
+                'reason'            => $reason
             ]);
 
         } else {
             $attendance->status = $status;
+            $attendance->reason = $reason;
         }
 
         return $attendance->save();
+    }
+
+    public function action_get_notified_students ()
+    {
+        $attendances = Model_Attendance::find('all', [
+            'related'  => [
+                'studentclass' => [
+                    'related' => [
+                        'class'   => [
+                            'where'   => [['user_id', '=', Auth::get('id')]],
+                            'related' => ['subject']
+                        ],
+                        'student'
+                    ]
+                ]
+            ],
+            'order_by' => ['studentclass_id', 'updated_at'],
+            'where'    => [['status', 3]]
+        ]);
+
+        $notified = [];
+        $ctr = 0;
+        $currStudentclassId = -1;
+        $currValue;
+
+        foreach ($attendances as $key => $value) {
+            $currValue = $value;
+
+            if ($currValue->studentclass_id != $currStudentclassId) {
+                if ($ctr >= 3) {
+                    $notified[] = [
+                        'studentclass_id' => $currStudentclassId,
+                        'absent_count'    => $ctr,
+                        'name'            => ucwords($currValue->studentclass->student->fname . ' ' . $currValue->studentclass->student->mname[0] . '. ' . $currValue->studentclass->student->lname),
+                        'class'           => $currValue->studentclass->class->class_name,
+                        'subject'         => $currValue->studentclass->class->subject->subject_name,
+                    ];
+                }
+                $ctr = 0;
+                $currStudentclassId = $currValue->studentclass_id;
+            }
+            $ctr++;
+        }
+
+        if ($ctr >= 3) {
+            $notified[] = [
+                'studentclass_id' => $currStudentclassId,
+                'absent_count'    => $ctr,
+                'name'            => ucwords($currValue->studentclass->student->fname . ' ' . $currValue->studentclass->student->mname[0] . '. ' . $currValue->studentclass->student->lname),
+                'class'           => $currValue->studentclass->class->class_name,
+                'subject'         => $currValue->studentclass->class->subject->subject_name,
+            ];
+        }
+
+        return Format::forge($notified)->to_json();
     }
 
     /**
@@ -142,7 +199,7 @@ class Controller_Teacher_Attendance extends Controller_Account
     */
     public function action_get_attendances ($class_id, $fromDate, $toDate) {
 
-        return Format::forge(DB::select(Model_Studentclass::table() . '.id', 'user_id', 'fname', 'mname', 'lname', 'status', [DB::expr('SUBSTR(FROM_UNIXTIME('. Model_Attendance::table() .'.updated_at), 1, 10)'), 'date'])
+        return Format::forge(DB::select(Model_Attendance::table() . '.reason', Model_Studentclass::table() . '.id', 'user_id', 'fname', 'mname', 'lname', 'status', [DB::expr('SUBSTR(FROM_UNIXTIME('. Model_Attendance::table() .'.updated_at), 1, 10)'), 'date'])
             ->from(Model_Studentclass::table())
             ->join(Model_User::table(), 'INNER')->on('user_id', '=', Model_User::table() . '.id')
                 ->on('class_id', '=', DB::escape($class_id))

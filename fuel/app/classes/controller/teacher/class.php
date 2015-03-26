@@ -90,7 +90,7 @@ class Controller_Teacher_Class extends Controller_Account
 		}
 
 		$this->template->title = "Class";
-		$this->template->content = View::forge(parent::get_prefix() . 'class/create');
+		$this->template->content = View::forge(parent::get_prefix() . 'class/create', ['scenario' => 'add']);
 
 	}
 
@@ -110,20 +110,20 @@ class Controller_Teacher_Class extends Controller_Account
 		if ($val->run())
 		{
 			$class->class_name = Input::post('class_name');
-			$class->chairs = Input::post('chairs');
+			// $class->chairs = Input::post('chairs');
 			$class->subject_id = Input::post('subject_id');
 			$class->user_id = Input::post('user_id');
 
 			if ($class->save())
 			{
-				Session::set_flash('success', e('Updated class' . $class->class_name));
+				Session::set_flash('success', e('Updated class ' . $class->class_name));
 
 				Response::redirect(parent::get_prefix() . 'class');
 			}
 
 			else
 			{
-				Session::set_flash('error', e('Could not update class' . $class->class_name));
+				Session::set_flash('error', e('Could not update class ' . $class->class_name));
 			}
 		}
 
@@ -176,6 +176,17 @@ class Controller_Teacher_Class extends Controller_Account
 		$new_seatplan = htmlspecialchars_decode($new_seatplan);
 		$class->chairs = sizeof(explode(',', $new_seatplan));
 		$class->chair_plan = $new_seatplan;
+		return $class->save();
+	}
+
+	public function action_moveboard ($class_id, $type, $direction) {
+		$class = Model_Class::find($class_id);
+		if ($type == 'desk') {
+			$class->table_position = Config::get('class_position')[$direction];
+		} else if ($type == 'board') {
+			$class->board_position = Config::get('class_position')[$direction];
+		}
+
 		return $class->save();
 	}
 

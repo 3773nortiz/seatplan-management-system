@@ -237,6 +237,39 @@ table.attendance tbody td.date {
 
 }
 
+.board-actions {
+    color: #0088cc;
+    background: none;
+    border: none;
+    font-size: 20px;
+    position: absolute;
+    left: 50%;
+    z-index: 1;
+    display: none;
+
+    -webkit-transform: translateZ(120px);
+        -ms-transform: translateZ(120px);
+            transform: translateZ(120px);
+}
+
+.board-actions:focus,
+.board-actions:hover {
+    color: #0099e6;
+}
+
+.board:hover .board-actions,
+.desk:hover .board-actions {
+    display: block;
+}
+
+.tooltip {
+    position: absolute;
+}
+
+.tooltip + td {
+    display: block;
+}
+
 .datepicker table td.day:first-child,
 .datepicker table th.dow:first-child,
 .datepicker table td.day:last-child,
@@ -249,4 +282,3 @@ table.attendance tbody td.date {
 .colorStat {
     background-color: rgba(134, 247, 187, 0.48);
 }
-

@@ -8,6 +8,8 @@ class Model_Class extends \Orm\Model
 		'subject_id',
 		'user_id',
 		'chair_plan',
+		'board_position',
+		'table_position',
 		'created_at',
 		'updated_at',
 	);
@@ -30,14 +32,26 @@ class Model_Class extends \Orm\Model
 	        'key_to' => 'class_id',
 	        'cascade_save' => true,
 	        'cascade_delete' => false,
-    	),
+    	)
+	);
+
+	protected static $_has_one = array(
+	    'subject' => array(
+	        'key_from' => 'subject_id',
+	        'model_to' => 'Model_Subject',
+	        'key_to' => 'id',
+	        'cascade_save' => true,
+	        'cascade_delete' => false,
+	    )
 	);
 
 	public static function validate($factory)
 	{
 		$val = Validation::forge($factory);
 		$val->add_field('class_name', 'Class Name', 'required|max_length[50]');
-		$val->add_field('chairs', 'Chairs', 'required|valid_string[numeric]|numeric_between[0, 99]');
+		if ($factory != 'edit') {
+			$val->add_field('chairs', 'Chairs', 'required|valid_string[numeric]|numeric_between[0, 99]');
+		}
 		$val->add_field('subject_id', 'Subject Id', 'required|valid_string[numeric]');
 		$val->add_field('user_id', 'User Id', 'required|valid_string[numeric]');
 
@@ -65,7 +79,7 @@ class Model_Class extends \Orm\Model
 
 		return $subjects ? $subjects->description : '';
 	}
-	
+
 	public static function getClassName($user_id = null) {
 		$filter = [];
 

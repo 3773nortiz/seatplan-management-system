@@ -143,6 +143,8 @@
                                      $scope.noStudent = true;
                                 }
                                 $scope.$digest($scope.studLists);
+
+                                $('.ng-tooltip').tooltip();
                             }
                            // $scope.studLists = {};
                         });
@@ -163,6 +165,20 @@
 
             var appendZeroes = function (date) {
                 return Number(date) > 9 ? date : '0' + Number(date);
+            }
+
+            $scope.getReason = function (student, range) {
+                var reason = '';
+
+                $.each(student.attendances, function (key, attendance) {
+                    console.log(attendance);
+                    if (attendance.date === range.year + '-' + appendZeroes(range.months) + '-' + appendZeroes(range.date)) {
+                        reason = attendance.reason;
+                        return false;
+                    }
+                });
+
+                return reason;
             }
 
             $scope.getStatusValue = function (student, range) {
