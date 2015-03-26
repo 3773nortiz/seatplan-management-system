@@ -80,4 +80,10 @@ class Model_Class extends \Orm\Model
 		$class = static::find('all', $filter);
 		return $class;
 	}
+
+
+	public static function getAllClass() {
+		$class = static::find('all');
+		return $class;
+	}
 }

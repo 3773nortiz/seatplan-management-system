@@ -14,7 +14,7 @@
 				<div class="col-md-4">
 					<label>Class:</label>
 					<div class="form-group course-list">
-				        <?= Form::select('class_id', 0, Arr::assoc_to_keyval(Model_Class::getClassName($current_user->id), 'id', 'class_name'),
+				        <?= Form::select('class_id', 0, Arr::assoc_to_keyval(Model_Class::getAllClass(), 'id', 'class_name'),
 				            array('class'    => 'form-control')); ?>
 					</div>
 				</div>
@@ -39,7 +39,6 @@
 
 	<h2>Attendance Report</h2>
 	<h5>Date: {{ datePrinted }}</h5>
-	<h5>Class: {{ classname }}</h5>
 	<?php if ($attendances): ?>
 	<br/>
 	<h3 class="noStudent" align="center"></h3>
@@ -57,7 +56,7 @@
 			</tr>
 			<tr ng-repeat="studList in studLists">
 				<td class="name">{{studList.attendances[0].lname}}, {{studList.attendances[0].fname}} {{studList.attendances[0].mname[0]}}.</td>
-				<td align="center" ng-repeat="range in ranges" ng-class="{'colorStat':getStatusValue(studList, range) != 'N/A'}">{{getStatusValue(studList, range)}}</td>
+				<td align="center" ng-repeat="range in ranges" class="status">{{getStatusValue(studList, range)}}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -74,4 +73,8 @@
         $('#form-download-file [name="url"]').val(window.location.href);
         $('#form-download-file').submit();
     }
+
+	$('.datepicker').datepicker({
+	    daysOfWeekDisabled: [0,6]
+	});
 </script>

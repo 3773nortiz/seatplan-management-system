@@ -12,6 +12,7 @@
             $scope.ranges = [];
             $scope.cacheid = '';
             $scope.datePrinted = new Date().toDateString();
+            $scope.classname;
 
 
             $scope.months = [
@@ -60,6 +61,8 @@
             };
 
             $scope.getDateRangeData = function () {
+                $scope.classname =  $('select[name="class_id"] option:selected').html();
+                $scope.$digest($scope.classname);
                 $scope. getClassValue();
                 var date = $('input[name="start"]').val();
                 var endate = $('input[name="end"]').val();
@@ -177,15 +180,11 @@
                    attendance = "N/A";
                 } else {
                     attendance = ATTENDANCE[status].name[0];
+                    // $('table.attendance td.status').addClass('colorStat');
                 }
                 return attendance;
 
             };
-
-            $scope.getDateRanges = function () {
-
-
-            }
 
         }
 

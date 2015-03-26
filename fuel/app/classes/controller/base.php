@@ -26,6 +26,8 @@ class Controller_Base extends Controller_Template
 			return 'teacher/';
 		} else if (Auth::member(1)) {
 			return 'student/';
+		} else if (Auth::member(70)) {
+			return 'guidance/';
 		}
 
 	}
@@ -43,6 +45,11 @@ class Controller_Base extends Controller_Template
 
 		} elseif (Auth::member(1)) {
 			if($file == "users" || $file == "attendance") {
+				return true;
+			}
+		}
+		elseif (Auth::member(70)) {
+			if($file == "users") {
 				return true;
 			}
 		}

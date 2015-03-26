@@ -16,9 +16,10 @@ class Controller_Account extends Controller_Base
 				$admin_group_id = Config::get('auth.driver', 'Simpleauth') == 'Ormauth' ? 6 : 100;
 				$teacher_group_id = Config::get('auth.driver', 'Simpleauth') == 'Ormauth' ? 6 : 50;
 				$student_group_id = Config::get('auth.driver', 'Simpleauth') == 'Ormauth' ? 6 : 1;
+				$guidance_group_id = Config::get('auth.driver', 'Simpleauth') == 'Ormauth' ? 6 : 70;
 
 				if ( ! Auth::member($admin_group_id) && ! Auth::member($teacher_group_id)
-					&& ! Auth::member($student_group_id))
+					&& ! Auth::member($student_group_id) && ! Auth::member($guidance_group_id))
 				{
 					Session::set_flash('error', e('You don\'t have access to the admin panel'));
 					Response::redirect('/');

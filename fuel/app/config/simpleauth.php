@@ -97,7 +97,8 @@ return array(
 	      0 	=> array('name' => 'Guests', 'roles' => array()),
 	      1 	=> array('name' => 'Student', 'roles' => array('student')),
 	      50 	=> array('name' => 'Teacher', 'roles' => array('student', 'admin')),
-	      100  	=> array('name' => 'Administrator', 'roles' => array('student', 'teacher', 'admin')),	 
+	      70  	=> array('name' => 'Guidance', 'roles' => array('student', 'teacher')),	 
+	      100  	=> array('name' => 'Administrator', 'roles' => array('student', 'teacher', 'guidance', 'admin')),	 
 	),
 	/**
 	 * Roles as name => array(location => rights)

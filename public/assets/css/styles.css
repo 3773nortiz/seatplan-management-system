@@ -236,3 +236,17 @@ table.attendance tbody td.date {
     }
 
 }
+
+.datepicker table td.day:first-child,
+.datepicker table th.dow:first-child,
+.datepicker table td.day:last-child,
+.datepicker table th.dow:last-child {
+    pointer-events: none;
+    background-color: rgba(128, 128, 128, 0.28);
+    border: 1px solid #FFFFFF;
+}
+
+.colorStat {
+    background-color: rgba(134, 247, 187, 0.48);
+}
+
