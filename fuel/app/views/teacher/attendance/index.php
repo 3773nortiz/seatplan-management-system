@@ -57,7 +57,7 @@
 			</tr>
 			<tr ng-repeat="studList in studLists" id="attendance-list">
 				<td class="name">{{studList.attendances[0].lname}}, {{studList.attendances[0].fname}} {{studList.attendances[0].mname[0]}}.</td>
-				<td align="center" ng-repeat="range in ranges" ng-class="{'colorStat':getStatusValue(studList, range) != 'N/A'}"  data-toggle="tooltip" data-placement="top" title="{{getReason(studList, range)}}" class="ng-tooltip">{{getStatusValue(studList, range)}}</td>
+				<td align="center" ng-repeat="range in ranges" class="ng-tooltip {{getStatusValue(studList, range) != 'N/A' ? 'colorStat' : ''}}"  data-toggle="tooltip" data-placement="top" title="{{getReason(studList, range)}}">{{getStatusValue(studList, range)}}</td>
 			</tr>
 		</tbody>
 	</table>

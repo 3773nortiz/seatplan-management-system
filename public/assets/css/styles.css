@@ -280,7 +280,7 @@ table.attendance tbody td.date {
 }
 
 .colorStat {
-    background-color: rgba(134, 247, 187, 0.48);
+    background-color: rgba(134, 247, 187, 0.48) !important;
 }
 
 #seatplan .board img,
