@@ -6,40 +6,65 @@
 </style>
 <?php endif; ?>
 
-<div class="col-md-12" id="seatplan-parent">
-    <table class="table table-bordered" id="seatplan">
-        <?php
-            $yCoord = 'A';
-            $chairPlan = json_decode(html_entity_decode($class->chair_plan ?: '{}'));
-        ?>
-        <?php for($x = 0; $x < Config::get('number_of_seat') / 8; $x++, $yCoord++): ?>
-                <tr>
-                <?php $xCoord = 1; ?>
-                <?php for($y = 0; $y < 11; $y++, $xCoord++): ?>
-                    <?php
-                        $coord = '';
-                        $coord = $yCoord . $xCoord;
-                        $hasChair = !empty($chairPlan->{$coord});
-                        $hasStudent = !empty($student_seats[$coord]);
-                    ?>
-                    <td <?= $scenario == 'edit' ? 'ondrop="drop(event)" ondragover="allowDrop(event)"' : '' ?> id="<?= $coord ?>"
-                        class="<?= ($hasStudent && $hasChair ? ' has-student' : '') . ($hasChair ? ' has-chair' : '') ?>
-                            <?= $hasChair && $hasStudent && $student_seats[$coord]['user_id'] == $current_user->id ? ' hovered' : '' ?>"
-                        onmouseover="hover(this, true)" onmouseout="hover(this, false)">
-                        <?php if ($hasChair) : ?>
-                            <div <?= $scenario == 'edit' ? 'draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"' : '' ?> class="chair" id="chair_<?= $coord ?>">
-                            </div>
-                        <?php endif ?>
-                        <?php if ($hasChair && $hasStudent) : ?>
-                            <div <?= $scenario == 'edit' ? 'draggable="true" ondragstart="drag(event)"' : '' ?> id="<?= $student_seats[$coord]['user_id'] ?>"
-                                class="<?= Config::get('gender')[$student_seats[$coord]['gender']] ?> student">
-                            </div>
-                        <?php endif; ?>
-                    </td>
-                <?php endfor; ?>
-                </tr>
-        <?php endfor; ?>
-    </table>
+<div class="col-md-12" id="seatplan-parent" class="<?= $scenario ?>">
+    <div id="seatplan">
+        <div class="col-md-12 board position<?= $class->board_position ?>">
+            <?php $class_position = Config::get('class_position'); ?>
+            <?php if (in_array($class->board_position, [$class_position['top'], $class_position['topleft'], $class_position['topright']])) : ?>
+            <?= Asset::img('board.png') ?>
+            <?php endif; ?>
+        </div>
+        <div class="col-md-12 desk position<?= $class->table_position ?>">
+            <?php if (in_array($class->table_position, [$class_position['top'], $class_position['topleft'], $class_position['topright']])) : ?>
+            <?= Asset::img('table.png') ?>
+            <?php endif; ?>
+        </div>
+        <table class="table table-bordered" id="seatplan">
+            <?php
+                $yCoord = 'A';
+                $chairPlan = json_decode(html_entity_decode($class->chair_plan ?: '{}'));
+            ?>
+            <?php for($x = 0; $x < Config::get('number_of_seat') / 8; $x++, $yCoord++): ?>
+                    <tr>
+                    <?php $xCoord = 1; ?>
+                    <?php for($y = 0; $y < 11; $y++, $xCoord++): ?>
+                        <?php
+                            $coord = '';
+                            $coord = $yCoord . $xCoord;
+                            $hasChair = !empty($chairPlan->{$coord});
+                            $hasStudent = !empty($student_seats[$coord]);
+                        ?>
+                        <td <?= $scenario == 'edit' ? 'ondrop="drop(event)" ondragover="allowDrop(event)"' : '' ?> id="<?= $coord ?>"
+                            class="<?= ($hasStudent && $hasChair ? ' has-student' : '') . ($hasChair ? ' has-chair' : '') ?>
+                                <?= $hasChair && $hasStudent && $student_seats[$coord]['user_id'] == $current_user->id ? ' hovered' : '' ?>"
+                            onmouseover="hover(this, true)" onmouseout="hover(this, false)">
+                            <?php if ($hasChair) : ?>
+                                <div <?= $scenario == 'edit' ? 'draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)"' : '' ?> class="chair" id="chair_<?= $coord ?>">
+                                </div>
+                            <?php endif ?>
+                            <?php if ($hasChair && $hasStudent) : ?>
+                                <div <?= $scenario == 'edit' ? 'draggable="true" ondragstart="drag(event)"' : '' ?> id="<?= $student_seats[$coord]['user_id'] ?>"
+                                    class="<?= Config::get('gender')[$student_seats[$coord]['gender']] ?> student">
+                                </div>
+                            <?php endif; ?>
+                        </td>
+                    <?php endfor; ?>
+                    </tr>
+            <?php endfor; ?>
+        </table>
+
+        <div class="col-md-12 desk position<?= $class->table_position ?>">
+            <?php if (in_array($class->table_position, [$class_position['bottom'], $class_position['bottomleft'], $class_position['bottomright']])) : ?>
+            <?= Asset::img('table.png') ?>
+            <?php endif; ?>
+        </div>
+        <div class="col-md-12 board position<?= $class->board_position ?>">
+            <?php $class_position = Config::get('class_position'); ?>
+            <?php if (in_array($class->board_position, [$class_position['bottom'], $class_position['bottomleft'], $class_position['bottomright']])) : ?>
+            <?= Asset::img('board.png') ?>
+            <?php endif; ?>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade bs-example-modal-sm" id="add-student" tabindex="-1" role="dialog"

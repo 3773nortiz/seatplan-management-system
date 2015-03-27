@@ -253,6 +253,14 @@ table.attendance tbody td.date {
             transform: translateZ(120px);
 }
 
+.board-actions.left {
+    left: 45%;
+}
+
+.board-actions.right {
+    left: 55%;
+}
+
 .board-actions:focus,
 .board-actions:hover {
     color: #0099e6;
@@ -261,6 +269,20 @@ table.attendance tbody td.date {
 .board:hover .board-actions,
 .desk:hover .board-actions {
     display: block;
+}
+
+#seatplan .desk.position4 .board-actions,
+#seatplan .desk.position6 .board-actions,
+#seatplan .board.position4 .board-actions,
+#seatplan .board.position6 .board-actions {
+    margin-left: -32%;
+}
+
+#seatplan .desk.position5 .board-actions,
+#seatplan .desk.position7 .board-actions,
+#seatplan .board.position5 .board-actions,
+#seatplan .board.position7 .board-actions {
+    margin-left: 32%;
 }
 
 .schedule-checkbox {
@@ -313,6 +335,12 @@ table.attendance tbody td.date {
 
 }
 
+#seatplan .board img {
+    -webkit-transform: translateZ(60px) translateX(-50%);
+        -ms-transform: translateZ(60px) translateX(-50%);
+            transform: translateZ(60px) translateX(-50%);
+}
+
 #seatplan .desk img {
     -webkit-transform: translateZ(40px) translateX(-50%);
         -ms-transform: translateZ(40px) translateX(-50%);
@@ -320,6 +348,38 @@ table.attendance tbody td.date {
     width: 255px;
     height: 100px;
 
+}
+
+#seatplan .desk.position4 img,
+#seatplan .desk.position6 img {
+    -webkit-transform: translateZ(40px) translateX(-200%);
+        -ms-transform: translateZ(40px) translateX(-200%);
+            transform: translateZ(40px) translateX(-200%);
+
+}
+
+#seatplan .board.position4 img,
+#seatplan .board.position6 img {
+    -webkit-transform: translateZ(40px) translateX(-140%);
+        -ms-transform: translateZ(40px) translateX(-140%);
+            transform: translateZ(40px) translateX(-140%);
+
+}
+
+#seatplan .desk.position5 img,
+#seatplan .desk.position7 img {
+    -webkit-transform: translateZ(40px) translateX(100%);
+        -ms-transform: translateZ(40px) translateX(100%);
+            transform: translateZ(40px) translateX(100%);
+
+}
+
+
+#seatplan .board.position5 img,
+#seatplan .board.position7 img {
+    -webkit-transform: translateZ(40px) translateX(35%);
+        -ms-transform: translateZ(40px) translateX(35%);
+            transform: translateZ(40px) translateX(35%);
 }
 
 #seatplan td .student {

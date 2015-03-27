@@ -344,10 +344,14 @@ return array(
                       ],
                 ),
     'class_position' => array(
-                    'bottom' => 0,
-                    'top'    => 1,
-                    'left'   => 2,
-                    'right'  => 3
+                    'bottom'      => 0,
+                    'top'         => 1,
+                    'left'        => 2,
+                    'right'       => 3,
+                    'topleft'     => 4,
+                    'topright'    => 5,
+                    'bottomleft'  => 6,
+                    'bottomright' => 7
                 ),
     'attendace_delay'   => 24 * 3600,
     'images_path'       => 'assets/img/',

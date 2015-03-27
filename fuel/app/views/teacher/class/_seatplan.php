@@ -8,15 +8,20 @@
 
 <div id="seatplan-parent" class="<?= $scenario ?>">
     <div id="seatplan">
-        <div class="col-md-12 board">
-            <?php if ($class->board_position == Config::get('class_position')['top']) : ?>
+        <div class="col-md-12 board position<?= $class->board_position ?>">
+            <?php $class_position = Config::get('class_position'); ?>
+            <?php if (in_array($class->board_position, [$class_position['top'], $class_position['topleft'], $class_position['topright']])) : ?>
             <button class="board-actions" onclick="moveBoard('board', 'bottom')"><span class="glyphicon glyphicon-circle-arrow-down"></span></button>
+            <button class="board-actions left" onclick="moveBoard('board', 'left')"><span class="glyphicon glyphicon-circle-arrow-left"></span></button>
+            <button class="board-actions right" onclick="moveBoard('board', 'right')"><span class="glyphicon glyphicon-circle-arrow-right"></span></button>
             <?= Asset::img('board.png') ?>
             <?php endif; ?>
         </div>
-        <div class="col-md-12 desk">
-            <?php if ($class->table_position == Config::get('class_position')['top']) : ?>
+        <div class="col-md-12 desk position<?= $class->table_position ?>">
+            <?php if (in_array($class->table_position, [$class_position['top'], $class_position['topleft'], $class_position['topright']])) : ?>
             <button class="board-actions" onclick="moveBoard('desk', 'bottom')"><span class="glyphicon glyphicon-circle-arrow-down"></span></button>
+            <button class="board-actions left" onclick="moveBoard('desk', 'left')"><span class="glyphicon glyphicon-circle-arrow-left"></span></button>
+            <button class="board-actions right" onclick="moveBoard('desk', 'right')"><span class="glyphicon glyphicon-circle-arrow-right"></span></button>
             <?= Asset::img('table.png') ?>
             <?php endif; ?>
         </div>
@@ -55,15 +60,21 @@
                     </tr>
             <?php endfor; ?>
         </table>
-        <div class="col-md-12 desk">
-            <?php if ($class->table_position == Config::get('class_position')['bottom']) : ?>
+
+        <div class="col-md-12 desk position<?= $class->table_position ?>">
+            <?php if (in_array($class->table_position, [$class_position['bottom'], $class_position['bottomleft'], $class_position['bottomright']])) : ?>
             <button class="board-actions" onclick="moveBoard('desk', 'top')"><span class="glyphicon glyphicon-circle-arrow-up"></span></button>
+            <button class="board-actions left" onclick="moveBoard('desk', 'left')"><span class="glyphicon glyphicon-circle-arrow-left"></span></button>
+            <button class="board-actions right" onclick="moveBoard('desk', 'right')"><span class="glyphicon glyphicon-circle-arrow-right"></span></button>
             <?= Asset::img('table.png') ?>
             <?php endif; ?>
         </div>
-        <div class="col-md-12 board">
-            <?php if ($class->board_position == Config::get('class_position')['bottom']) : ?>
+        <div class="col-md-12 board position<?= $class->board_position ?>">
+            <?php $class_position = Config::get('class_position'); ?>
+            <?php if (in_array($class->board_position, [$class_position['bottom'], $class_position['bottomleft'], $class_position['bottomright']])) : ?>
             <button class="board-actions" onclick="moveBoard('board', 'top')"><span class="glyphicon glyphicon-circle-arrow-up"></span></button>
+            <button class="board-actions left" onclick="moveBoard('board', 'left')"><span class="glyphicon glyphicon-circle-arrow-left"></span></button>
+            <button class="board-actions right" onclick="moveBoard('board', 'right')"><span class="glyphicon glyphicon-circle-arrow-right"></span></button>
             <?= Asset::img('board.png') ?>
             <?php endif; ?>
         </div>
@@ -524,6 +535,34 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
     }
 
     function moveBoard (type, direction) {
+        var boardPos = '<?= array_search($class->board_position, Config::get("class_position")) ?>';
+        var tablePos = '<?= array_search($class->table_position, Config::get("class_position")) ?>';
+        var pos = type == 'board' ? boardPos : tablePos;
+        console.log(tablePos);
+
+        if (direction == 'top') {
+            direction = pos.replace('bottom', 'top');
+        } else if (direction == 'bottom') {
+            direction = pos.replace('top', 'bottom');
+        } else if (direction == 'left') {
+            if (pos.endsWith('right')) {
+                direction = pos.replace('right', '');
+            } else if (pos.endsWith('left')) {
+
+            } else {
+                direction = pos + 'left';
+            }
+        } else if (direction == 'right') {
+            if (pos.endsWith('left')) {
+                direction = pos.replace('left', '');
+            } else if (pos.endsWith('right')) {
+
+            } else {
+                direction = pos + 'right';
+            }
+            console.log(pos);
+        }
+
         $.get(BASE_URL + USER_PREFIX + 'class/moveboard/<?= $class->id ?>/' + type + '/' + direction, function () {
             window.location.reload();
         });
