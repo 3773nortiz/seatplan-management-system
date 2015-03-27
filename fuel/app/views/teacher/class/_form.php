@@ -32,12 +32,33 @@
 
 		        ?>
 
-		         <div class="form-group">
-	              	 <?= Form::label('Subject', 'subject_id', array('class'=>'control-label')); ?>
+		        <div class="form-group">
+	             	<?= Form::label('Subject', 'subject_id', array('class'=>'control-label')); ?>
 
 	                <?= Form::select('subject_id', Input::post('subject_id', isset($class) ? $class->subject_id : ''), $subjects,
 	                    array('class' => 'form-control')); ?>
-       			 </div>
+       			</div>
+
+       			<div class="form-group">
+	             	<?= Form::label('Class Schedule', 'schedule', array('class'=>'control-label')); ?>
+	             	<br>
+	             	<?php
+	             		$schedules = [];
+	             		if (isset($class)) {
+	             			for ($x = 0; $x < strlen($class->schedule); $x++) {
+	             				$schedules[$class->schedule[$x]] = 1;
+	             			}
+	             		}
+
+	             		foreach (Config::get('schedules') as $key => $value) {
+	             			echo '<div class="schedule-parent">';
+	             			echo  Form::label($value, 'schedule', array('class'=>'control-label'));
+		             		echo Form::checkbox('schedule' . $key, '1', Input::post('schedule' . $key, isset($class) && isset($schedules[$key]) ? '1' : ''),
+		                    	array('class' => 'form-control schedule-checkbox'));
+		             		echo '</div>';
+	             		}
+	             	?>
+       			</div>
 
 				<div class="form-group" hidden>
 					<?php echo Form::label('User id', 'user_id', array('class'=>'control-label')); ?>

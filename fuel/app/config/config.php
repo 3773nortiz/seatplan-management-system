@@ -351,6 +351,7 @@ return array(
                 ),
     'attendace_delay'   => 24 * 3600,
     'images_path'       => 'assets/img/',
-    'uploads_path'      => 'uploads/'
+    'uploads_path'      => 'uploads/',
+    'schedules'         => ['M', 'T', 'W', 'TH', 'F', 'S']
 
 );

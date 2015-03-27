@@ -18,6 +18,15 @@
             <strong>Attendace For:</strong>
             <?php echo date('F j, Y h:i A'); ?></p>
 
+        <p>
+            <strong>Class Schedule:</strong>
+            <?php
+                for ($x = 0; $x < strlen($class->schedule); $x++) {
+                    echo Config::get('schedules')[$class->schedule[$x]];
+                }
+            ?>
+        </p>
+
         <!-- <p>
         	<strong>User id:</strong>
         	<?php //echo $class->user_id; ?></p> -->

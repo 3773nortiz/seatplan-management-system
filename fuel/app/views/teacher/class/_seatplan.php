@@ -6,7 +6,7 @@
 </style>
 <?php endif; ?>
 
-<div id="seatplan-parent">
+<div id="seatplan-parent" class="<?= $scenario ?>">
     <div id="seatplan">
         <div class="col-md-12 board">
             <?php if ($class->board_position == Config::get('class_position')['top']) : ?>

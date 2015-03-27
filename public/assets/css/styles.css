@@ -263,6 +263,22 @@ table.attendance tbody td.date {
     display: block;
 }
 
+.schedule-checkbox {
+    width: auto;
+    margin-top: -2px;
+    margin-left: 11px !important;
+    margin-right: 20px !important;
+    display: inline;
+}
+
+.schedule-parent {
+    display: inline;
+}
+
+.view .board-actions {
+    display: none !important;
+}
+
 .tooltip {
     position: absolute;
 }

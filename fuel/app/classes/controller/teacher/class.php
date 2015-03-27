@@ -41,6 +41,11 @@ class Controller_Teacher_Class extends Controller_Account
 		{
 			$val = Model_Class::validate('create');
 
+			$_POST['schedule'] = '';
+			foreach (Config::get('schedules') as $key => $value) {
+				$_POST['schedule'] .= Input::post('schedule' . $key) ? $key : '';
+			}
+
 			if ($val->run())
 			{
 				$chairs = Input::post('chairs');
@@ -68,7 +73,10 @@ class Controller_Teacher_Class extends Controller_Account
 					'chairs' => Input::post('chairs'),
 					'subject_id' => Input::post('subject_id'),
 					'user_id' => Input::post('user_id'),
-					'chair_plan' => '{' . $chair_plan . '}'
+					'chair_plan' => '{' . $chair_plan . '}',
+					'schedule' => Input::post('schedule'),
+					'board_position' => 0,
+					'table_position' => 0
 				));
 
 				if ($class and $class->save())
@@ -107,12 +115,19 @@ class Controller_Teacher_Class extends Controller_Account
 		}
 		$val = Model_Class::validate('edit');
 
+		$_POST['schedule'] = '';
+		foreach (Config::get('schedules') as $key => $value) {
+			$_POST['schedule'] .= Input::post('schedule' . $key) ? $key : '';
+		}
+
+
 		if ($val->run())
 		{
 			$class->class_name = Input::post('class_name');
 			// $class->chairs = Input::post('chairs');
 			$class->subject_id = Input::post('subject_id');
 			$class->user_id = Input::post('user_id');
+			$class->schedule = Input::post('schedule');
 
 			if ($class->save())
 			{
@@ -135,6 +150,7 @@ class Controller_Teacher_Class extends Controller_Account
 				$class->chairs = $val->validated('chairs');
 				$class->subject_id = $val->validated('subject_id');
 				$class->user_id = $val->validated('user_id');
+				$class->schedule = $val->validated('schedule');
 
 				Session::set_flash('error', $val->error());
 			}

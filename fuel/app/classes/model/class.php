@@ -10,6 +10,7 @@ class Model_Class extends \Orm\Model
 		'chair_plan',
 		'board_position',
 		'table_position',
+		'schedule',
 		'created_at',
 		'updated_at',
 	);
@@ -54,6 +55,7 @@ class Model_Class extends \Orm\Model
 		}
 		$val->add_field('subject_id', 'Subject Id', 'required|valid_string[numeric]');
 		$val->add_field('user_id', 'User Id', 'required|valid_string[numeric]');
+		$val->add_field('schedule', 'Schedule', 'required');
 
 		return $val;
 	}

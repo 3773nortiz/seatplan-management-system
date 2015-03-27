@@ -20,6 +20,7 @@ return array(
 				11 => '012_add_idnum_to_users',
 				12 => '013_add_table_and_board_to_classes',
 				13 => '014_add_reason_to_attendances',
+				14 => '015_add_schedule_to_classes',
 			),
 		),
 		'module' => 
