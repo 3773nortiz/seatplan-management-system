@@ -28,8 +28,7 @@ class Controller_Base extends Controller_Template
 			return 'student/';
 		} else if (Auth::member(70)) {
 			return 'guidance/';
-		}
-
+		} 
 	}
 
 	public static function is_black_listed($file) {

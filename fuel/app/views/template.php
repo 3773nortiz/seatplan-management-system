@@ -42,8 +42,11 @@
 		'angular.min.js',
 		'angular/addstudentctrl.js',
 		'angular/studentattendancectrl.js',
+		'angular/statusctrl.js',
 		'fileinput.min.js',
 	)); ?>
+	
+<script src="<?php echo Config::get('base_url') . 'assets/vendor/nanoscroller/nanoscroller.js'; ?>"></script> 
 
 	<script>
 		$(function(){

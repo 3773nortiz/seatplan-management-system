@@ -86,28 +86,30 @@ class Controller_Student_Attendance extends Controller_Account
         foreach ($attendances as $key => $value) {
             $currValue = $value;
 
-            if ($currValue->studentclass_id != $currStudentclassId) {
+            if ($value->studentclass_id != $currStudentclassId) {
                 if ($ctr >= 3) {
                     $notified[] = [
-                        'studentclass_id' => $currStudentclassId,
+                        'studentclass_id' => $currValue->studentclass_id,
                         'absent_count'    => $ctr,
                         'name'            => ucwords($currValue->studentclass->student->fname . ' ' . $currValue->studentclass->student->mname[0] . '. ' . $currValue->studentclass->student->lname),
                         'class'           => $currValue->studentclass->class->class_name,
                         'subject'         => $currValue->studentclass->class->subject->subject_name,
+                        'user_id'         => $currValue->studentclass->student->id
                     ];
                 }
                 $ctr = 0;
-                $currStudentclassId = $currValue->studentclass_id;
+                $currStudentclassId = $value->studentclass_id;
             }
             $ctr++;
         }
         if ($ctr >= 3) {
             $notified[] = [
-                'studentclass_id' => $currStudentclassId,
+                'studentclass_id' => $currValue->studentclass_id,
                 'absent_count'    => $ctr,
                 'name'            => ucwords($currValue->studentclass->student->fname . ' ' . $currValue->studentclass->student->mname[0] . '. ' . $currValue->studentclass->student->lname),
                 'class'           => $currValue->studentclass->class->class_name,
                 'subject'         => $currValue->studentclass->class->subject->subject_name,
+                'user_id'         => $currValue->studentclass->student->id
             ];
         }
 
