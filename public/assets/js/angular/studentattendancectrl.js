@@ -125,6 +125,7 @@
                                         }
                                     }
                                     $scope.studLists[parsed[key].id].attendances.push(parsed[key]);
+                                    console.log($scope.studLists);
                                 }
 
                                 $('.datepicker.datepicker-dropdown.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom').addClass('no-print');
