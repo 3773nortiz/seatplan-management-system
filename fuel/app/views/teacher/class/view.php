@@ -28,6 +28,16 @@
         </p>
     </div>
 </div>
+<div class="row pull-right">
+    <div class="col-md-12">
+            <h2><button class="btn btn-default" onclick="DownloadPDF()"><span><i class="fa fa-print"></i></span> Print</button>
+            </h2>
+            <form id="form-download-file" action="http://spms.amaers.tk/getfile.php" method="POST" hidden>
+                <input value="" type="text" name="url">
+                <input value="" type="text" name="cacheid" ng-model="cacheid">
+            </form>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-4">
         <?php echo Html::anchor(Controller_Base::get_prefix() . 'class/edit/'.$class->id, 'Edit'); ?> |
@@ -37,3 +47,11 @@
 <div class="row">
     <?= render(Controller_Base::get_prefix() . 'class/_seatplan', compact('students', 'student_seats', 'class', 'scenario')); ?>
 </div>
+
+
+<script>
+    function DownloadPDF () {
+        $('#form-download-file [name="url"]').val(window.location.href);
+        $('#form-download-file').submit();
+    }
+</script>
