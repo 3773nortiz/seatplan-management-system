@@ -100,6 +100,7 @@
                                    'date'   :  rangeStartDate.getDate(),
                                    'year'   :  rangeStartDate.getFullYear(),
                                    'weeks'  :  $scope.weeks[rangeStartDate.getDay()],
+                                   'day'    :  rangeStartDate.getDay() - 1
                                 };
 
                                 $scope.ranges.push($scope.dateObj);
@@ -158,6 +159,13 @@
 
             };
 
+            $scope.getHighlight = function (dateObj) {
+                if (classes[class_id].schedule.indexOf(dateObj.day) != -1) {
+                    return 'success';
+                }
+
+                return '';
+            }
 
             $scope.getClassValue = function () {
                 class_id = $('select[name="class_id"] option:selected').val();
