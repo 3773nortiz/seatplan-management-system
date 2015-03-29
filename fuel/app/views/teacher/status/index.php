@@ -42,6 +42,15 @@
 	<h5>Class: {{ classname }}</h5>
 	<br/>
 	<h3 class="noStudent" align="center"></h3>-->
+	<div class="col-md-4">
+		<label>Class:</label>
+		<div class="form-group course-list">
+	        <?= Form::select('class_id', 0, Arr::assoc_to_keyval(Model_Class::getClassName($current_user->id), 'id', 'class_name'),
+	            array('class'    => 'form-control')); ?>
+		</div>	
+	<br/>
+	<br/>
+	</div>
 	<table class="table table-striped attendance">
 		<thead>
 			<tr>
