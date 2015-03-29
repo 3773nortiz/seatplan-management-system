@@ -318,9 +318,9 @@ table.attendance tbody td.date {
     border: 1px solid #FFFFFF;
 }
 
-.colorStat {
+/*.colorStat {
     background-color: rgba(134, 247, 187, 0.48) !important;
-}
+}*/
 
 #seatplan .board img,
 #seatplan .desk img {
