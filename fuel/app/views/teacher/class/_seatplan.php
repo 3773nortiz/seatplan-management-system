@@ -548,7 +548,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
             if (pos.endsWith('right')) {
                 direction = pos.replace('right', '');
             } else if (pos.endsWith('left')) {
-
+                direction = pos;
             } else {
                 direction = pos + 'left';
             }
@@ -556,7 +556,7 @@ aria-labelledby="mySmallModalLabel" aria-hidden="true" ng-controller="AddStudent
             if (pos.endsWith('left')) {
                 direction = pos.replace('left', '');
             } else if (pos.endsWith('right')) {
-
+                direction = pos;
             } else {
                 direction = pos + 'right';
             }
