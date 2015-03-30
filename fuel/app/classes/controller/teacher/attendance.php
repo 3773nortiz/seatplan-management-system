@@ -194,6 +194,64 @@ class Controller_Teacher_Attendance extends Controller_Account
         return Format::forge($notified)->to_json();
     }
 
+
+    public function action_get_notified_students_by_class($class_id)
+    {
+        $attendances = Model_Attendance::find('all', [
+            'related'  => [
+                'studentclass' => [
+                    'related' => [
+                        'class'   => [
+                            'where'   => [['user_id', '=', Auth::get('id')]],
+                            'related' => ['subject']
+                        ],
+                        'student'
+                    ], 
+                        'where'   => [['class_id', '=', $class_id]]
+                ]
+            ],
+            'order_by' => ['studentclass_id', 'updated_at'],
+            'where'    => [['status', 3]]
+        ]);
+
+        $notified = [];
+        $ctr = 0;
+        $currStudentclassId = -1;
+        $currValue;
+
+        foreach ($attendances as $key => $value) {
+            if ($value->studentclass_id != $currStudentclassId) {
+                if ($ctr >= 3) {
+                    $notified[] = [
+                        'studentclass_id' => $currValue->studentclass_id,
+                        'absent_count'    => $ctr,
+                        'name'            => ucwords($currValue->studentclass->student->fname . ' ' . $currValue->studentclass->student->mname[0] . '. ' . $currValue->studentclass->student->lname),
+                        'class'           => $currValue->studentclass->class->class_name,
+                        'subject'         => $currValue->studentclass->class->subject->subject_name,
+                        'user_id'         => $currValue->studentclass->student->id
+                    ];
+                }
+                $ctr = 0;
+                $currStudentclassId = $value->studentclass_id;
+            }
+            $ctr++;
+            $currValue = $value;
+        }
+
+        if ($ctr >= 3) {
+            $notified[] = [
+                'studentclass_id' => $currValue->studentclass_id,
+                'absent_count'    => $ctr,
+                'name'            => ucwords($currValue->studentclass->student->fname . ' ' . $currValue->studentclass->student->mname[0] . '. ' . $currValue->studentclass->student->lname),
+                'class'           => $currValue->studentclass->class->class_name,
+                'subject'         => $currValue->studentclass->class->subject->subject_name,
+                'user_id'         => $currValue->studentclass->student->id
+            ];
+        }
+
+        return Format::forge($notified)->to_json();
+    }
+
     /**
     * @param $fromDate, $toDate timestamp
     *

@@ -19,7 +19,11 @@
 			<td><?php echo $item->chairs; ?></td>
 			<td><?php echo $item->getSubjectName();?></p></td>
 			<td><?php echo $item->getSubjectDescription(); ?></td>
-			<td><?php echo $item->schedule; ?></td>
+			<td><?php
+                for ($x = 0; $x < strlen($item->schedule); $x++) {
+                    echo Config::get('schedules')[$item->schedule[$x]];
+                }
+            ?></td>
 			<td>
 				<?php echo Html::anchor(Controller_Base::get_prefix() . 'class/view/'.$item->id, 'View'); ?> |
 				<?php echo Html::anchor(Controller_Base::get_prefix() . 'class/edit/'.$item->id, 'Edit'); ?> |
