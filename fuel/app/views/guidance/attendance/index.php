@@ -1,3 +1,7 @@
+<script type="text/javascript">
+	var classes = <?= htmlspecialchars_decode(Format::forge($classes = Model_Class::getAllClass())->to_json()); ?>;
+</script>
+
 <div ng-controller="StudentAttendanceCtrl">
 	<div class="row no-print">
 		<div class="col-md-12">
@@ -14,7 +18,7 @@
 				<div class="col-md-4">
 					<label>Class:</label>
 					<div class="form-group course-list">
-				        <?= Form::select('class_id', 0, Arr::assoc_to_keyval(Model_Class::getAllClass(), 'id', 'class_name'),
+				        <?= Form::select('class_id', 0, Arr::assoc_to_keyval($classes, 'id', 'class_name'),
 				            array('class'    => 'form-control')); ?>
 					</div>
 				</div>
@@ -52,13 +56,13 @@
 		<tbody>
 			<tr>
 				<td></td>
-				<td align="center" class="date" ng-repeat="range in ranges"> {{ range.months }}/{{ range.date }}/{{ range.year }}</td>
+				<td align="center" class="date" ng-class="getHighlight(range)" ng-repeat="range in ranges"> {{ range.months }}/{{ range.date }}/{{ range.year }}</td>
 				<td>Teacher</td>
 			</tr>
 			<tr ng-repeat="studList in studLists">
 				<td class="name">{{studList.attendances[0].lname}}, {{studList.attendances[0].fname}} {{studList.attendances[0].mname[0]}}.</td>
-				<td align="center" ng-repeat="range in ranges" class="ng-tooltip {{getStatusValue(studList, range) != 'N/A' ? 'colorStat' : ''}} status"  data-toggle="tooltip" data-placement="top" title="{{getReason(studList, range)}}">{{getStatusValue(studList, range)}}</td>
-				<td align="">{{teacherName.lname}}, {{teacherName.fname}}</td>	
+				<td align="center" ng-repeat="range in ranges" ng-class="getHighlight(range)" class="ng-tooltip {{getStatusValue(studList, range) != 'N/A' ? 'colorStat' : ''}} status"  data-toggle="tooltip" data-placement="top" title="{{getReason(studList, range)}}">{{getStatusValue(studList, range)}}</td>
+				<td align="">{{teacherName.lname}}, {{teacherName.fname}}</td>
 			</tr>
 		</tbody>
 	</table>

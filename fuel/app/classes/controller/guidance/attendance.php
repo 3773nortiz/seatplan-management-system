@@ -142,7 +142,7 @@ class Controller_Guidance_Attendance extends Controller_Account
     */
     public function action_get_attendances ($class_id, $fromDate, $toDate) {
 
-        return Format::forge(DB::select(Model_Studentclass::table() . '.id', 'user_id', 'fname', 'mname', 'lname', 'status', [DB::expr('SUBSTR(FROM_UNIXTIME('. Model_Attendance::table() .'.updated_at), 1, 10)'), 'date'])
+        return Format::forge(DB::select(Model_Attendance::table() . '.reason', Model_Studentclass::table() . '.id', 'user_id', 'fname', 'mname', 'lname', 'status', [DB::expr('SUBSTR(FROM_UNIXTIME('. Model_Attendance::table() .'.updated_at), 1, 10)'), 'date'])
             ->from(Model_Studentclass::table())
             ->join(Model_User::table(), 'INNER')->on('user_id', '=', Model_User::table() . '.id')
                 ->on('class_id', '=', DB::escape($class_id))
