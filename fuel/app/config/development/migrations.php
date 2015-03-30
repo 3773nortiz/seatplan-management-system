@@ -21,6 +21,8 @@ return array(
 				12 => '013_add_table_and_board_to_classes',
 				13 => '014_add_reason_to_attendances',
 				14 => '015_add_schedule_to_classes',
+				5 => '012_add_description_to_subjects',
+				6 => '013_add_table_and_board_to_classes'
 			),
 		),
 		'module' => 

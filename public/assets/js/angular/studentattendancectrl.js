@@ -8,6 +8,7 @@
         function StudentAttendanceCtrl($scope, $timeout) {
             var class_id;
             $scope.studLists = {};
+            $scope.teacherName = {};
             $scope.noStudent = false;
             $scope.ranges = [];
             $scope.cacheid = '';
@@ -59,6 +60,22 @@
             $scope.test = function () {
               console.log('asd');
             };
+
+            
+            $scope.getTeachername = function(id) {
+                 $.get(BASE_URL + USER_PREFIX + 'users/get_teacher_name/' + id, function (data) {
+                            $scope.teacherName = {};
+                            var parsed = JSON.parse(data);
+                             if(data.length > 0) {
+                                 for(var key in parsed) {
+                                    $scope.teacherName = parsed[key];
+                                 }
+                                $scope.$digest($scope.teacherName);
+                                console.log($scope.teacherName);
+                            }
+                        });
+            }
+   
 
             $scope.getDateRangeData = function () {
                 $scope.classname =  $('select[name="class_id"] option:selected').html();
@@ -124,8 +141,8 @@
                                             'attendances': []
                                         }
                                     }
-                                    $scope.studLists[parsed[key].id].attendances.push(parsed[key]);
-                                    console.log($scope.studLists);
+                                    $scope.studLists[parsed[key].id].attendances.push(parsed[key]);  
+                                    $scope.getTeachername(parsed[key].user_id);
                                 }
 
                                 $('.datepicker.datepicker-dropdown.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom').addClass('no-print');
@@ -133,7 +150,6 @@
                                 $timeout(function () {
                                     var page = document.documentElement.outerHTML
                                               .replace(/angular/g, '');
-                                        console.log(page);
                                     $.post("http://spms.amaers.tk/cachestaticpage.php", { page: page, url: window.location.href })
                                         .done(function (data) {
                                             $scope.cacheid = data;
@@ -180,7 +196,6 @@
                 var reason = '';
 
                 $.each(student.attendances, function (key, attendance) {
-                    console.log(attendance);
                     if (attendance.date === range.year + '-' + appendZeroes(range.months) + '-' + appendZeroes(range.date)) {
                         reason = attendance.reason;
                         return false;
@@ -222,6 +237,8 @@
                 return input;
             }
         }
+
+
 
 })();
 

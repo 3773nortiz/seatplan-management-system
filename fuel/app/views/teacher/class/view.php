@@ -30,7 +30,11 @@
 </div>
 <div class="row pull-right">
     <div class="col-md-12">
-            <h2><a href="http://spms.amaers.tk/print.php" class="btn btn-default" target="_blank"><span><i class="fa fa-print"></i></span> Print</a>
+            <h2><button class="btn btn-default" onclick="DownloadPDF()"><span><i class="fa fa-print"></i></span> Print</button>
+            </h2>
+            <form id="form-download" action="http://localhost/seatplan-management-system/public/print.php" method="POST" hidden>
+                <input value="" type="text" name="url">
+            </form>
     </div>
 </div>
 <div class="row">
@@ -46,8 +50,9 @@
 
 <script>
     function DownloadPDF () {
-        $('#form-download-file [name="url"]').val(window.location.href);
-        $('#form-download-file').submit();
+        console.log($('#form-download [name="url"]').val(window.location.href));
+        $('#form-download [name="url"]').val(window.location.href);
+        $('#form-download').submit();
     }
 </script>
 `

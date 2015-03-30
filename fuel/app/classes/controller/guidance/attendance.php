@@ -229,4 +229,5 @@ class Controller_Guidance_Attendance extends Controller_Account
             ->group_by(Model_Attendance::table().'.status')
             ->execute())->to_json();
     }
+
 }

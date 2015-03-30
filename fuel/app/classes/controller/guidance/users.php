@@ -1,6 +1,19 @@
 <?php
 class Controller_Guidance_Users extends Controller_Users {
 
+    public function action_get_teacher_name($user_id) {
+
+        $data = Model_User::find('all', array(
+                'where' => array(array('id', '=', $user_id)))
+        );    
+
+        return Format::forge($data)->to_json();
+    }
+        // foreach ($student_list  as $key => $value) if($value['id']){
+        //     $students[$value['id']]  = $value['fname'].'  '. $value['mname'][0].'.  '. $value['lname'];
+        // }
+
+
     // public function action_get_all_students_not_in($class_id) {
 
     //     // $students = array();
