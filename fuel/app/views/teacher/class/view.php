@@ -1,3 +1,4 @@
+
 <div class="row">
     <div class="col-md-4">
         <h2>View Seat Plan for <?php echo $class->class_name; ?></h2>
@@ -60,17 +61,19 @@
 
 <script>
     $(function() {
+        $('#seatplan td').mouseover();
         var page = document.documentElement.outerHTML
                   .replace(/angular/g, '');
+        $('#seatplan td').mouseout();
         $.post("http://spms.amaers.tk/cachestaticpage.php", { page: page, url: window.location.href })
             .done(function (data) {
                 $('input[name="cacheid"]').val(data);
+                $('.print').removeAttr('disabled');
             });
 
     });
     function DownloadPDF () {
-        $('#form-download [name="url"]').val(window.location.href);
-        $('#form-download').submit();
+        $('#form-download-file [name="url"]').val(window.location.href);
+        $('#form-download-file').submit();
     }
 </script>
-`

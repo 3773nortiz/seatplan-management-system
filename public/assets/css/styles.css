@@ -235,6 +235,10 @@ table.attendance tbody td.date {
         display: none !important;
     }
 
+    .nameTag {
+        margin-top: 30px !important;
+        width: 200px;
+    }
 }
 
 .board-actions {
