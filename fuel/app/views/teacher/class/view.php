@@ -28,13 +28,23 @@
         </p>
     </div>
 </div>
-<div class="row pull-right">
-    <div class="col-md-12">
+<!-- <div class="row pull-right">
+    <div class="col-md-12 no-print">
             <h2><button class="btn btn-default" onclick="DownloadPDF()"><span><i class="fa fa-print"></i></span> Print</button>
             </h2>
-            <form id="form-download" action="http://localhost/seatplan-management-system/public/print.php" method="POST" hidden>
+            <form id="form-download" action="http://spms.amaers.tk/print.php" method="POST" hidden>
                 <input value="" type="text" name="url">
             </form>
+    </div>
+</div> -->
+<div class="row no-print">
+    <div class="col-md-12">
+        <h2><button class="btn btn-default print" onclick="DownloadPDF()" disabled=""><span><i class="fa fa-print"></i></span> Print</button>
+        </h2>
+        <form id="form-download-file" action="http://spms.amaers.tk/getfile.php" method="POST" hidden>
+            <input value="" type="text" name="url">
+            <input value="" type="text" name="cacheid">
+        </form>
     </div>
 </div>
 <div class="row">
@@ -49,8 +59,16 @@
 
 
 <script>
+    $(function() {
+        var page = document.documentElement.outerHTML
+                  .replace(/angular/g, '');
+        $.post("http://spms.amaers.tk/cachestaticpage.php", { page: page, url: window.location.href })
+            .done(function (data) {
+                $('input[name="cacheid"]').val(data);
+            });
+
+    });
     function DownloadPDF () {
-        console.log($('#form-download [name="url"]').val(window.location.href));
         $('#form-download [name="url"]').val(window.location.href);
         $('#form-download').submit();
     }

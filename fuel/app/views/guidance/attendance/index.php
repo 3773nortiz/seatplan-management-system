@@ -43,6 +43,7 @@
 
 	<h2>Attendance Report</h2>
 	<h5>Date: {{ datePrinted }}</h5>
+	<h5>Teacher: {{teacherName}}</h5>
 	<?php if ($attendances): ?>
 	<br/>
 	<h3 class="noStudent" align="center"></h3>
@@ -57,12 +58,11 @@
 			<tr>
 				<td></td>
 				<td align="center" class="date" ng-class="getHighlight(range)" ng-repeat="range in ranges"> {{ range.months }}/{{ range.date }}/{{ range.year }}</td>
-				<td>Teacher</td>
 			</tr>
 			<tr ng-repeat="studList in studLists">
 				<td class="name">{{studList.attendances[0].lname}}, {{studList.attendances[0].fname}} {{studList.attendances[0].mname[0]}}.</td>
-				<td align="center" ng-repeat="range in ranges" ng-class="getHighlight(range)" class="ng-tooltip {{getStatusValue(studList, range) != 'N/A' ? 'colorStat' : ''}} status"  data-toggle="tooltip" data-placement="top" title="{{getReason(studList, range)}}">{{getStatusValue(studList, range)}}</td>
-				<td align="">{{teacherName.lname}}, {{teacherName.fname}}</td>
+				<td align="center" ng-repeat="range in ranges" ng-class="getHighlight(range)" class="ng-tooltip {{getStatusValue(studList, range) != 'N/A' ? 'colorStat' : ''}} status"  
+				data-toggle="tooltip" data-placement="top" title="{{getReason(studList, range)}} ">{{getStatusValue(studList, range)}}</td>
 			</tr>
 		</tbody>
 	</table>

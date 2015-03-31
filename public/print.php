@@ -5,9 +5,9 @@ $genName = uniqid();
 $fileName = dirname(__FILE__) . '/pdf/Reports-'.$genName.'.pdf';
 $baseUrl ='http://spms.amaers.tk/';
 
-$output  = 'phantomjs --ignore-ssl-errors=true "' . dirname(__FILE__) . 'assets/js/rasterize.js"  "' . $url . '"  "' . $baseUrl.'pdf/Reports-'.$genName.'.html' .'" "' . $fileName . '"';
-var_dump($output);
-// exec($output);
+$output  = 'phantomjs --ignore-ssl-errors=true "' . dirname(__FILE__) . '/assets/js/rasterize.js"  "' . $url . '" "' . $fileName . '"';
+// var_dump($output);
+exec($output);
             
 if (file_exists($fileName)) {
     header('Content-Description: File Transfer');

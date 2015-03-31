@@ -58,6 +58,20 @@ class Model_User extends \Orm\Model
 		    )
 	);
 
+	public static function getTeacherName($user_id = null) {
+		$filter = [];
+
+		if ($user_id) {
+			$filter = [
+				'where'	=> [
+					['user_id', $user_id]
+				]
+			];
+		}
+
+		$teacher = static::find('all', $filter);
+		return $teacher;
+	}
 
 	public static function validate($factory, $data = null)
 	{

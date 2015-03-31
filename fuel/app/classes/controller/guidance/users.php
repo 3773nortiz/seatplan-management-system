@@ -9,6 +9,15 @@ class Controller_Guidance_Users extends Controller_Users {
 
         return Format::forge($data)->to_json();
     }
+
+    public function action_get_class_name($class_id) {
+
+        $data = Model_User::find('all', array(
+                'where' => array(array('id', '=', $class_id)))
+        );    
+
+        return Format::forge($data)->to_json();
+    }
         // foreach ($student_list  as $key => $value) if($value['id']){
         //     $students[$value['id']]  = $value['fname'].'  '. $value['mname'][0].'.  '. $value['lname'];
         // }

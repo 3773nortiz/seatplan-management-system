@@ -62,18 +62,15 @@
             };
 
             
-            $scope.getTeachername = function(id) {
-                 $.get(BASE_URL + USER_PREFIX + 'users/get_teacher_name/' + id, function (data) {
-                            $scope.teacherName = {};
-                            var parsed = JSON.parse(data);
-                             if(data.length > 0) {
-                                 for(var key in parsed) {
-                                    $scope.teacherName = parsed[key];
-                                 }
-                                $scope.$digest($scope.teacherName);
-                                console.log($scope.teacherName);
-                            }
-                        });
+            $scope.getTeachername = function() {
+                var user;
+                 $.get(BASE_URL + USER_PREFIX + 'users/get_class_name/' + class_id, function (data) {
+                        var parsed = JSON.parse(data);
+                        for(var key in parsed) {
+                             $scope.teacherName = parsed[key].fname + ' ' + parsed[key].lname;
+                        }
+                        $scope.$digest($scope.teacherName);
+                });
             }
    
 
@@ -81,6 +78,7 @@
                 $scope.classname =  $('select[name="class_id"] option:selected').html();
                 $scope.$digest($scope.classname);
                 $scope. getClassValue();
+                $scope.getTeachername();
                 var date = $('input[name="start"]').val();
                 var endate = $('input[name="end"]').val();
 
@@ -135,14 +133,13 @@
                             var parsed = JSON.parse(data);
                              if(data.length > 0) {
                                 $('.print').removeAttr('disabled');
-                                for (var key in parsed) {
+                                for (var key in parsed) { 
                                     if (!$scope.studLists[parsed[key].id]) {
                                         $scope.studLists[parsed[key].id] = {
                                             'attendances': []
                                         }
                                     }
                                     $scope.studLists[parsed[key].id].attendances.push(parsed[key]);  
-                                    $scope.getTeachername(parsed[key].user_id);
                                 }
 
                                 $('.datepicker.datepicker-dropdown.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom').addClass('no-print');
